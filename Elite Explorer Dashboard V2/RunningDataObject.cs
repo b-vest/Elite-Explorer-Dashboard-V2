@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Elite_Explorer_Dashboard_V2
 {
-    public class RunningDataObject
+    public class runningDataObject
     {
         public string CurrentEvent { get; set; }
         public string CurrentSystem { get; set; }
