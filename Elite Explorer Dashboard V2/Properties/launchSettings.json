@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Elite Explorer Dashboard V2": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "COR_ENABLE_PROFILING": "0",
+        "CORECLR_ENABLE_PROFILING": "0"
+      },
+      "nativeDebugging": false,
+      "hotReloadEnabled": true
+    }
+  }
+}

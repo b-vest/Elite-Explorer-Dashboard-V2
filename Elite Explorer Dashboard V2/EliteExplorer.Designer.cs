@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.dataGridHeader = new System.Windows.Forms.DataGridView();
             this.ColumnEvent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnCommanderName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,10 +42,11 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabDashboard = new System.Windows.Forms.TabPage();
             this.tabSettings = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBoxLogFilePath = new System.Windows.Forms.TextBox();
             this.listBoxDebugOutput = new System.Windows.Forms.ListBox();
             this.listBoxActiveLogPath = new System.Windows.Forms.ListBox();
-            this.textBoxLogFilePath = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.timerCheckLog = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridHeader)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabDashboard.SuspendLayout();
@@ -64,6 +66,7 @@
             this.ColumnTargetSystem,
             this.ColumnJumps,
             this.ColumnCruiseMode});
+            this.dataGridHeader.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             this.dataGridHeader.Location = new System.Drawing.Point(6, 6);
             this.dataGridHeader.Name = "dataGridHeader";
             this.dataGridHeader.RowHeadersWidth = 51;
@@ -176,6 +179,24 @@
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label1.Location = new System.Drawing.Point(66, 82);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(213, 20);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Elite Dangerous Log File Path";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // textBoxLogFilePath
+            // 
+            this.textBoxLogFilePath.Location = new System.Drawing.Point(64, 108);
+            this.textBoxLogFilePath.Name = "textBoxLogFilePath";
+            this.textBoxLogFilePath.Size = new System.Drawing.Size(665, 27);
+            this.textBoxLogFilePath.TabIndex = 0;
+            // 
             // listBoxDebugOutput
             // 
             this.listBoxDebugOutput.FormattingEnabled = true;
@@ -194,23 +215,10 @@
             this.listBoxActiveLogPath.Size = new System.Drawing.Size(1754, 84);
             this.listBoxActiveLogPath.TabIndex = 3;
             // 
-            // textBoxLogFilePath
+            // timerCheckLog
             // 
-            this.textBoxLogFilePath.Location = new System.Drawing.Point(64, 108);
-            this.textBoxLogFilePath.Name = "textBoxLogFilePath";
-            this.textBoxLogFilePath.Size = new System.Drawing.Size(665, 27);
-            this.textBoxLogFilePath.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(66, 82);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(213, 20);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Elite Dangerous Log File Path";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            this.timerCheckLog.Interval = 1000;
+            this.timerCheckLog.Tick += new System.EventHandler(this.timerCheckLog_Tick);
             // 
             // EliteExplorer
             // 
@@ -221,9 +229,11 @@
             this.Controls.Add(this.listBoxActiveLogPath);
             this.Controls.Add(this.listBoxDebugOutput);
             this.Controls.Add(this.tabControl1);
+            this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.Name = "EliteExplorer";
             this.Text = "Elite Explorer Dashboard V2";
+            this.Load += new System.EventHandler(this.EliteExplorer_Load_1);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridHeader)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabDashboard.ResumeLayout(false);
@@ -252,5 +262,6 @@
         private ListBox listBoxActiveLogPath;
         private Label label1;
         private TextBox textBoxLogFilePath;
+        private System.Windows.Forms.Timer timerCheckLog;
     }
 }
