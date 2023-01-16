@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Reflection;
 using System.Text.Json;
 
 namespace Elite_Explorer_Dashboard_V2
@@ -32,12 +33,30 @@ namespace Elite_Explorer_Dashboard_V2
             {
                 listBoxActiveLogPath.Items.Add(Properties.Settings.Default.LogPath);
             }
-            runningData.CurrentLogFile = findLatestLogfile();
             timerCheckLog.Tag = runningData.CurrentLogFile;
-            listBoxDebugOutput.Items.Add(runningData.CurrentLogFile);
             runningData.CurrentLogLineNumber = 0;
 
+            //Load Fonts into running Data
+            runningData.hugeFont = new Font("Consolas", 11);
+            runningData.largeFont = new Font("Consolas", 10);
+            runningData.mediumFont = new Font("Consolas", 9);
+            runningData.smallFont = new Font("Consolas", 8);
+
+            //Setup Data Grids Add DoubleBuffered
+            dataGridHeader.DoubleBuffered(true);
+
             dataGridHeader.RowHeadersVisible = false;
+            dataGridHeader.EnableHeadersVisualStyles = false;
+            dataGridHeader.ColumnHeadersDefaultCellStyle.ForeColor = Color.Orange;
+
+            dataGridHeader.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
+            dataGridHeader.DefaultCellStyle.Font = runningData.mediumFont;
+
+
+
+            runningData.CurrentLogFile = findLatestLogfile();
+            listBoxDebugOutput.Items.Add(runningData.CurrentLogFile);
+
 
         }
 
@@ -306,6 +325,16 @@ namespace Elite_Explorer_Dashboard_V2
         private void timerCheckLog_Tick(object sender, EventArgs e)
         {
             readLogFile();
+        }
+    }
+
+    public static class ExtensionMethods
+    {
+        public static void DoubleBuffered(this DataGridView dgv, bool setting)
+        {
+            Type dgvType = dgv.GetType();
+            PropertyInfo pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            pi.SetValue(dgv, setting, null);
         }
     }
 }
