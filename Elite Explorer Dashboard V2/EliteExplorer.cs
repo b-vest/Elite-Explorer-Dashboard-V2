@@ -89,6 +89,7 @@ namespace Elite_Explorer_Dashboard_V2
                     DateTime currentDateTime = DateTime.Now;
                     listBoxDebugOutput.Items.Add(currentDateTime);
                     listBoxDebugOutput.Items.Add(thisLineCount + " " + line);
+                    listBoxDebugOutput.TopIndex = listBoxDebugOutput.Items.Count - 1;
                     processLine(line);
                 }
             }
@@ -120,7 +121,7 @@ namespace Elite_Explorer_Dashboard_V2
                     processStartJump(line);
                     break;
                 case "Music":
-                    processMusic(line);
+                    processMusic(edObject);
                     break;
                 case "Screenshot":
                     processScreenshot(line);
@@ -138,7 +139,7 @@ namespace Elite_Explorer_Dashboard_V2
                     processReservoirReplenished(edObject);
                     break;
                 case "FSDTarget":
-                    processFSDTarget(line);
+                    processFSDTarget(edObject);
                     break;
                 case "FSDJump":
                     processFSDJump(line);
@@ -262,12 +263,27 @@ namespace Elite_Explorer_Dashboard_V2
         }
         public void processStartJump(string line) { }
         public void processScreenshot(string line) { }
-        public void processMusic(string line) { }
+        public void processMusic(EDData eventData) {
+            if (eventData.MusicTrack != "NoTrack")
+            {
+                dataGridHeader[8, 0].Value = eventData.MusicTrack;
+            }
+
+        }
         public void processSAAScanComplete(string line) { }
         public void processLaunchSRV(string line) { }
         public void processDisembark(EDData eventData) { }
         public void processReservoirReplenished(EDData eventData) { }
-        public void processFSDTarget(string line) { }
+        public void processFSDTarget(EDData eventData) {
+            if (eventData == null) return;
+            if(eventData.RemainingJumpsInRoute == 0)
+            {
+                eventData.RemainingJumpsInRoute = 1;
+            }
+            dataGridHeader[6, 0].Value = eventData.Name + " (" + eventData.StarClass + ")";
+            dataGridHeader[7, 0].Value = eventData.RemainingJumpsInRoute;
+
+        }
         public void processFSDJump(string line) { }
         public void processFuelScoop(string line) { }
         public void processLoadGame(string line) {
