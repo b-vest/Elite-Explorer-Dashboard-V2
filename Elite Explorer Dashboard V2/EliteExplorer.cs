@@ -145,7 +145,7 @@ namespace Elite_Explorer_Dashboard_V2
                     processFSDJump(line);
                     break;
                 case "FuelScoop":
-                    processFuelScoop(line);
+                    processFuelScoop(edObject);
                     break;
                 case "LoadGame":
                     processLoadGame(line);
@@ -261,7 +261,10 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridHeader[7, 0].Value = "Shutdown";
             dataGridHeader[8, 0].Value = "Shutdown";
         }
-        public void processStartJump(string line) { }
+        public void processStartJump(string line) {
+            //{ "timestamp":"2023-01-16T16:12:25Z", "event":"StartJump", "JumpType":"Hyperspace", "StarSystem":"Brambai IV-T c5-23", "SystemAddress":6390809338162, "StarClass":"K" }
+
+        }
         public void processScreenshot(string line) { }
         public void processMusic(EDData eventData) {
             if (eventData.MusicTrack != "NoTrack")
@@ -285,7 +288,11 @@ namespace Elite_Explorer_Dashboard_V2
 
         }
         public void processFSDJump(string line) { }
-        public void processFuelScoop(string line) { }
+        public void processFuelScoop(EDData eventData) {
+            runningData.TotalScooped += eventData.Scooped;
+            dataGridHeader[4, 0].Value = String.Format("{0:0.00}", eventData.Scooped) + " (" + String.Format("{0:0.00}", runningData.TotalScooped) + ")";
+            dataGridHeader[3, 0].Value = (int)eventData.Total;
+        }
         public void processLoadGame(string line) {
             LoadGameObject edObject = JsonSerializer.Deserialize<LoadGameObject>(line);
             runningData.CommanderName = edObject.Commander;
