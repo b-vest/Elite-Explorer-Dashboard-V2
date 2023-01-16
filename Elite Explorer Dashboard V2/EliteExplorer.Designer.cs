@@ -33,15 +33,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridHeader = new System.Windows.Forms.DataGridView();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabDashboard = new System.Windows.Forms.TabPage();
-            this.tabSettings = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBoxLogFilePath = new System.Windows.Forms.TextBox();
-            this.listBoxDebugOutput = new System.Windows.Forms.ListBox();
-            this.listBoxActiveLogPath = new System.Windows.Forms.ListBox();
-            this.timerCheckLog = new System.Windows.Forms.Timer(this.components);
             this.ColumnEvent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnCommanderName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnShipRegistration = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,9 +44,28 @@
             this.ColumnTargetSystem = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnJumps = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnCruiseMode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabDashboard = new System.Windows.Forms.TabPage();
+            this.dataGridStars = new System.Windows.Forms.DataGridView();
+            this.tabSettings = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBoxLogFilePath = new System.Windows.Forms.TextBox();
+            this.listBoxDebugOutput = new System.Windows.Forms.ListBox();
+            this.listBoxActiveLogPath = new System.Windows.Forms.ListBox();
+            this.timerCheckLog = new System.Windows.Forms.Timer(this.components);
+            this.StarName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Lum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AgeMY = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Radius = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Mass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TempK = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Distance = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridHeader)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabDashboard.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridStars)).BeginInit();
             this.tabSettings.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,6 +85,7 @@
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(4);
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
@@ -113,8 +126,81 @@
             this.dataGridHeader.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.Black;
             this.dataGridHeader.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.dataGridHeader.RowTemplate.Height = 29;
-            this.dataGridHeader.Size = new System.Drawing.Size(1738, 74);
+            this.dataGridHeader.Size = new System.Drawing.Size(1738, 89);
             this.dataGridHeader.TabIndex = 0;
+            // 
+            // ColumnEvent
+            // 
+            this.ColumnEvent.HeaderText = "Event";
+            this.ColumnEvent.MinimumWidth = 6;
+            this.ColumnEvent.Name = "ColumnEvent";
+            this.ColumnEvent.ReadOnly = true;
+            this.ColumnEvent.Width = 200;
+            // 
+            // ColumnCommanderName
+            // 
+            this.ColumnCommanderName.HeaderText = "Commander";
+            this.ColumnCommanderName.MinimumWidth = 6;
+            this.ColumnCommanderName.Name = "ColumnCommanderName";
+            this.ColumnCommanderName.ReadOnly = true;
+            this.ColumnCommanderName.Width = 120;
+            // 
+            // ColumnShipRegistration
+            // 
+            this.ColumnShipRegistration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnShipRegistration.HeaderText = "Ship Registration";
+            this.ColumnShipRegistration.MinimumWidth = 6;
+            this.ColumnShipRegistration.Name = "ColumnShipRegistration";
+            this.ColumnShipRegistration.ReadOnly = true;
+            // 
+            // ColumnFuelLevel
+            // 
+            this.ColumnFuelLevel.HeaderText = "Fuel";
+            this.ColumnFuelLevel.MinimumWidth = 6;
+            this.ColumnFuelLevel.Name = "ColumnFuelLevel";
+            this.ColumnFuelLevel.ReadOnly = true;
+            this.ColumnFuelLevel.Width = 125;
+            // 
+            // ColumnFuelScooped
+            // 
+            this.ColumnFuelScooped.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.ColumnFuelScooped.HeaderText = "Fuel Scooped";
+            this.ColumnFuelScooped.MinimumWidth = 6;
+            this.ColumnFuelScooped.Name = "ColumnFuelScooped";
+            this.ColumnFuelScooped.ReadOnly = true;
+            this.ColumnFuelScooped.Width = 126;
+            // 
+            // ColumnCurrentSystem
+            // 
+            this.ColumnCurrentSystem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnCurrentSystem.HeaderText = "Current System";
+            this.ColumnCurrentSystem.MinimumWidth = 6;
+            this.ColumnCurrentSystem.Name = "ColumnCurrentSystem";
+            this.ColumnCurrentSystem.ReadOnly = true;
+            // 
+            // ColumnTargetSystem
+            // 
+            this.ColumnTargetSystem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnTargetSystem.HeaderText = "Target System";
+            this.ColumnTargetSystem.MinimumWidth = 6;
+            this.ColumnTargetSystem.Name = "ColumnTargetSystem";
+            this.ColumnTargetSystem.ReadOnly = true;
+            // 
+            // ColumnJumps
+            // 
+            this.ColumnJumps.HeaderText = "Jumps";
+            this.ColumnJumps.MinimumWidth = 6;
+            this.ColumnJumps.Name = "ColumnJumps";
+            this.ColumnJumps.ReadOnly = true;
+            this.ColumnJumps.Width = 150;
+            // 
+            // ColumnCruiseMode
+            // 
+            this.ColumnCruiseMode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnCruiseMode.HeaderText = "Cruise Mode";
+            this.ColumnCruiseMode.MinimumWidth = 6;
+            this.ColumnCruiseMode.Name = "ColumnCruiseMode";
+            this.ColumnCruiseMode.ReadOnly = true;
             // 
             // tabControl1
             // 
@@ -132,6 +218,7 @@
             // tabDashboard
             // 
             this.tabDashboard.BackColor = System.Drawing.Color.Black;
+            this.tabDashboard.Controls.Add(this.dataGridStars);
             this.tabDashboard.Controls.Add(this.dataGridHeader);
             this.tabDashboard.Location = new System.Drawing.Point(4, 29);
             this.tabDashboard.Name = "tabDashboard";
@@ -139,6 +226,37 @@
             this.tabDashboard.Size = new System.Drawing.Size(1750, 896);
             this.tabDashboard.TabIndex = 0;
             this.tabDashboard.Text = "Dashboard";
+            // 
+            // dataGridStars
+            // 
+            this.dataGridStars.BackgroundColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.dataGridStars.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridStars.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.StarName,
+            this.Type,
+            this.Lum,
+            this.AgeMY,
+            this.Radius,
+            this.Mass,
+            this.TempK,
+            this.Distance,
+            this.ID});
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridStars.DefaultCellStyle = dataGridViewCellStyle5;
+            this.dataGridStars.Location = new System.Drawing.Point(6, 118);
+            this.dataGridStars.Name = "dataGridStars";
+            this.dataGridStars.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dataGridStars.RowHeadersVisible = false;
+            this.dataGridStars.RowHeadersWidth = 51;
+            this.dataGridStars.RowTemplate.Height = 29;
+            this.dataGridStars.Size = new System.Drawing.Size(1738, 243);
+            this.dataGridStars.TabIndex = 1;
             // 
             // tabSettings
             // 
@@ -193,78 +311,77 @@
             this.timerCheckLog.Interval = 1000;
             this.timerCheckLog.Tick += new System.EventHandler(this.timerCheckLog_Tick);
             // 
-            // ColumnEvent
+            // StarName
             // 
-            this.ColumnEvent.HeaderText = "Event";
-            this.ColumnEvent.MinimumWidth = 6;
-            this.ColumnEvent.Name = "ColumnEvent";
-            this.ColumnEvent.ReadOnly = true;
-            this.ColumnEvent.Width = 200;
+            this.StarName.HeaderText = "Star Name";
+            this.StarName.MinimumWidth = 240;
+            this.StarName.Name = "StarName";
+            this.StarName.ReadOnly = true;
+            this.StarName.Width = 240;
             // 
-            // ColumnCommanderName
+            // Type
             // 
-            this.ColumnCommanderName.HeaderText = "Commander";
-            this.ColumnCommanderName.MinimumWidth = 6;
-            this.ColumnCommanderName.Name = "ColumnCommanderName";
-            this.ColumnCommanderName.ReadOnly = true;
-            this.ColumnCommanderName.Width = 120;
+            this.Type.HeaderText = "Type";
+            this.Type.MinimumWidth = 80;
+            this.Type.Name = "Type";
+            this.Type.ReadOnly = true;
+            this.Type.Width = 80;
             // 
-            // ColumnShipRegistration
+            // Lum
             // 
-            this.ColumnShipRegistration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnShipRegistration.HeaderText = "Ship Registration";
-            this.ColumnShipRegistration.MinimumWidth = 6;
-            this.ColumnShipRegistration.Name = "ColumnShipRegistration";
-            this.ColumnShipRegistration.ReadOnly = true;
+            this.Lum.HeaderText = "Lum";
+            this.Lum.MinimumWidth = 78;
+            this.Lum.Name = "Lum";
+            this.Lum.ReadOnly = true;
+            this.Lum.Width = 78;
             // 
-            // ColumnFuelLevel
+            // AgeMY
             // 
-            this.ColumnFuelLevel.HeaderText = "Fuel";
-            this.ColumnFuelLevel.MinimumWidth = 6;
-            this.ColumnFuelLevel.Name = "ColumnFuelLevel";
-            this.ColumnFuelLevel.ReadOnly = true;
-            this.ColumnFuelLevel.Width = 125;
+            this.AgeMY.HeaderText = "AgeMY";
+            this.AgeMY.MinimumWidth = 150;
+            this.AgeMY.Name = "AgeMY";
+            this.AgeMY.ReadOnly = true;
+            this.AgeMY.Width = 150;
             // 
-            // ColumnFuelScooped
+            // Radius
             // 
-            this.ColumnFuelScooped.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.ColumnFuelScooped.HeaderText = "Scooped";
-            this.ColumnFuelScooped.MinimumWidth = 6;
-            this.ColumnFuelScooped.Name = "ColumnFuelScooped";
-            this.ColumnFuelScooped.ReadOnly = true;
-            this.ColumnFuelScooped.Width = 97;
+            this.Radius.HeaderText = "Radius";
+            this.Radius.MinimumWidth = 6;
+            this.Radius.Name = "Radius";
+            this.Radius.ReadOnly = true;
+            this.Radius.Width = 125;
             // 
-            // ColumnCurrentSystem
+            // Mass
             // 
-            this.ColumnCurrentSystem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnCurrentSystem.HeaderText = "Current System";
-            this.ColumnCurrentSystem.MinimumWidth = 6;
-            this.ColumnCurrentSystem.Name = "ColumnCurrentSystem";
-            this.ColumnCurrentSystem.ReadOnly = true;
+            this.Mass.HeaderText = "Mass";
+            this.Mass.MinimumWidth = 78;
+            this.Mass.Name = "Mass";
+            this.Mass.ReadOnly = true;
+            this.Mass.Width = 78;
             // 
-            // ColumnTargetSystem
+            // TempK
             // 
-            this.ColumnTargetSystem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnTargetSystem.HeaderText = "Target System";
-            this.ColumnTargetSystem.MinimumWidth = 6;
-            this.ColumnTargetSystem.Name = "ColumnTargetSystem";
-            this.ColumnTargetSystem.ReadOnly = true;
+            this.TempK.HeaderText = "TempK";
+            this.TempK.MinimumWidth = 6;
+            this.TempK.Name = "TempK";
+            this.TempK.ReadOnly = true;
+            this.TempK.Width = 125;
             // 
-            // ColumnJumps
+            // Distance
             // 
-            this.ColumnJumps.HeaderText = "Jumps";
-            this.ColumnJumps.MinimumWidth = 6;
-            this.ColumnJumps.Name = "ColumnJumps";
-            this.ColumnJumps.ReadOnly = true;
-            this.ColumnJumps.Width = 150;
+            this.Distance.HeaderText = "Distance";
+            this.Distance.MinimumWidth = 150;
+            this.Distance.Name = "Distance";
+            this.Distance.ReadOnly = true;
+            this.Distance.Width = 150;
             // 
-            // ColumnCruiseMode
+            // ID
             // 
-            this.ColumnCruiseMode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColumnCruiseMode.HeaderText = "Cruise Mode";
-            this.ColumnCruiseMode.MinimumWidth = 6;
-            this.ColumnCruiseMode.Name = "ColumnCruiseMode";
-            this.ColumnCruiseMode.ReadOnly = true;
+            this.ID.HeaderText = "ID";
+            this.ID.MinimumWidth = 6;
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Width = 125;
             // 
             // EliteExplorer
             // 
@@ -283,6 +400,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridHeader)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabDashboard.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridStars)).EndInit();
             this.tabSettings.ResumeLayout(false);
             this.tabSettings.PerformLayout();
             this.ResumeLayout(false);
@@ -309,5 +427,15 @@
         private DataGridViewTextBoxColumn ColumnTargetSystem;
         private DataGridViewTextBoxColumn ColumnJumps;
         private DataGridViewTextBoxColumn ColumnCruiseMode;
+        private DataGridView dataGridStars;
+        private DataGridViewTextBoxColumn StarName;
+        private DataGridViewTextBoxColumn Type;
+        private DataGridViewTextBoxColumn Lum;
+        private DataGridViewTextBoxColumn AgeMY;
+        private DataGridViewTextBoxColumn Radius;
+        private DataGridViewTextBoxColumn Mass;
+        private DataGridViewTextBoxColumn TempK;
+        private DataGridViewTextBoxColumn Distance;
+        private DataGridViewTextBoxColumn ID;
     }
 }

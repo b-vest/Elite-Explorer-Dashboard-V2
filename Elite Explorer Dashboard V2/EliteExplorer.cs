@@ -8,6 +8,7 @@ namespace Elite_Explorer_Dashboard_V2
     public partial class EliteExplorer : Form
     {
         runningDataObject runningData = new runningDataObject();
+        Dictionary<string, int> usedBodies = new Dictionary<string, int>();
         public EliteExplorer()
         {
             InitializeComponent();
@@ -53,6 +54,15 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridHeader.DefaultCellStyle.Font = runningData.mediumFont;
 
 
+
+            dataGridStars.RowHeadersVisible = false;
+
+            dataGridStars.EnableHeadersVisualStyles = false;
+            dataGridStars.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
+            dataGridStars.ColumnHeadersDefaultCellStyle.ForeColor = Color.Orange;
+
+            dataGridStars.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
+            dataGridStars.DefaultCellStyle.Font = runningData.mediumFont;
 
             runningData.CurrentLogFile = findLatestLogfile();
             listBoxDebugOutput.Items.Add(runningData.CurrentLogFile);
@@ -305,7 +315,26 @@ namespace Elite_Explorer_Dashboard_V2
 
         }
         public void processFSSDiscoveryScan(string line) { }
-        public void processScan(string line) { }
+        public void processScan(string line) {
+            ScanObjectBodyDetailed edObject = JsonSerializer.Deserialize<ScanObjectBodyDetailed>(line);
+            if (usedBodies.ContainsKey(edObject.BodyName) == false)
+            {
+                if (edObject.StarType != null)
+                {
+                    var useTemp = Convert.ToInt32(edObject.SurfaceTemperature);
+                    double tempInCelsius = useTemp - 273.15;
+                    int newRow = dataGridStars.Rows.Add(edObject.BodyName, edObject.StarType, edObject.Luminosity,
+                        edObject.Age_MY,
+                        string.Format("{0:N0}", edObject.Radius),
+                         edObject.StellarMass,
+                        useTemp + "K (" + tempInCelsius.ToString("#.##") + "C)",
+                        edObject.DistanceFromArrivalLS,
+                        edObject.BodyID
+                      );
+                    usedBodies.Add(edObject.BodyName, newRow);
+                }
+            }
+        }
         public void processTouchdown(string line) { }
         public void processLocation(EDData eventData) {
             dataGridHeader[5, 0].Value = eventData.StarSystem;
