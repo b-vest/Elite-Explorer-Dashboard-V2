@@ -30,6 +30,14 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dataGridHeader = new System.Windows.Forms.DataGridView();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabDashboard = new System.Windows.Forms.TabPage();
+            this.tabSettings = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBoxLogFilePath = new System.Windows.Forms.TextBox();
+            this.listBoxDebugOutput = new System.Windows.Forms.ListBox();
+            this.listBoxActiveLogPath = new System.Windows.Forms.ListBox();
+            this.timerCheckLog = new System.Windows.Forms.Timer(this.components);
             this.ColumnEvent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnCommanderName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnShipRegistration = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -39,14 +47,6 @@
             this.ColumnTargetSystem = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnJumps = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnCruiseMode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabDashboard = new System.Windows.Forms.TabPage();
-            this.tabSettings = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBoxLogFilePath = new System.Windows.Forms.TextBox();
-            this.listBoxDebugOutput = new System.Windows.Forms.ListBox();
-            this.listBoxActiveLogPath = new System.Windows.Forms.ListBox();
-            this.timerCheckLog = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridHeader)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabDashboard.SuspendLayout();
@@ -73,78 +73,6 @@
             this.dataGridHeader.RowTemplate.Height = 29;
             this.dataGridHeader.Size = new System.Drawing.Size(1636, 74);
             this.dataGridHeader.TabIndex = 0;
-            // 
-            // ColumnEvent
-            // 
-            this.ColumnEvent.HeaderText = "Event";
-            this.ColumnEvent.MinimumWidth = 6;
-            this.ColumnEvent.Name = "ColumnEvent";
-            this.ColumnEvent.ReadOnly = true;
-            this.ColumnEvent.Width = 125;
-            // 
-            // ColumnCommanderName
-            // 
-            this.ColumnCommanderName.HeaderText = "Commander";
-            this.ColumnCommanderName.MinimumWidth = 6;
-            this.ColumnCommanderName.Name = "ColumnCommanderName";
-            this.ColumnCommanderName.ReadOnly = true;
-            this.ColumnCommanderName.Width = 125;
-            // 
-            // ColumnShipRegistration
-            // 
-            this.ColumnShipRegistration.HeaderText = "Ship Registration";
-            this.ColumnShipRegistration.MinimumWidth = 6;
-            this.ColumnShipRegistration.Name = "ColumnShipRegistration";
-            this.ColumnShipRegistration.ReadOnly = true;
-            this.ColumnShipRegistration.Width = 125;
-            // 
-            // ColumnFuelLevel
-            // 
-            this.ColumnFuelLevel.HeaderText = "Fuel Level";
-            this.ColumnFuelLevel.MinimumWidth = 6;
-            this.ColumnFuelLevel.Name = "ColumnFuelLevel";
-            this.ColumnFuelLevel.ReadOnly = true;
-            this.ColumnFuelLevel.Width = 125;
-            // 
-            // ColumnFuelScooped
-            // 
-            this.ColumnFuelScooped.HeaderText = "Fuel Scooped";
-            this.ColumnFuelScooped.MinimumWidth = 6;
-            this.ColumnFuelScooped.Name = "ColumnFuelScooped";
-            this.ColumnFuelScooped.ReadOnly = true;
-            this.ColumnFuelScooped.Width = 125;
-            // 
-            // ColumnCurrentSystem
-            // 
-            this.ColumnCurrentSystem.HeaderText = "Current System";
-            this.ColumnCurrentSystem.MinimumWidth = 6;
-            this.ColumnCurrentSystem.Name = "ColumnCurrentSystem";
-            this.ColumnCurrentSystem.ReadOnly = true;
-            this.ColumnCurrentSystem.Width = 125;
-            // 
-            // ColumnTargetSystem
-            // 
-            this.ColumnTargetSystem.HeaderText = "Target System";
-            this.ColumnTargetSystem.MinimumWidth = 6;
-            this.ColumnTargetSystem.Name = "ColumnTargetSystem";
-            this.ColumnTargetSystem.ReadOnly = true;
-            this.ColumnTargetSystem.Width = 125;
-            // 
-            // ColumnJumps
-            // 
-            this.ColumnJumps.HeaderText = "Jumps";
-            this.ColumnJumps.MinimumWidth = 6;
-            this.ColumnJumps.Name = "ColumnJumps";
-            this.ColumnJumps.ReadOnly = true;
-            this.ColumnJumps.Width = 125;
-            // 
-            // ColumnCruiseMode
-            // 
-            this.ColumnCruiseMode.HeaderText = "Cruise Mode";
-            this.ColumnCruiseMode.MinimumWidth = 6;
-            this.ColumnCruiseMode.Name = "ColumnCruiseMode";
-            this.ColumnCruiseMode.ReadOnly = true;
-            this.ColumnCruiseMode.Width = 125;
             // 
             // tabControl1
             // 
@@ -220,6 +148,78 @@
             this.timerCheckLog.Interval = 1000;
             this.timerCheckLog.Tick += new System.EventHandler(this.timerCheckLog_Tick);
             // 
+            // ColumnEvent
+            // 
+            this.ColumnEvent.HeaderText = "Event";
+            this.ColumnEvent.MinimumWidth = 6;
+            this.ColumnEvent.Name = "ColumnEvent";
+            this.ColumnEvent.ReadOnly = true;
+            this.ColumnEvent.Width = 125;
+            // 
+            // ColumnCommanderName
+            // 
+            this.ColumnCommanderName.HeaderText = "Commander";
+            this.ColumnCommanderName.MinimumWidth = 6;
+            this.ColumnCommanderName.Name = "ColumnCommanderName";
+            this.ColumnCommanderName.ReadOnly = true;
+            this.ColumnCommanderName.Width = 125;
+            // 
+            // ColumnShipRegistration
+            // 
+            this.ColumnShipRegistration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnShipRegistration.HeaderText = "Ship Registration";
+            this.ColumnShipRegistration.MinimumWidth = 6;
+            this.ColumnShipRegistration.Name = "ColumnShipRegistration";
+            this.ColumnShipRegistration.ReadOnly = true;
+            // 
+            // ColumnFuelLevel
+            // 
+            this.ColumnFuelLevel.HeaderText = "Fuel Level";
+            this.ColumnFuelLevel.MinimumWidth = 6;
+            this.ColumnFuelLevel.Name = "ColumnFuelLevel";
+            this.ColumnFuelLevel.ReadOnly = true;
+            this.ColumnFuelLevel.Width = 125;
+            // 
+            // ColumnFuelScooped
+            // 
+            this.ColumnFuelScooped.HeaderText = "Fuel Scooped";
+            this.ColumnFuelScooped.MinimumWidth = 6;
+            this.ColumnFuelScooped.Name = "ColumnFuelScooped";
+            this.ColumnFuelScooped.ReadOnly = true;
+            this.ColumnFuelScooped.Width = 125;
+            // 
+            // ColumnCurrentSystem
+            // 
+            this.ColumnCurrentSystem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnCurrentSystem.HeaderText = "Current System";
+            this.ColumnCurrentSystem.MinimumWidth = 6;
+            this.ColumnCurrentSystem.Name = "ColumnCurrentSystem";
+            this.ColumnCurrentSystem.ReadOnly = true;
+            // 
+            // ColumnTargetSystem
+            // 
+            this.ColumnTargetSystem.HeaderText = "Target System";
+            this.ColumnTargetSystem.MinimumWidth = 6;
+            this.ColumnTargetSystem.Name = "ColumnTargetSystem";
+            this.ColumnTargetSystem.ReadOnly = true;
+            this.ColumnTargetSystem.Width = 125;
+            // 
+            // ColumnJumps
+            // 
+            this.ColumnJumps.HeaderText = "Jumps";
+            this.ColumnJumps.MinimumWidth = 6;
+            this.ColumnJumps.Name = "ColumnJumps";
+            this.ColumnJumps.ReadOnly = true;
+            this.ColumnJumps.Width = 125;
+            // 
+            // ColumnCruiseMode
+            // 
+            this.ColumnCruiseMode.HeaderText = "Cruise Mode";
+            this.ColumnCruiseMode.MinimumWidth = 6;
+            this.ColumnCruiseMode.Name = "ColumnCruiseMode";
+            this.ColumnCruiseMode.ReadOnly = true;
+            this.ColumnCruiseMode.Width = 125;
+            // 
             // EliteExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -246,6 +246,14 @@
         #endregion
 
         private DataGridView dataGridHeader;
+        private TabControl tabControl1;
+        private TabPage tabSettings;
+        private Label label1;
+        private TextBox textBoxLogFilePath;
+        private System.Windows.Forms.Timer timerCheckLog;
+        public TabPage tabDashboard;
+        public ListBox listBoxDebugOutput;
+        public ListBox listBoxActiveLogPath;
         private DataGridViewTextBoxColumn ColumnEvent;
         private DataGridViewTextBoxColumn ColumnCommanderName;
         private DataGridViewTextBoxColumn ColumnShipRegistration;
@@ -255,13 +263,5 @@
         private DataGridViewTextBoxColumn ColumnTargetSystem;
         private DataGridViewTextBoxColumn ColumnJumps;
         private DataGridViewTextBoxColumn ColumnCruiseMode;
-        private TabControl tabControl1;
-        private TabPage tabDashboard;
-        private TabPage tabSettings;
-        private ListBox listBoxDebugOutput;
-        private ListBox listBoxActiveLogPath;
-        private Label label1;
-        private TextBox textBoxLogFilePath;
-        private System.Windows.Forms.Timer timerCheckLog;
     }
 }

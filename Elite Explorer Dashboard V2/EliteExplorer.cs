@@ -9,7 +9,6 @@ namespace Elite_Explorer_Dashboard_V2
         runningDataObject runningData = new runningDataObject();
         public EliteExplorer()
         {
-            Debug.WriteLine("Initalize");
             InitializeComponent();
         }
         private void EliteExplorer_Load_1(object sender, EventArgs e)
@@ -38,6 +37,8 @@ namespace Elite_Explorer_Dashboard_V2
             listBoxDebugOutput.Items.Add(runningData.CurrentLogFile);
             runningData.CurrentLogLineNumber = 0;
 
+            dataGridHeader.RowHeadersVisible = false;
+
         }
 
         public string findLatestLogfile()
@@ -53,13 +54,13 @@ namespace Elite_Explorer_Dashboard_V2
         {
             int thisLineCount = 0;
             timerCheckLog.Enabled = false;
-
-            string runningLogFile = timerCheckLog.Tag.ToString();
-            listBoxDebugOutput.Items.Add(runningLogFile);
-
-            var fs = new FileStream(runningLogFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            if(runningData.CurrentLogFile == null)
+            {
+                return;
+            }
+            var fs = new FileStream(runningData.CurrentLogFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             var sr = new StreamReader(fs);
-            string line = String.Empty;
+            string? line = String.Empty;
             while ((line = sr.ReadLine()) != null)
             {
 
@@ -72,21 +73,28 @@ namespace Elite_Explorer_Dashboard_V2
                     processLine(line);
                 }
             }
-
             runningData.CurrentLogLineNumber = thisLineCount;
-            listBoxDebugOutput.TopIndex = listBoxDebugOutput.Items.Count - 1;
             timerCheckLog.Enabled = true;
             return;
         }
 
         public void processLine(string line)
         {
-            EDData edObject = JsonSerializer.Deserialize<EDData>(line);
+            EDData? edObject = JsonSerializer.Deserialize<EDData>(line);
+            if (edObject == null) {
+                return;
+            }
+            if(edObject.@event == null)
+            {
+                return;
+            }
             listBoxDebugOutput.Items.Add(edObject.@event);
             if (edObject.BodyName == null && edObject.Body != null)
             {
                 edObject.BodyName = edObject.Body;
             }
+            dataGridHeader[0, 0].Value = edObject.@event;
+
             switch (edObject.@event)
             {
                 case "StartJump":
@@ -186,7 +194,7 @@ namespace Elite_Explorer_Dashboard_V2
                     processLiftoff(line);
                     break;
                 case "Shutdown":
-                    processShutdown(edObject);
+                    processShutdown(line);
                     break;
                 case "Backpack":
                     processBackpack(edObject);
@@ -220,6 +228,19 @@ namespace Elite_Explorer_Dashboard_V2
                     break;
             }
         }
+        public void processShutdown(string line) {
+            listBoxDebugOutput.Items.Add("Process Shutdonw");
+            listBoxDebugOutput.Items.Add(line);
+            dataGridHeader[0, 0].Value = "Shutdown";
+            dataGridHeader[1, 0].Value = "Shutdown";
+            dataGridHeader[2, 0].Value = "Shutdown";
+            dataGridHeader[3, 0].Value = "Shutdown";
+            dataGridHeader[4, 0].Value = "Shutdown";
+            dataGridHeader[5, 0].Value = "Shutdown";
+            dataGridHeader[6, 0].Value = "Shutdown";
+            dataGridHeader[7, 0].Value = "Shutdown";
+            dataGridHeader[8, 0].Value = "Shutdown";
+        }
         public void processStartJump(string line) { }
         public void processScreenshot(string line) { }
         public void processMusic(string line) { }
@@ -230,11 +251,23 @@ namespace Elite_Explorer_Dashboard_V2
         public void processFSDTarget(string line) { }
         public void processFSDJump(string line) { }
         public void processFuelScoop(string line) { }
-        public void processLoadGame(string line) { }
+        public void processLoadGame(string line) {
+            LoadGameObject edObject = JsonSerializer.Deserialize<LoadGameObject>(line);
+            runningData.CommanderName = edObject.Commander;
+            dataGridHeader[1, 0].Value = edObject.Commander;
+            dataGridHeader[2, 0].Value = edObject.Ship + " " + edObject.ShipName + " " + edObject.ShipIdent;
+            dataGridHeader[3, 0].Value = String.Format("{0:0.00}", edObject.FuelLevel);
+            dataGridHeader[4, 0].Value = 0;
+            dataGridHeader[6, 0].Value = "Loading.......";
+
+
+        }
         public void processFSSDiscoveryScan(string line) { }
         public void processScan(string line) { }
         public void processTouchdown(string line) { }
-        public void processLocation(EDData eventData) { }
+        public void processLocation(EDData eventData) {
+            dataGridHeader[5, 0].Value = eventData.StarSystem;
+        }
         public void processNavRoute(EDData eventData) { }
         public void processScanBaryCentre(EDData eventData) { }
         public void processFSSAllBodiesFound(string line) { }
@@ -252,7 +285,7 @@ namespace Elite_Explorer_Dashboard_V2
         public void processMaterials(EDData eventData) { }
         public void processCodexEntry(EDData eventData) { }
         public void processLiftoff(string line) { }
-        public void processShutdown(EDData eventData) { }
+
         public void processBackpack(EDData eventData) { }
         public void processHullDamage(EDData eventData) { }
         public void processApproachSettlement(EDData eventData) { }
