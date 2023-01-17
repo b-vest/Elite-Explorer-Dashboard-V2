@@ -56,13 +56,19 @@ namespace Elite_Explorer_Dashboard_V2
 
 
             dataGridStars.RowHeadersVisible = false;
-
             dataGridStars.EnableHeadersVisualStyles = false;
             dataGridStars.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
             dataGridStars.ColumnHeadersDefaultCellStyle.ForeColor = Color.Orange;
-
             dataGridStars.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
             dataGridStars.DefaultCellStyle.Font = runningData.mediumFont;
+
+            dataGridViewBodies.RowHeadersVisible = false;
+            dataGridViewBodies.EnableHeadersVisualStyles = false;
+            dataGridViewBodies.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
+            dataGridViewBodies.ColumnHeadersDefaultCellStyle.ForeColor = Color.Orange;
+            dataGridViewBodies.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
+            dataGridViewBodies.DefaultCellStyle.Font = runningData.mediumFont;
+
 
             runningData.CurrentLogFile = findLatestLogfile();
             listBoxDebugOutput.Items.Add(runningData.CurrentLogFile);
@@ -83,7 +89,8 @@ namespace Elite_Explorer_Dashboard_V2
         {
             int thisLineCount = 0;
             timerCheckLog.Enabled = false;
-            if(runningData.CurrentLogFile == null)
+            runningData.CurrentLogFile = findLatestLogfile();
+            if (runningData.CurrentLogFile == null)
             {
                 return;
             }
@@ -297,43 +304,104 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridHeader[7, 0].Value = eventData.RemainingJumpsInRoute;
 
         }
-        public void processFSDJump(string line) { }
+        public void processFSDJump(string line) {
+            dataGridStars.Rows.Clear();
+            dataGridViewBodies.Rows.Clear();
+
+        }
         public void processFuelScoop(EDData eventData) {
             runningData.TotalScooped += eventData.Scooped;
             dataGridHeader[4, 0].Value = String.Format("{0:0.00}", eventData.Scooped) + " (" + String.Format("{0:0.00}", runningData.TotalScooped) + ")";
             dataGridHeader[3, 0].Value = (int)eventData.Total;
         }
         public void processLoadGame(string line) {
-            LoadGameObject edObject = JsonSerializer.Deserialize<LoadGameObject>(line);
-            runningData.CommanderName = edObject.Commander;
-            dataGridHeader[1, 0].Value = edObject.Commander;
-            dataGridHeader[2, 0].Value = edObject.Ship + " " + edObject.ShipName + " " + edObject.ShipIdent;
-            dataGridHeader[3, 0].Value = String.Format("{0:0.00}", edObject.FuelLevel);
-            dataGridHeader[4, 0].Value = 0;
-            dataGridHeader[6, 0].Value = "Loading.......";
-
+            LoadGameObject? edObject = JsonSerializer.Deserialize<LoadGameObject>(line);
+            if (edObject != null)
+            {
+                runningData.CommanderName = edObject.Commander;
+                dataGridHeader[1, 0].Value = edObject.Commander;
+                dataGridHeader[2, 0].Value = edObject.Ship + " " + edObject.ShipName + " " + edObject.ShipIdent;
+                dataGridHeader[3, 0].Value = String.Format("{0:0.00}", edObject.FuelLevel);
+                dataGridHeader[4, 0].Value = 0;
+                dataGridHeader[6, 0].Value = "Loading.......";
+            }
 
         }
         public void processFSSDiscoveryScan(string line) { }
         public void processScan(string line) {
-            ScanObjectBodyDetailed edObject = JsonSerializer.Deserialize<ScanObjectBodyDetailed>(line);
-            if (usedBodies.ContainsKey(edObject.BodyName) == false)
+            ScanObjectBodyDetailed? edObject = JsonSerializer.Deserialize<ScanObjectBodyDetailed>(line);
+            if (edObject != null)
             {
-                if (edObject.StarType != null)
+                if (usedBodies.ContainsKey(edObject.BodyName) == false)
                 {
-                    var useTemp = Convert.ToInt32(edObject.SurfaceTemperature);
-                    double tempInCelsius = useTemp - 273.15;
-                    int newRow = dataGridStars.Rows.Add(edObject.BodyName, edObject.StarType, edObject.Luminosity,
-                        edObject.Age_MY,
-                        string.Format("{0:N0}", edObject.Radius),
-                         edObject.StellarMass,
-                        useTemp + "K (" + tempInCelsius.ToString("#.##") + "C)",
-                        edObject.DistanceFromArrivalLS,
-                        edObject.BodyID
-                      );
-                    usedBodies.Add(edObject.BodyName, newRow);
+                    if (edObject.StarType != null)
+                    {
+                        parseStar(edObject);
+                    }
+                    if (edObject.PlanetClass != null)
+                    {
+                        parseStellarBody(edObject);
+                    }
                 }
             }
+        }
+
+        public void parseStellarBody(ScanObjectBodyDetailed bodyData)
+        {
+            var useGravity = bodyData.SurfaceGravity / 10;
+            var useTemp = Convert.ToInt32(bodyData.SurfaceTemperature);
+            double tempInCelsius = useTemp - 273.15;
+            int newRow = dataGridViewBodies.Rows.Add(
+                bodyData.BodyName,
+                bodyData.Landable,
+                bodyData.PlanetClass,
+                bodyData.Atmosphere,
+                useGravity.ToString("#.##"),
+                useTemp + "K (" + tempInCelsius.ToString("#.##") + "C)",
+               string.Format("{0:N}", bodyData.Radius),
+                0,
+                0,
+                bodyData.DistanceFromArrivalLS,
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                bodyData.BodyID
+                );
+            //Process Landable Colors
+            if (bodyData.Landable == true)
+            {
+                dataGridViewBodies[1, newRow].Style.BackColor = Color.Green;
+                dataGridViewBodies[1, newRow].Style.ForeColor = Color.White;
+
+            }
+            else
+            {
+                dataGridViewBodies[12, newRow].Style.BackColor = Color.Yellow;
+                dataGridViewBodies[13, newRow].Style.BackColor = Color.Yellow;
+                dataGridViewBodies[14, newRow].Style.BackColor = Color.Yellow;
+                dataGridViewBodies[15, newRow].Style.BackColor = Color.Yellow;
+
+            }
+            usedBodies.Add(bodyData.BodyName, newRow);
+            dataGridViewBodies[10, newRow].Style.BackColor = Color.Green;
+        }
+        public void parseStar(ScanObjectBodyDetailed bodyData)
+        {
+            var useTemp = Convert.ToInt32(bodyData.SurfaceTemperature);
+            double tempInCelsius = useTemp - 273.15;
+            int newRow = dataGridStars.Rows.Add(bodyData.BodyName, bodyData.StarType, bodyData.Luminosity,
+                string.Format("{0:N0}", bodyData.Age_MY),
+                string.Format("{0:N0}", bodyData.Radius),
+                 bodyData.StellarMass,
+                useTemp + "K (" + tempInCelsius.ToString("#.##") + "C)",
+                bodyData.DistanceFromArrivalLS,
+                bodyData.BodyID
+              );
+            usedBodies.Add(bodyData.BodyName, newRow);
+
         }
         public void processTouchdown(string line) { }
         public void processLocation(EDData eventData) {
