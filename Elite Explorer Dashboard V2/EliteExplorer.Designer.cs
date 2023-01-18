@@ -35,6 +35,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridHeader = new System.Windows.Forms.DataGridView();
             this.ColumnEvent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnCommanderName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -146,7 +147,7 @@
             this.dataGridHeader.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.Black;
             this.dataGridHeader.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.dataGridHeader.RowTemplate.Height = 29;
-            this.dataGridHeader.Size = new System.Drawing.Size(1738, 89);
+            this.dataGridHeader.Size = new System.Drawing.Size(1986, 89);
             this.dataGridHeader.TabIndex = 0;
             // 
             // ColumnEvent
@@ -232,7 +233,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1758, 929);
+            this.tabControl1.Size = new System.Drawing.Size(2006, 929);
             this.tabControl1.TabIndex = 1;
             // 
             // tabDashboard
@@ -244,7 +245,7 @@
             this.tabDashboard.Location = new System.Drawing.Point(4, 29);
             this.tabDashboard.Name = "tabDashboard";
             this.tabDashboard.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDashboard.Size = new System.Drawing.Size(1750, 896);
+            this.tabDashboard.Size = new System.Drawing.Size(1998, 896);
             this.tabDashboard.TabIndex = 0;
             this.tabDashboard.Text = "Dashboard";
             // 
@@ -285,8 +286,10 @@
             this.dataGridViewBodies.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dataGridViewBodies.RowHeadersVisible = false;
             this.dataGridViewBodies.RowHeadersWidth = 51;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewBodies.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridViewBodies.RowTemplate.Height = 29;
-            this.dataGridViewBodies.Size = new System.Drawing.Size(1738, 540);
+            this.dataGridViewBodies.Size = new System.Drawing.Size(1983, 540);
             this.dataGridViewBodies.TabIndex = 2;
             // 
             // dataGridStars
@@ -304,15 +307,15 @@
             this.TempK,
             this.Distance,
             this.ID});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(2);
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridStars.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(2);
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridStars.DefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridStars.Location = new System.Drawing.Point(6, 118);
             this.dataGridStars.Name = "dataGridStars";
             this.dataGridStars.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -401,7 +404,7 @@
             this.tabSettings.Location = new System.Drawing.Point(4, 29);
             this.tabSettings.Name = "tabSettings";
             this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSettings.Size = new System.Drawing.Size(1750, 896);
+            this.tabSettings.Size = new System.Drawing.Size(1998, 896);
             this.tabSettings.TabIndex = 1;
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
@@ -466,21 +469,21 @@
             this.BpdyClass.HeaderText = "Body Class";
             this.BpdyClass.MinimumWidth = 6;
             this.BpdyClass.Name = "BpdyClass";
-            this.BpdyClass.Width = 220;
+            this.BpdyClass.Width = 240;
             // 
             // Atmosphere
             // 
             this.Atmosphere.HeaderText = "Atmosphere";
             this.Atmosphere.MinimumWidth = 6;
             this.Atmosphere.Name = "Atmosphere";
-            this.Atmosphere.Width = 240;
+            this.Atmosphere.Width = 280;
             // 
             // Gravity
             // 
             this.Gravity.HeaderText = "Gravity";
             this.Gravity.MinimumWidth = 6;
             this.Gravity.Name = "Gravity";
-            this.Gravity.Width = 125;
+            this.Gravity.Width = 90;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -501,7 +504,7 @@
             this.Mat.HeaderText = "Mat";
             this.Mat.MinimumWidth = 6;
             this.Mat.Name = "Mat";
-            this.Mat.Width = 40;
+            this.Mat.Width = 200;
             // 
             // Sigs
             // 
@@ -578,7 +581,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Desktop;
-            this.ClientSize = new System.Drawing.Size(1782, 1344);
+            this.ClientSize = new System.Drawing.Size(2030, 1344);
             this.Controls.Add(this.listBoxActiveLogPath);
             this.Controls.Add(this.listBoxDebugOutput);
             this.Controls.Add(this.tabControl1);

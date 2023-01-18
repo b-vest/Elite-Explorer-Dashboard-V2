@@ -38,10 +38,10 @@ namespace Elite_Explorer_Dashboard_V2
             runningData.CurrentLogLineNumber = 0;
 
             //Load Fonts into running Data
-            runningData.hugeFont = new Font("Consolas", 11);
-            runningData.largeFont = new Font("Consolas", 10);
-            runningData.mediumFont = new Font("Consolas", 9);
-            runningData.smallFont = new Font("Consolas", 8);
+            runningData.hugeFont = new Font("Consolas", 10);
+            runningData.largeFont = new Font("Consolas", 9);
+            runningData.mediumFont = new Font("Consolas", 8);
+            runningData.smallFont = new Font("Consolas", 7);
 
             //Setup Data Grids Add DoubleBuffered
             dataGridHeader.DoubleBuffered(true);
@@ -385,9 +385,71 @@ namespace Elite_Explorer_Dashboard_V2
                 dataGridViewBodies[15, newRow].Style.BackColor = Color.Yellow;
 
             }
-            usedBodies.Add(bodyData.BodyName, newRow);
             dataGridViewBodies[10, newRow].Style.BackColor = Color.Green;
+
+            var gravityColor = Color.Red;
+            var gravityFore = Color.Black;
+
+            if (useGravity <= 10 && useGravity > 6)
+            {
+                gravityColor = Color.Orange;
+
+            }
+            if (useGravity <= 6 && useGravity > 4)
+            {
+                gravityColor = Color.Yellow;
+            }
+            if (useGravity <= 4 && useGravity > 2)
+            {
+                gravityColor = Color.DarkGreen;
+            }
+            if (useGravity <= 2 && useGravity > 1)
+            {
+                gravityColor = Color.Green;
+            }
+            if (useGravity <= 1)
+            {
+                gravityColor = Color.LightGreen;
+            }
+            dataGridViewBodies[4, newRow].Style.BackColor = gravityColor;
+            dataGridViewBodies[4, newRow].Style.ForeColor = gravityFore;
+            if (bodyData.Materials != null)
+            {
+                processMaterialScan(bodyData, newRow);
+            }
+
+
+                usedBodies.Add(bodyData.BodyName, newRow);
+
         }
+        public void processMaterialScan(ScanObjectBodyDetailed materialData, int newRow)
+        {
+            foreach (var item in materialData.Materials)
+            {
+                listBoxDebugOutput.Items.Add(item.Name);
+                //7
+                int newMatRow = dataGridViewBodies.Rows.Add(
+               "",
+               "",
+               "",
+               "",
+               "",
+               "",
+              "",
+               item.Name+" "+item.Percent,
+               "",
+               "",
+               "",
+               "",
+               "",
+               "",
+               "",
+               "",
+               materialData.BodyID
+               );
+            }
+        }
+
         public void parseStar(ScanObjectBodyDetailed bodyData)
         {
             var useTemp = Convert.ToInt32(bodyData.SurfaceTemperature);
