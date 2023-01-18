@@ -10,6 +10,8 @@ namespace Elite_Explorer_Dashboard_V2
     {
         runningDataObject runningData = new runningDataObject();
         Dictionary<string, int> usedBodies = new Dictionary<string, int>();
+        Dictionary<string, int> materialCount = new Dictionary<string, int>();
+
         public EliteExplorer()
         {
             InitializeComponent();
@@ -69,7 +71,7 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridViewBodies.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
             dataGridViewBodies.DefaultCellStyle.Font = runningData.mediumFont;
             dataGridViewBodies.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            dataGridViewBodies.Columns[7].DefaultCellStyle.Font = new Font("Consolas", 7, FontStyle.Regular);
+            dataGridViewBodies.Columns[7].DefaultCellStyle.Font = new Font("Consolas", 8, FontStyle.Regular);
             
             runningData.CurrentLogFile = findLatestLogfile();
             listBoxDebugOutput.Items.Add(runningData.CurrentLogFile);
@@ -435,7 +437,7 @@ namespace Elite_Explorer_Dashboard_V2
             {
                 listBoxDebugOutput.Items.Add(item.Name);
                 //7
-                printAtmosphere += item.Name + " " + item.Percent.ToString("#.##") + "% ";
+                printAtmosphere += item.Name + "-" + item.Percent.ToString("#.##") + "% ";
             }
             DataGridViewRow row = dataGridViewBodies.Rows[newRow];
             row.MinimumHeight = 50;
@@ -449,7 +451,16 @@ namespace Elite_Explorer_Dashboard_V2
             {
                 listBoxDebugOutput.Items.Add(item.Name);
                 //7
-                printMats += item.Name + " " + item.Percent+" ";
+                Debug.WriteLine(materialCount);
+                if(materialCount.ContainsKey(item.Name) == false)
+                {
+                    materialCount.Add(item.Name, 0);
+
+                }
+                if (materialCount[item.Name] < 100)
+                {
+                    printMats += item.Name + "-" + item.Percent + "(" + materialCount[item.Name] + ") ";
+                }
             }
             DataGridViewRow row = dataGridViewBodies.Rows[newRow];
             row.MinimumHeight = 50;
@@ -491,7 +502,15 @@ namespace Elite_Explorer_Dashboard_V2
         public void processSupercruiseExit(EDData eventData) { }
         public void processSupercruiseEntry(EDData eventData) { }
         public void processCommander(EDData eventData) { }
-        public void processMaterials(EDData eventData) { }
+        public void processMaterials(EDData storedMaterials)
+        {
+            foreach (var item in storedMaterials.Raw)
+            {
+                Debug.WriteLine(item.Name);
+                materialCount.Add(item.Name, item.Count);
+
+            }
+        }
         public void processCodexEntry(EDData eventData) { }
         public void processLiftoff(string line) { }
 

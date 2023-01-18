@@ -12,6 +12,12 @@ namespace Elite_Explorer_Dashboard_V2
         public float Percent { get; set; }
     }
 
+    public class StoredMaterialsObject
+    {
+        public string? Name { get; set; }
+        public int Count { get; set; }
+    }
+
     public class ParentsObject
     {
         public int Planet { get; set; }
@@ -294,6 +300,7 @@ namespace Elite_Explorer_Dashboard_V2
         public CompositionObject? Composition { get; set; }
         public List<FSSBodySignalsObject>? Signals { get; set; }
         public List<ParentsObject>? Parents { get; set; }
+        public List<StoredMaterialsObject>? Raw { get; set; }
         public string? timestamp { get; set; }
         public List<double>? StarPos { get; set; }
         public List<AtmosphereCompositionObject>? AtmosphereComposition { get; set; }
