@@ -9,9 +9,9 @@ namespace Elite_Explorer_Dashboard_V2
 {
     public partial class EliteExplorer : Form
     {
-        runningDataObject runningData = new runningDataObject();
-        Dictionary<string, int> usedBodies = new Dictionary<string, int>();
-        Dictionary<string, int> materialCount = new Dictionary<string, int>();
+        public runningDataObject runningData = new runningDataObject();
+        public Dictionary<string, int> usedBodies = new Dictionary<string, int>();
+        public Dictionary<string, int> materialCount = new Dictionary<string, int>();
 
         public EliteExplorer()
         {
@@ -142,10 +142,14 @@ namespace Elite_Explorer_Dashboard_V2
                     processStartJump(line);
                     break;
                 case "Music":
-                    processMusic(edObject);
+                    Music thisMusic = new Music();
+                    thisMusic.process(edObject);
+                    //processMusic(edObject);
                     break;
                 case "Screenshot":
-                    processScreenshot(line);
+                    //processScreenshot(line);
+                    Screenshot thisScreenshot = new Screenshot();
+                    thisScreenshot.process(line);
                     break;
                 case "SAAScanComplete":
                     processSAAScanComplete(line);
@@ -160,16 +164,22 @@ namespace Elite_Explorer_Dashboard_V2
                     processReservoirReplenished(edObject);
                     break;
                 case "FSDTarget":
-                    processFSDTarget(edObject);
+                    FSDTarget thisFSDTarget = new FSDTarget();
+                    thisFSDTarget.process(edObject);
+                    //processFSDTarget(edObject);
                     break;
                 case "FSDJump":
-                    processFSDJump(line);
+                    FSDJump thisFSDJump = new FSDJump();
+                    thisFSDJump.process(line);
+                    //processFSDJump(line);
                     break;
                 case "FuelScoop":
                     processFuelScoop(edObject);
                     break;
                 case "LoadGame":
-                    processLoadGame(line);
+                    LoadGame thisLoadGame = new LoadGame();
+                    thisLoadGame.process(line);
+                    //processLoadGame(line);
                     break;
                 case "FSSDiscoveryScan":
                     processFSSDiscoveryScan(line);
@@ -226,7 +236,9 @@ namespace Elite_Explorer_Dashboard_V2
                     processCommander(edObject);
                     break;
                 case "Materials":
-                    processMaterials(edObject);
+                    InventoryMaterials thisMaterials = new InventoryMaterials();
+                    thisMaterials.process(edObject);
+                    //processMaterials(edObject);
                     break;
                 case "CodexEntry":
                     processCodexEntry(edObject);
@@ -235,7 +247,8 @@ namespace Elite_Explorer_Dashboard_V2
                     processLiftoff(line);
                     break;
                 case "Shutdown":
-                    processShutdown(line);
+                    Shutdown thisShutdown = new Shutdown();
+                    thisShutdown.process(line);
                     break;
                 case "Backpack":
                     processBackpack(edObject);
@@ -269,101 +282,21 @@ namespace Elite_Explorer_Dashboard_V2
                     break;
             }
         }
-        public void processShutdown(string line) {
-            listBoxDebugOutput.Items.Add("Process Shutdonw");
-            listBoxDebugOutput.Items.Add(line);
-            dataGridHeader[0, 0].Value = "Shutdown";
-            dataGridHeader[1, 0].Value = "Shutdown";
-            dataGridHeader[2, 0].Value = "Shutdown";
-            dataGridHeader[3, 0].Value = "Shutdown";
-            dataGridHeader[4, 0].Value = "Shutdown";
-            dataGridHeader[5, 0].Value = "Shutdown";
-            dataGridHeader[6, 0].Value = "Shutdown";
-            dataGridHeader[7, 0].Value = "Shutdown";
-            dataGridHeader[8, 0].Value = "Shutdown";
-        }
+
         public void processStartJump(string line) {
             //{ "timestamp":"2023-01-16T16:12:25Z", "event":"StartJump", "JumpType":"Hyperspace", "StarSystem":"Brambai IV-T c5-23", "SystemAddress":6390809338162, "StarClass":"K" }
 
         }
-        public void processScreenshot(string line) {
-            ScreenshotObject edObject = JsonSerializer.Deserialize<ScreenshotObject>(line);
-            //Split filename out of path
-            string[] fileNameString = edObject.Filename.Split('\\');
-            //Build full path from settings
-            var fullSourcePath = Properties.Settings.Default.ScreenShotSourcePath + "\\" + fileNameString[fileNameString.Length - 1];
-            var sourceFileParts = fileNameString[2].Split('.');
-            if (edObject.Body == null)
-            {
-                edObject.Body = "None";
-            }
-            string fixedBody = edObject.Body.Replace(' ', '_');
-            string fixedSourceFile = sourceFileParts[0].Replace("Screenshot", "");
-            var convertedPath = Properties.Settings.Default.ScreenshotDestinationPath + "\\" + fixedBody + "_" + fixedSourceFile + ".jpg";
-            if (!File.Exists(convertedPath))
-            {
+   
 
-                MagickImage MyImage = new MagickImage(fullSourcePath);
-                string[] imageDimensions = Properties.Settings.Default.ConvertResolution.Split('x');
-                MyImage.Resize(Int32.Parse(imageDimensions[0]), Int32.Parse(imageDimensions[1]));
-
-                    MyImage.Settings.FontPointsize = 48;
-                    MyImage.Settings.FontFamily = "Consolas";
-                    MyImage.Settings.FillColor = (MagickColor.FromRgb((byte)255, (byte)255, (byte)255));
-                    //MyImage.Annotate(edObject.Body + "  ", Gravity.Center);
-                    //MyImage.Annotate(edObject.timestamp + " ", Gravity.Southeast);
-
-                MyImage.Write(convertedPath);
-                labelScreenshotSystem.Text = edObject.Body;
-                labelScreenshotTimestamp.Text = edObject.timestamp;
-                pictureBoxConverted.Image = Image.FromFile(convertedPath);
-
-            }
-        }
-        public void processMusic(EDData eventData) {
-            if (eventData.MusicTrack != "NoTrack")
-            {
-                dataGridHeader[8, 0].Value = eventData.MusicTrack;
-            }
-
-        }
         public void processSAAScanComplete(string line) { }
         public void processLaunchSRV(string line) { }
         public void processDisembark(EDData eventData) { }
         public void processReservoirReplenished(EDData eventData) { }
-        public void processFSDTarget(EDData eventData) {
-            if (eventData == null) return;
-            if(eventData.RemainingJumpsInRoute == 0)
-            {
-                eventData.RemainingJumpsInRoute = 1;
-            }
-            dataGridHeader[6, 0].Value = eventData.Name + " (" + eventData.StarClass + ")";
-            dataGridHeader[7, 0].Value = eventData.RemainingJumpsInRoute;
+        
 
-        }
-        public void processFSDJump(string line) {
-            dataGridStars.Rows.Clear();
-            dataGridViewBodies.Rows.Clear();
 
-        }
-        public void processFuelScoop(EDData eventData) {
-            runningData.TotalScooped += eventData.Scooped;
-            dataGridHeader[4, 0].Value = String.Format("{0:0.00}", eventData.Scooped) + " (" + String.Format("{0:0.00}", runningData.TotalScooped) + ")";
-            dataGridHeader[3, 0].Value = (int)eventData.Total;
-        }
-        public void processLoadGame(string line) {
-            LoadGameObject? edObject = JsonSerializer.Deserialize<LoadGameObject>(line);
-            if (edObject != null)
-            {
-                runningData.CommanderName = edObject.Commander;
-                dataGridHeader[1, 0].Value = edObject.Commander;
-                dataGridHeader[2, 0].Value = edObject.Ship + " " + edObject.ShipName + " " + edObject.ShipIdent;
-                dataGridHeader[3, 0].Value = String.Format("{0:0.00}", edObject.FuelLevel);
-                dataGridHeader[4, 0].Value = 0;
-                dataGridHeader[6, 0].Value = "Loading.......";
-            }
 
-        }
         public void processFSSDiscoveryScan(string line) { }
         public void processScan(string line) {
             ScanObjectBodyDetailed? edObject = JsonSerializer.Deserialize<ScanObjectBodyDetailed>(line);
@@ -547,18 +480,7 @@ namespace Elite_Explorer_Dashboard_V2
         public void processSupercruiseExit(EDData eventData) { }
         public void processSupercruiseEntry(EDData eventData) { }
         public void processCommander(EDData eventData) { }
-        public void processMaterials(EDData storedMaterials)
-        {
-            foreach (var item in storedMaterials.Raw)
-            {
-                Debug.WriteLine(item.Name);
-                if (materialCount.ContainsKey(item.Name) == false)
-                {
-                    materialCount.Add(item.Name, item.Count);
-                }
 
-            }
-        }
         public void processCodexEntry(EDData eventData) { }
         public void processLiftoff(string line) { }
 

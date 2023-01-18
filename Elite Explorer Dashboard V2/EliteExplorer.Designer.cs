@@ -658,8 +658,6 @@
         }
 
         #endregion
-
-        private DataGridView dataGridHeader;
         private TabControl tabControl1;
         private TabPage tabSettings;
         private Label label1;
@@ -667,7 +665,6 @@
         private System.Windows.Forms.Timer timerCheckLog;
         public TabPage tabDashboard;
         public ListBox listBoxDebugOutput;
-        private DataGridView dataGridStars;
         private DataGridViewTextBoxColumn ColumnEvent;
         private DataGridViewTextBoxColumn ColumnCommanderName;
         private DataGridViewTextBoxColumn ColumnShipRegistration;
@@ -677,7 +674,6 @@
         private DataGridViewTextBoxColumn ColumnTargetSystem;
         private DataGridViewTextBoxColumn ColumnJumps;
         private DataGridViewTextBoxColumn ColumnCruiseMode;
-        private DataGridView dataGridViewBodies;
         private DataGridViewTextBoxColumn StarName;
         private DataGridViewTextBoxColumn Type;
         private DataGridViewTextBoxColumn Lum;
@@ -705,9 +701,12 @@
         private DataGridViewTextBoxColumn FF;
         private DataGridViewTextBoxColumn LO;
         private DataGridViewTextBoxColumn BID;
-        private PictureBox pictureBoxConverted;
-        private Label labelStaticScreenshotText;
-        private Label labelScreenshotTimestamp;
-        private Label labelScreenshotSystem;
+        public PictureBox pictureBoxConverted;
+        public Label labelStaticScreenshotText;
+        public Label labelScreenshotTimestamp;
+        public Label labelScreenshotSystem;
+        public DataGridView dataGridHeader;
+        public DataGridView dataGridStars;
+        public DataGridView dataGridViewBodies;
     }
 }
