@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
+using System.Windows.Forms;
 
 namespace Elite_Explorer_Dashboard_V2
 {
@@ -28,11 +29,9 @@ namespace Elite_Explorer_Dashboard_V2
             {
                 textBoxLogFilePath.Text = "C:\\Users\\" + Environment.UserName + "\\Saved Games\\Frontier Developments\\Elite Dangerous\\";
                 Properties.Settings.Default.LogPath = "C:\\Users\\" + Environment.UserName + "\\Saved Games\\Frontier Developments\\Elite Dangerous\\";
-                listBoxActiveLogPath.Items.Add(Properties.Settings.Default.LogPath);
             }
             else
             {
-                listBoxActiveLogPath.Items.Add(Properties.Settings.Default.LogPath);
             }
             timerCheckLog.Tag = runningData.CurrentLogFile;
             runningData.CurrentLogLineNumber = 0;
@@ -45,6 +44,7 @@ namespace Elite_Explorer_Dashboard_V2
 
             //Setup Data Grids Add DoubleBuffered
             dataGridHeader.DoubleBuffered(true);
+            dataGridViewBodies.DoubleBuffered(true);
 
             dataGridHeader.RowHeadersVisible = false;
             dataGridHeader.EnableHeadersVisualStyles = false;
@@ -68,8 +68,9 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridViewBodies.ColumnHeadersDefaultCellStyle.ForeColor = Color.Orange;
             dataGridViewBodies.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
             dataGridViewBodies.DefaultCellStyle.Font = runningData.mediumFont;
-
-
+            dataGridViewBodies.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dataGridViewBodies.Columns[7].DefaultCellStyle.Font = new Font("Consolas", 7, FontStyle.Regular);
+            
             runningData.CurrentLogFile = findLatestLogfile();
             listBoxDebugOutput.Items.Add(runningData.CurrentLogFile);
 
@@ -355,7 +356,7 @@ namespace Elite_Explorer_Dashboard_V2
                 bodyData.BodyName,
                 bodyData.Landable,
                 bodyData.PlanetClass,
-                bodyData.Atmosphere,
+                "",
                 useGravity.ToString("#.##"),
                 useTemp + "K (" + tempInCelsius.ToString("#.##") + "C)",
                string.Format("{0:N}", bodyData.Radius),
@@ -417,37 +418,44 @@ namespace Elite_Explorer_Dashboard_V2
             {
                 processMaterialScan(bodyData, newRow);
             }
+            if(bodyData.AtmosphereComposition != null)
+            {
+                processAtmosphere(bodyData, newRow);
+            }
 
 
                 usedBodies.Add(bodyData.BodyName, newRow);
 
         }
+
+        public void processAtmosphere(ScanObjectBodyDetailed atmosphereData, int newRow)
+        {
+            string printAtmosphere = "";
+            foreach (var item in atmosphereData.AtmosphereComposition)
+            {
+                listBoxDebugOutput.Items.Add(item.Name);
+                //7
+                printAtmosphere += item.Name + " " + item.Percent.ToString("#.##") + "% ";
+            }
+            DataGridViewRow row = dataGridViewBodies.Rows[newRow];
+            row.MinimumHeight = 50;
+
+            dataGridViewBodies[3, newRow].Value += printAtmosphere;
+        }
         public void processMaterialScan(ScanObjectBodyDetailed materialData, int newRow)
         {
+            string printMats = "";
             foreach (var item in materialData.Materials)
             {
                 listBoxDebugOutput.Items.Add(item.Name);
                 //7
-                int newMatRow = dataGridViewBodies.Rows.Add(
-               "",
-               "",
-               "",
-               "",
-               "",
-               "",
-              "",
-               item.Name+" "+item.Percent,
-               "",
-               "",
-               "",
-               "",
-               "",
-               "",
-               "",
-               "",
-               materialData.BodyID
-               );
+                printMats += item.Name + " " + item.Percent+" ";
             }
+            DataGridViewRow row = dataGridViewBodies.Rows[newRow];
+            row.MinimumHeight = 50;
+           
+            dataGridViewBodies[7, newRow].Value = printMats;
+
         }
 
         public void parseStar(ScanObjectBodyDetailed bodyData)
@@ -458,7 +466,7 @@ namespace Elite_Explorer_Dashboard_V2
                 string.Format("{0:N0}", bodyData.Age_MY),
                 string.Format("{0:N0}", bodyData.Radius),
                  bodyData.StellarMass,
-                useTemp + "K (" + tempInCelsius.ToString("#.##") + "C)",
+                string.Format("{0:N0}", useTemp) + "K (" + tempInCelsius.ToString("#.##") + "C)",
                 bodyData.DistanceFromArrivalLS,
                 bodyData.BodyID
               );
