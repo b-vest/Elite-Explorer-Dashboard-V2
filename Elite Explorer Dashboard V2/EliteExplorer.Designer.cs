@@ -35,8 +35,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridHeader = new System.Windows.Forms.DataGridView();
             this.ColumnEvent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnCommanderName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,22 +49,12 @@
             this.ColumnCruiseMode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabDashboard = new System.Windows.Forms.TabPage();
+            this.labelScreenshotSystem = new System.Windows.Forms.Label();
+            this.labelScreenshotTimestamp = new System.Windows.Forms.Label();
+            this.labelStaticScreenshotText = new System.Windows.Forms.Label();
+            this.pictureBoxConverted = new System.Windows.Forms.PictureBox();
             this.listBoxDebugOutput = new System.Windows.Forms.ListBox();
             this.dataGridViewBodies = new System.Windows.Forms.DataGridView();
-            this.dataGridStars = new System.Windows.Forms.DataGridView();
-            this.StarName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Lum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AgeMY = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Radius = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Mass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TempK = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Distance = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabSettings = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBoxLogFilePath = new System.Windows.Forms.TextBox();
-            this.timerCheckLog = new System.Windows.Forms.Timer(this.components);
             this.BodyName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Landable = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BpdyClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -82,9 +72,24 @@
             this.FF = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LO = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridStars = new System.Windows.Forms.DataGridView();
+            this.StarName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Lum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AgeMY = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Radius = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Mass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TempK = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Distance = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabSettings = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBoxLogFilePath = new System.Windows.Forms.TextBox();
+            this.timerCheckLog = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridHeader)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabDashboard.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxConverted)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBodies)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridStars)).BeginInit();
             this.tabSettings.SuspendLayout();
@@ -239,6 +244,10 @@
             // tabDashboard
             // 
             this.tabDashboard.BackColor = System.Drawing.Color.Black;
+            this.tabDashboard.Controls.Add(this.labelScreenshotSystem);
+            this.tabDashboard.Controls.Add(this.labelScreenshotTimestamp);
+            this.tabDashboard.Controls.Add(this.labelStaticScreenshotText);
+            this.tabDashboard.Controls.Add(this.pictureBoxConverted);
             this.tabDashboard.Controls.Add(this.listBoxDebugOutput);
             this.tabDashboard.Controls.Add(this.dataGridViewBodies);
             this.tabDashboard.Controls.Add(this.dataGridStars);
@@ -249,6 +258,45 @@
             this.tabDashboard.Size = new System.Drawing.Size(1998, 1710);
             this.tabDashboard.TabIndex = 0;
             this.tabDashboard.Text = "Dashboard";
+            // 
+            // labelScreenshotSystem
+            // 
+            this.labelScreenshotSystem.AutoSize = true;
+            this.labelScreenshotSystem.Location = new System.Drawing.Point(1201, 134);
+            this.labelScreenshotSystem.Name = "labelScreenshotSystem";
+            this.labelScreenshotSystem.Size = new System.Drawing.Size(56, 20);
+            this.labelScreenshotSystem.TabIndex = 6;
+            this.labelScreenshotSystem.Text = "System";
+            // 
+            // labelScreenshotTimestamp
+            // 
+            this.labelScreenshotTimestamp.AutoSize = true;
+            this.labelScreenshotTimestamp.Location = new System.Drawing.Point(1201, 166);
+            this.labelScreenshotTimestamp.Name = "labelScreenshotTimestamp";
+            this.labelScreenshotTimestamp.Size = new System.Drawing.Size(83, 20);
+            this.labelScreenshotTimestamp.TabIndex = 5;
+            this.labelScreenshotTimestamp.Text = "Timestamp";
+            this.labelScreenshotTimestamp.Click += new System.EventHandler(this.label2_Click_1);
+            // 
+            // labelStaticScreenshotText
+            // 
+            this.labelStaticScreenshotText.AutoSize = true;
+            this.labelStaticScreenshotText.Location = new System.Drawing.Point(1201, 104);
+            this.labelStaticScreenshotText.Name = "labelStaticScreenshotText";
+            this.labelStaticScreenshotText.Size = new System.Drawing.Size(124, 20);
+            this.labelStaticScreenshotText.TabIndex = 4;
+            this.labelStaticScreenshotText.Text = "Latest Screenshot";
+            this.labelStaticScreenshotText.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // pictureBoxConverted
+            // 
+            this.pictureBoxConverted.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBoxConverted.Location = new System.Drawing.Point(1410, 88);
+            this.pictureBoxConverted.Name = "pictureBoxConverted";
+            this.pictureBoxConverted.Size = new System.Drawing.Size(576, 324);
+            this.pictureBoxConverted.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxConverted.TabIndex = 3;
+            this.pictureBoxConverted.TabStop = false;
             // 
             // listBoxDebugOutput
             // 
@@ -295,7 +343,7 @@
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewBodies.DefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridViewBodies.GridColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.dataGridViewBodies.Location = new System.Drawing.Point(6, 398);
+            this.dataGridViewBodies.Location = new System.Drawing.Point(6, 418);
             this.dataGridViewBodies.Name = "dataGridViewBodies";
             this.dataGridViewBodies.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dataGridViewBodies.RowHeadersVisible = false;
@@ -303,8 +351,146 @@
             dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewBodies.RowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridViewBodies.RowTemplate.Height = 29;
-            this.dataGridViewBodies.Size = new System.Drawing.Size(1989, 1238);
+            this.dataGridViewBodies.Size = new System.Drawing.Size(1989, 1218);
             this.dataGridViewBodies.TabIndex = 2;
+            // 
+            // BodyName
+            // 
+            this.BodyName.Frozen = true;
+            this.BodyName.HeaderText = "Body Name";
+            this.BodyName.MinimumWidth = 200;
+            this.BodyName.Name = "BodyName";
+            this.BodyName.Width = 220;
+            // 
+            // Landable
+            // 
+            this.Landable.Frozen = true;
+            this.Landable.HeaderText = "Land?";
+            this.Landable.MinimumWidth = 6;
+            this.Landable.Name = "Landable";
+            this.Landable.Width = 110;
+            // 
+            // BpdyClass
+            // 
+            this.BpdyClass.Frozen = true;
+            this.BpdyClass.HeaderText = "Body Class";
+            this.BpdyClass.MinimumWidth = 6;
+            this.BpdyClass.Name = "BpdyClass";
+            this.BpdyClass.Width = 240;
+            // 
+            // Atmosphere
+            // 
+            this.Atmosphere.Frozen = true;
+            this.Atmosphere.HeaderText = "Atmosphere";
+            this.Atmosphere.MinimumWidth = 6;
+            this.Atmosphere.Name = "Atmosphere";
+            this.Atmosphere.Width = 180;
+            // 
+            // Gravity
+            // 
+            this.Gravity.Frozen = true;
+            this.Gravity.HeaderText = "Gravity";
+            this.Gravity.MinimumWidth = 6;
+            this.Gravity.Name = "Gravity";
+            this.Gravity.Width = 90;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.Frozen = true;
+            this.dataGridViewTextBoxColumn1.HeaderText = "TempK";
+            this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.Width = 150;
+            // 
+            // BodyRadius
+            // 
+            this.BodyRadius.Frozen = true;
+            this.BodyRadius.HeaderText = "Radius";
+            this.BodyRadius.MinimumWidth = 6;
+            this.BodyRadius.Name = "BodyRadius";
+            this.BodyRadius.Width = 125;
+            // 
+            // Mat
+            // 
+            this.Mat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Mat.DefaultCellStyle = dataGridViewCellStyle5;
+            this.Mat.Frozen = true;
+            this.Mat.HeaderText = "Mat";
+            this.Mat.MinimumWidth = 6;
+            this.Mat.Name = "Mat";
+            this.Mat.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Mat.Width = 200;
+            // 
+            // Sigs
+            // 
+            this.Sigs.HeaderText = "Sigs";
+            this.Sigs.MinimumWidth = 6;
+            this.Sigs.Name = "Sigs";
+            this.Sigs.Width = 50;
+            // 
+            // BodyDistance
+            // 
+            this.BodyDistance.HeaderText = "Distance";
+            this.BodyDistance.MinimumWidth = 6;
+            this.BodyDistance.Name = "BodyDistance";
+            this.BodyDistance.Width = 125;
+            // 
+            // FSC
+            // 
+            this.FSC.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.FSC.HeaderText = "FSC";
+            this.FSC.MinimumWidth = 6;
+            this.FSC.Name = "FSC";
+            this.FSC.Width = 45;
+            // 
+            // DSC
+            // 
+            this.DSC.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.DSC.HeaderText = "DSC";
+            this.DSC.MinimumWidth = 6;
+            this.DSC.Name = "DSC";
+            this.DSC.Width = 45;
+            // 
+            // LND
+            // 
+            this.LND.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.LND.HeaderText = "LND";
+            this.LND.MinimumWidth = 6;
+            this.LND.Name = "LND";
+            this.LND.Width = 45;
+            // 
+            // SRV
+            // 
+            this.SRV.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.SRV.HeaderText = "SRV";
+            this.SRV.MinimumWidth = 6;
+            this.SRV.Name = "SRV";
+            this.SRV.Width = 45;
+            // 
+            // FF
+            // 
+            this.FF.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.FF.HeaderText = "FF";
+            this.FF.MinimumWidth = 6;
+            this.FF.Name = "FF";
+            this.FF.Width = 40;
+            // 
+            // LO
+            // 
+            this.LO.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.LO.HeaderText = "LO";
+            this.LO.MinimumWidth = 6;
+            this.LO.Name = "LO";
+            this.LO.Width = 40;
+            // 
+            // BID
+            // 
+            this.BID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.BID.HeaderText = "BID";
+            this.BID.MinimumWidth = 6;
+            this.BID.Name = "BID";
+            this.BID.Width = 45;
             // 
             // dataGridStars
             // 
@@ -446,144 +632,6 @@
             this.timerCheckLog.Interval = 1000;
             this.timerCheckLog.Tick += new System.EventHandler(this.timerCheckLog_Tick);
             // 
-            // BodyName
-            // 
-            this.BodyName.Frozen = true;
-            this.BodyName.HeaderText = "Body Name";
-            this.BodyName.MinimumWidth = 200;
-            this.BodyName.Name = "BodyName";
-            this.BodyName.Width = 200;
-            // 
-            // Landable
-            // 
-            this.Landable.Frozen = true;
-            this.Landable.HeaderText = "Land?";
-            this.Landable.MinimumWidth = 6;
-            this.Landable.Name = "Landable";
-            this.Landable.Width = 110;
-            // 
-            // BpdyClass
-            // 
-            this.BpdyClass.Frozen = true;
-            this.BpdyClass.HeaderText = "Body Class";
-            this.BpdyClass.MinimumWidth = 6;
-            this.BpdyClass.Name = "BpdyClass";
-            this.BpdyClass.Width = 240;
-            // 
-            // Atmosphere
-            // 
-            this.Atmosphere.Frozen = true;
-            this.Atmosphere.HeaderText = "Atmosphere";
-            this.Atmosphere.MinimumWidth = 6;
-            this.Atmosphere.Name = "Atmosphere";
-            this.Atmosphere.Width = 180;
-            // 
-            // Gravity
-            // 
-            this.Gravity.Frozen = true;
-            this.Gravity.HeaderText = "Gravity";
-            this.Gravity.MinimumWidth = 6;
-            this.Gravity.Name = "Gravity";
-            this.Gravity.Width = 90;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.Frozen = true;
-            this.dataGridViewTextBoxColumn1.HeaderText = "TempK";
-            this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.Width = 150;
-            // 
-            // BodyRadius
-            // 
-            this.BodyRadius.Frozen = true;
-            this.BodyRadius.HeaderText = "Radius";
-            this.BodyRadius.MinimumWidth = 6;
-            this.BodyRadius.Name = "BodyRadius";
-            this.BodyRadius.Width = 125;
-            // 
-            // Mat
-            // 
-            this.Mat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Mat.DefaultCellStyle = dataGridViewCellStyle5;
-            this.Mat.Frozen = true;
-            this.Mat.HeaderText = "Mat";
-            this.Mat.MinimumWidth = 6;
-            this.Mat.Name = "Mat";
-            this.Mat.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Mat.Width = 200;
-            // 
-            // Sigs
-            // 
-            this.Sigs.HeaderText = "Sigs";
-            this.Sigs.MinimumWidth = 6;
-            this.Sigs.Name = "Sigs";
-            this.Sigs.Width = 50;
-            // 
-            // BodyDistance
-            // 
-            this.BodyDistance.HeaderText = "Distance";
-            this.BodyDistance.MinimumWidth = 6;
-            this.BodyDistance.Name = "BodyDistance";
-            this.BodyDistance.Width = 125;
-            // 
-            // FSC
-            // 
-            this.FSC.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.FSC.HeaderText = "FSC";
-            this.FSC.MinimumWidth = 6;
-            this.FSC.Name = "FSC";
-            this.FSC.Width = 45;
-            // 
-            // DSC
-            // 
-            this.DSC.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.DSC.HeaderText = "DSC";
-            this.DSC.MinimumWidth = 6;
-            this.DSC.Name = "DSC";
-            this.DSC.Width = 45;
-            // 
-            // LND
-            // 
-            this.LND.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.LND.HeaderText = "LND";
-            this.LND.MinimumWidth = 6;
-            this.LND.Name = "LND";
-            this.LND.Width = 45;
-            // 
-            // SRV
-            // 
-            this.SRV.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.SRV.HeaderText = "SRV";
-            this.SRV.MinimumWidth = 6;
-            this.SRV.Name = "SRV";
-            this.SRV.Width = 45;
-            // 
-            // FF
-            // 
-            this.FF.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.FF.HeaderText = "FF";
-            this.FF.MinimumWidth = 6;
-            this.FF.Name = "FF";
-            this.FF.Width = 40;
-            // 
-            // LO
-            // 
-            this.LO.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.LO.HeaderText = "LO";
-            this.LO.MinimumWidth = 6;
-            this.LO.Name = "LO";
-            this.LO.Width = 40;
-            // 
-            // BID
-            // 
-            this.BID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.BID.HeaderText = "BID";
-            this.BID.MinimumWidth = 6;
-            this.BID.Name = "BID";
-            this.BID.Width = 45;
-            // 
             // EliteExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -599,6 +647,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridHeader)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabDashboard.ResumeLayout(false);
+            this.tabDashboard.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxConverted)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBodies)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridStars)).EndInit();
             this.tabSettings.ResumeLayout(false);
@@ -655,5 +705,9 @@
         private DataGridViewTextBoxColumn FF;
         private DataGridViewTextBoxColumn LO;
         private DataGridViewTextBoxColumn BID;
+        private PictureBox pictureBoxConverted;
+        private Label labelStaticScreenshotText;
+        private Label labelScreenshotTimestamp;
+        private Label labelScreenshotSystem;
     }
 }

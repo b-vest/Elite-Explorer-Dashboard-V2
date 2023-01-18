@@ -1,3 +1,4 @@
+using ImageMagick;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
@@ -285,7 +286,40 @@ namespace Elite_Explorer_Dashboard_V2
             //{ "timestamp":"2023-01-16T16:12:25Z", "event":"StartJump", "JumpType":"Hyperspace", "StarSystem":"Brambai IV-T c5-23", "SystemAddress":6390809338162, "StarClass":"K" }
 
         }
-        public void processScreenshot(string line) { }
+        public void processScreenshot(string line) {
+            ScreenshotObject edObject = JsonSerializer.Deserialize<ScreenshotObject>(line);
+            //Split filename out of path
+            string[] fileNameString = edObject.Filename.Split('\\');
+            //Build full path from settings
+            var fullSourcePath = Properties.Settings.Default.ScreenShotSourcePath + "\\" + fileNameString[fileNameString.Length - 1];
+            var sourceFileParts = fileNameString[2].Split('.');
+            if (edObject.Body == null)
+            {
+                edObject.Body = "None";
+            }
+            string fixedBody = edObject.Body.Replace(' ', '_');
+            string fixedSourceFile = sourceFileParts[0].Replace("Screenshot", "");
+            var convertedPath = Properties.Settings.Default.ScreenshotDestinationPath + "\\" + fixedBody + "_" + fixedSourceFile + ".jpg";
+            if (!File.Exists(convertedPath))
+            {
+
+                MagickImage MyImage = new MagickImage(fullSourcePath);
+                string[] imageDimensions = Properties.Settings.Default.ConvertResolution.Split('x');
+                MyImage.Resize(Int32.Parse(imageDimensions[0]), Int32.Parse(imageDimensions[1]));
+
+                    MyImage.Settings.FontPointsize = 48;
+                    MyImage.Settings.FontFamily = "Consolas";
+                    MyImage.Settings.FillColor = (MagickColor.FromRgb((byte)255, (byte)255, (byte)255));
+                    //MyImage.Annotate(edObject.Body + "  ", Gravity.Center);
+                    //MyImage.Annotate(edObject.timestamp + " ", Gravity.Southeast);
+
+                MyImage.Write(convertedPath);
+                labelScreenshotSystem.Text = edObject.Body;
+                labelScreenshotTimestamp.Text = edObject.timestamp;
+                pictureBoxConverted.Image = Image.FromFile(convertedPath);
+
+            }
+        }
         public void processMusic(EDData eventData) {
             if (eventData.MusicTrack != "NoTrack")
             {
@@ -433,11 +467,17 @@ namespace Elite_Explorer_Dashboard_V2
         public void processAtmosphere(ScanObjectBodyDetailed atmosphereData, int newRow)
         {
             string printAtmosphere = "";
+            string leadingZero = "";
+
             foreach (var item in atmosphereData.AtmosphereComposition)
             {
                 listBoxDebugOutput.Items.Add(item.Name);
                 //7
-                printAtmosphere += item.Name + "-" + item.Percent.ToString("#.##") + "% ";
+                if (item.Percent < 1)
+                {
+                    leadingZero = "0";
+                }
+                printAtmosphere += item.Name + "_" +leadingZero+""+item.Percent.ToString("#.##") + "% ";
             }
             DataGridViewRow row = dataGridViewBodies.Rows[newRow];
             row.MinimumHeight = 50;
@@ -447,6 +487,7 @@ namespace Elite_Explorer_Dashboard_V2
         public void processMaterialScan(ScanObjectBodyDetailed materialData, int newRow)
         {
             string printMats = "";
+            string leadingZero = "";
             foreach (var item in materialData.Materials)
             {
                 listBoxDebugOutput.Items.Add(item.Name);
@@ -459,7 +500,11 @@ namespace Elite_Explorer_Dashboard_V2
                 }
                 if (materialCount[item.Name] < 100)
                 {
-                    printMats += item.Name + "-" + item.Percent + "(" + materialCount[item.Name] + ") ";
+                    if(item.Percent < 1)
+                    {
+                        leadingZero = "0";
+                    }
+                    printMats += item.Name + "_" +leadingZero+""+item.Percent.ToString("#.##") +"%_"+ "(" + materialCount[item.Name] + ") ";
                 }
             }
             DataGridViewRow row = dataGridViewBodies.Rows[newRow];
@@ -507,7 +552,10 @@ namespace Elite_Explorer_Dashboard_V2
             foreach (var item in storedMaterials.Raw)
             {
                 Debug.WriteLine(item.Name);
-                materialCount.Add(item.Name, item.Count);
+                if (materialCount.ContainsKey(item.Name) == false)
+                {
+                    materialCount.Add(item.Name, item.Count);
+                }
 
             }
         }
@@ -534,6 +582,16 @@ namespace Elite_Explorer_Dashboard_V2
         private void timerCheckLog_Tick(object sender, EventArgs e)
         {
             readLogFile();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 

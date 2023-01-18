@@ -37,7 +37,7 @@ namespace Elite_Explorer_Dashboard_V2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\murli\\Pictures\\Frontier Developments\\Elite Dangerous")]
         public string ScreenShotSourcePath {
             get {
                 return ((string)(this["ScreenShotSourcePath"]));
@@ -49,13 +49,25 @@ namespace Elite_Explorer_Dashboard_V2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\murli\\Pictures\\EDConverted")]
         public string ScreenshotDestinationPath {
             get {
                 return ((string)(this["ScreenshotDestinationPath"]));
             }
             set {
                 this["ScreenshotDestinationPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3840x2160")]
+        public string ConvertResolution {
+            get {
+                return ((string)(this["ConvertResolution"]));
+            }
+            set {
+                this["ConvertResolution"] = value;
             }
         }
     }

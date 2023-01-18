@@ -6,10 +6,13 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ScreenShotSourcePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">C:\Users\murli\Pictures\Frontier Developments\Elite Dangerous</Value>
     </Setting>
     <Setting Name="ScreenshotDestinationPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">C:\Users\murli\Pictures\EDConverted</Value>
+    </Setting>
+    <Setting Name="ConvertResolution" Type="System.String" Scope="User">
+      <Value Profile="(Default)">3840x2160</Value>
     </Setting>
   </Settings>
 </SettingsFile>
