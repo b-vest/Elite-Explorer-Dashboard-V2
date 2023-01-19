@@ -37,6 +37,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridHeader = new System.Windows.Forms.DataGridView();
             this.ColumnEvent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnCommanderName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -85,6 +86,21 @@
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxLogFilePath = new System.Windows.Forms.TextBox();
+            this.tabMechanics = new System.Windows.Forms.TabPage();
+            this.dataGridViewOM = new System.Windows.Forms.DataGridView();
+            this.OMBodyName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OMBID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Parents = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DistanceLS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MassEM = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OMRadius = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SemiMajorAxis = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Eccentricity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OrbitalInclination = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Periapsis = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OrbitalPeriod = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AscendingNode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MeanAnomaly = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.timerCheckLog = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridHeader)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -93,6 +109,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBodies)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridStars)).BeginInit();
             this.tabSettings.SuspendLayout();
+            this.tabMechanics.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOM)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridHeader
@@ -137,7 +155,7 @@
             this.dataGridHeader.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridHeader.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             this.dataGridHeader.GridColor = System.Drawing.SystemColors.ActiveBorder;
-            this.dataGridHeader.Location = new System.Drawing.Point(6, 6);
+            this.dataGridHeader.Location = new System.Drawing.Point(6, 0);
             this.dataGridHeader.Name = "dataGridHeader";
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.Color.Black;
@@ -152,7 +170,7 @@
             this.dataGridHeader.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.Black;
             this.dataGridHeader.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.dataGridHeader.RowTemplate.Height = 29;
-            this.dataGridHeader.Size = new System.Drawing.Size(1980, 106);
+            this.dataGridHeader.Size = new System.Drawing.Size(1989, 106);
             this.dataGridHeader.TabIndex = 0;
             // 
             // ColumnEvent
@@ -235,6 +253,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabDashboard);
             this.tabControl1.Controls.Add(this.tabSettings);
+            this.tabControl1.Controls.Add(this.tabMechanics);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -291,7 +310,7 @@
             // pictureBoxConverted
             // 
             this.pictureBoxConverted.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBoxConverted.Location = new System.Drawing.Point(1410, 88);
+            this.pictureBoxConverted.Location = new System.Drawing.Point(1416, 84);
             this.pictureBoxConverted.Name = "pictureBoxConverted";
             this.pictureBoxConverted.Size = new System.Drawing.Size(576, 324);
             this.pictureBoxConverted.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -343,7 +362,7 @@
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewBodies.DefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridViewBodies.GridColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.dataGridViewBodies.Location = new System.Drawing.Point(6, 418);
+            this.dataGridViewBodies.Location = new System.Drawing.Point(6, 425);
             this.dataGridViewBodies.Name = "dataGridViewBodies";
             this.dataGridViewBodies.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dataGridViewBodies.RowHeadersVisible = false;
@@ -351,7 +370,7 @@
             dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewBodies.RowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridViewBodies.RowTemplate.Height = 29;
-            this.dataGridViewBodies.Size = new System.Drawing.Size(1989, 1218);
+            this.dataGridViewBodies.Size = new System.Drawing.Size(1989, 1211);
             this.dataGridViewBodies.TabIndex = 2;
             // 
             // BodyName
@@ -427,7 +446,7 @@
             this.Sigs.HeaderText = "Sigs";
             this.Sigs.MinimumWidth = 6;
             this.Sigs.Name = "Sigs";
-            this.Sigs.Width = 50;
+            this.Sigs.Width = 150;
             // 
             // BodyDistance
             // 
@@ -627,6 +646,144 @@
             this.textBoxLogFilePath.Size = new System.Drawing.Size(665, 27);
             this.textBoxLogFilePath.TabIndex = 0;
             // 
+            // tabMechanics
+            // 
+            this.tabMechanics.BackColor = System.Drawing.Color.Black;
+            this.tabMechanics.Controls.Add(this.dataGridViewOM);
+            this.tabMechanics.Location = new System.Drawing.Point(4, 29);
+            this.tabMechanics.Name = "tabMechanics";
+            this.tabMechanics.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMechanics.Size = new System.Drawing.Size(1998, 1710);
+            this.tabMechanics.TabIndex = 2;
+            this.tabMechanics.Text = "Orbital Mecahnics";
+            // 
+            // dataGridViewOM
+            // 
+            this.dataGridViewOM.AllowUserToAddRows = false;
+            this.dataGridViewOM.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dataGridViewOM.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewOM.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.OMBodyName,
+            this.OMBID,
+            this.Parents,
+            this.DistanceLS,
+            this.MassEM,
+            this.OMRadius,
+            this.SemiMajorAxis,
+            this.Eccentricity,
+            this.OrbitalInclination,
+            this.Periapsis,
+            this.OrbitalPeriod,
+            this.AscendingNode,
+            this.MeanAnomaly});
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            dataGridViewCellStyle9.Padding = new System.Windows.Forms.Padding(2);
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewOM.DefaultCellStyle = dataGridViewCellStyle9;
+            this.dataGridViewOM.Location = new System.Drawing.Point(6, 21);
+            this.dataGridViewOM.Name = "dataGridViewOM";
+            this.dataGridViewOM.RowHeadersVisible = false;
+            this.dataGridViewOM.RowHeadersWidth = 51;
+            this.dataGridViewOM.RowTemplate.Height = 29;
+            this.dataGridViewOM.Size = new System.Drawing.Size(1986, 1277);
+            this.dataGridViewOM.TabIndex = 0;
+            // 
+            // OMBodyName
+            // 
+            this.OMBodyName.HeaderText = "Body Name";
+            this.OMBodyName.MinimumWidth = 6;
+            this.OMBodyName.Name = "OMBodyName";
+            this.OMBodyName.Width = 200;
+            // 
+            // OMBID
+            // 
+            this.OMBID.HeaderText = "ID";
+            this.OMBID.MinimumWidth = 6;
+            this.OMBID.Name = "OMBID";
+            this.OMBID.Width = 40;
+            // 
+            // Parents
+            // 
+            this.Parents.HeaderText = "Parents";
+            this.Parents.MinimumWidth = 6;
+            this.Parents.Name = "Parents";
+            this.Parents.Width = 125;
+            // 
+            // DistanceLS
+            // 
+            this.DistanceLS.HeaderText = "Distance FA LS";
+            this.DistanceLS.MinimumWidth = 6;
+            this.DistanceLS.Name = "DistanceLS";
+            this.DistanceLS.Width = 125;
+            // 
+            // MassEM
+            // 
+            this.MassEM.HeaderText = "MassEM";
+            this.MassEM.MinimumWidth = 6;
+            this.MassEM.Name = "MassEM";
+            this.MassEM.Width = 125;
+            // 
+            // OMRadius
+            // 
+            this.OMRadius.HeaderText = "Radius";
+            this.OMRadius.MinimumWidth = 6;
+            this.OMRadius.Name = "OMRadius";
+            this.OMRadius.Width = 125;
+            // 
+            // SemiMajorAxis
+            // 
+            this.SemiMajorAxis.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.SemiMajorAxis.HeaderText = "SemiMajorAxis";
+            this.SemiMajorAxis.MinimumWidth = 6;
+            this.SemiMajorAxis.Name = "SemiMajorAxis";
+            // 
+            // Eccentricity
+            // 
+            this.Eccentricity.HeaderText = "Eccentricity";
+            this.Eccentricity.MinimumWidth = 6;
+            this.Eccentricity.Name = "Eccentricity";
+            this.Eccentricity.Width = 125;
+            // 
+            // OrbitalInclination
+            // 
+            this.OrbitalInclination.HeaderText = "OrbitalInclination";
+            this.OrbitalInclination.MinimumWidth = 6;
+            this.OrbitalInclination.Name = "OrbitalInclination";
+            this.OrbitalInclination.Width = 125;
+            // 
+            // Periapsis
+            // 
+            this.Periapsis.HeaderText = "Periapsis";
+            this.Periapsis.MinimumWidth = 6;
+            this.Periapsis.Name = "Periapsis";
+            this.Periapsis.Width = 125;
+            // 
+            // OrbitalPeriod
+            // 
+            this.OrbitalPeriod.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.OrbitalPeriod.HeaderText = "OrbitalPeriod";
+            this.OrbitalPeriod.MinimumWidth = 6;
+            this.OrbitalPeriod.Name = "OrbitalPeriod";
+            // 
+            // AscendingNode
+            // 
+            this.AscendingNode.HeaderText = "AscendingNode";
+            this.AscendingNode.MinimumWidth = 6;
+            this.AscendingNode.Name = "AscendingNode";
+            this.AscendingNode.Width = 125;
+            // 
+            // MeanAnomaly
+            // 
+            this.MeanAnomaly.HeaderText = "MeanAnomaly";
+            this.MeanAnomaly.MinimumWidth = 6;
+            this.MeanAnomaly.Name = "MeanAnomaly";
+            this.MeanAnomaly.Width = 125;
+            // 
             // timerCheckLog
             // 
             this.timerCheckLog.Interval = 1000;
@@ -653,6 +810,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridStars)).EndInit();
             this.tabSettings.ResumeLayout(false);
             this.tabSettings.PerformLayout();
+            this.tabMechanics.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOM)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -662,7 +821,6 @@
         private TabPage tabSettings;
         private Label label1;
         private TextBox textBoxLogFilePath;
-        private System.Windows.Forms.Timer timerCheckLog;
         public TabPage tabDashboard;
         public ListBox listBoxDebugOutput;
         private DataGridViewTextBoxColumn ColumnEvent;
@@ -683,7 +841,13 @@
         private DataGridViewTextBoxColumn TempK;
         private DataGridViewTextBoxColumn Distance;
         private DataGridViewTextBoxColumn ID;
-        private ComboBox comboBox1;
+        public PictureBox pictureBoxConverted;
+        public Label labelStaticScreenshotText;
+        public Label labelScreenshotTimestamp;
+        public Label labelScreenshotSystem;
+        public DataGridView dataGridHeader;
+        public DataGridView dataGridStars;
+        public DataGridView dataGridViewBodies;
         private DataGridViewTextBoxColumn BodyName;
         private DataGridViewTextBoxColumn Landable;
         private DataGridViewTextBoxColumn BpdyClass;
@@ -701,12 +865,21 @@
         private DataGridViewTextBoxColumn FF;
         private DataGridViewTextBoxColumn LO;
         private DataGridViewTextBoxColumn BID;
-        public PictureBox pictureBoxConverted;
-        public Label labelStaticScreenshotText;
-        public Label labelScreenshotTimestamp;
-        public Label labelScreenshotSystem;
-        public DataGridView dataGridHeader;
-        public DataGridView dataGridStars;
-        public DataGridView dataGridViewBodies;
+        public System.Windows.Forms.Timer timerCheckLog;
+        private TabPage tabMechanics;
+        public DataGridView dataGridViewOM;
+        private DataGridViewTextBoxColumn OMBodyName;
+        private DataGridViewTextBoxColumn OMBID;
+        private DataGridViewTextBoxColumn Parents;
+        private DataGridViewTextBoxColumn DistanceLS;
+        private DataGridViewTextBoxColumn MassEM;
+        private DataGridViewTextBoxColumn OMRadius;
+        private DataGridViewTextBoxColumn SemiMajorAxis;
+        private DataGridViewTextBoxColumn Eccentricity;
+        private DataGridViewTextBoxColumn OrbitalInclination;
+        private DataGridViewTextBoxColumn Periapsis;
+        private DataGridViewTextBoxColumn OrbitalPeriod;
+        private DataGridViewTextBoxColumn AscendingNode;
+        private DataGridViewTextBoxColumn MeanAnomaly;
     }
 }

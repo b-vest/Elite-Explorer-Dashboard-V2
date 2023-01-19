@@ -48,6 +48,7 @@ namespace Elite_Explorer_Dashboard_V2
             //Setup Data Grids Add DoubleBuffered
             dataGridHeader.DoubleBuffered(true);
             dataGridViewBodies.DoubleBuffered(true);
+            dataGridViewOM.DoubleBuffered(true);
 
             dataGridHeader.RowHeadersVisible = false;
             dataGridHeader.EnableHeadersVisualStyles = false;
@@ -65,6 +66,14 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridStars.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
             dataGridStars.DefaultCellStyle.Font = runningData.mediumFont;
 
+            dataGridViewOM.RowHeadersVisible = false;
+            dataGridViewOM.EnableHeadersVisualStyles = false;
+            dataGridViewOM.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
+            dataGridViewOM.ColumnHeadersDefaultCellStyle.ForeColor = Color.Orange;
+            dataGridViewOM.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
+            dataGridViewOM.DefaultCellStyle.Font = runningData.mediumFont;
+            dataGridViewOM.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
             dataGridViewBodies.RowHeadersVisible = false;
             dataGridViewBodies.EnableHeadersVisualStyles = false;
             dataGridViewBodies.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
@@ -74,426 +83,22 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridViewBodies.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             dataGridViewBodies.Columns[7].DefaultCellStyle.Font = new Font("Consolas", 8, FontStyle.Regular);
             
-            runningData.CurrentLogFile = findLatestLogfile();
-            listBoxDebugOutput.Items.Add(runningData.CurrentLogFile);
 
 
         }
 
-        public string findLatestLogfile()
-        {
-            string directoryPath = Properties.Settings.Default.LogPath;
-            var directoryInfo = new DirectoryInfo(directoryPath);
-            FileInfo[] files = directoryInfo.GetFiles("Journal*log");
-            string thisLogFile = files[files.Length - 1].FullName;
-            return thisLogFile;
-        }
+       
 
-        private void readLogFile()
-        {
-            int thisLineCount = 0;
-            timerCheckLog.Enabled = false;
-            runningData.CurrentLogFile = findLatestLogfile();
-            if (runningData.CurrentLogFile == null)
-            {
-                return;
-            }
-            var fs = new FileStream(runningData.CurrentLogFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            var sr = new StreamReader(fs);
-            string? line = String.Empty;
-            while ((line = sr.ReadLine()) != null)
-            {
+       
 
-                ++thisLineCount;
-                if (thisLineCount > runningData.CurrentLogLineNumber)
-                {
-                    DateTime currentDateTime = DateTime.Now;
-                    listBoxDebugOutput.Items.Add(currentDateTime);
-                    listBoxDebugOutput.Items.Add(thisLineCount + " " + line);
-                    listBoxDebugOutput.TopIndex = listBoxDebugOutput.Items.Count - 1;
-                    processLine(line);
-                }
-            }
-            runningData.CurrentLogLineNumber = thisLineCount;
-            timerCheckLog.Enabled = true;
-            return;
-        }
-
-        public void processLine(string line)
-        {
-            EDData? edObject = JsonSerializer.Deserialize<EDData>(line);
-            if (edObject == null) {
-                return;
-            }
-            if(edObject.@event == null)
-            {
-                return;
-            }
-            listBoxDebugOutput.Items.Add(edObject.@event);
-            if (edObject.BodyName == null && edObject.Body != null)
-            {
-                edObject.BodyName = edObject.Body;
-            }
-            dataGridHeader[0, 0].Value = edObject.@event;
-
-            switch (edObject.@event)
-            {
-                case "StartJump":
-                    processStartJump(line);
-                    break;
-                case "Music":
-                    Music thisMusic = new Music();
-                    thisMusic.process(edObject);
-                    //processMusic(edObject);
-                    break;
-                case "Screenshot":
-                    //processScreenshot(line);
-                    Screenshot thisScreenshot = new Screenshot();
-                    thisScreenshot.process(line);
-                    break;
-                case "SAAScanComplete":
-                    processSAAScanComplete(line);
-                    break;
-                case "LaunchSRV":
-                    processLaunchSRV(line);
-                    break;
-                case "Disembark":
-                    processDisembark(edObject);
-                    break;
-                case "ReservoirReplenished":
-                    processReservoirReplenished(edObject);
-                    break;
-                case "FSDTarget":
-                    FSDTarget thisFSDTarget = new FSDTarget();
-                    thisFSDTarget.process(edObject);
-                    //processFSDTarget(edObject);
-                    break;
-                case "FSDJump":
-                    FSDJump thisFSDJump = new FSDJump();
-                    thisFSDJump.process(line);
-                    //processFSDJump(line);
-                    break;
-                case "FuelScoop":
-                    processFuelScoop(edObject);
-                    break;
-                case "LoadGame":
-                    LoadGame thisLoadGame = new LoadGame();
-                    thisLoadGame.process(line);
-                    //processLoadGame(line);
-                    break;
-                case "FSSDiscoveryScan":
-                    processFSSDiscoveryScan(line);
-                    break;
-                case "Scan":
-                    processScan(line);
-                    break;
-                case "Touchdown":
-                    processTouchdown(line);
-                    break;
-                case "Location":
-                    processLocation(edObject);
-                    break;
-                case "NavRoute":
-                    processNavRoute(edObject);
-                    break;
-                case "ScanBaryCentre":
-                    processScanBaryCentre(edObject);
-                    break;
-                case "FSSAllBodiesFound":
-                    processFSSAllBodiesFound(line);
-                    break;
-                case "FSSBodySignals":
-                    processFSSBodySignals(edObject);
-                    break;
-                case "FSSSignalDiscovered":
-                    processFSSSignalDiscovered(edObject);
-                    break;
-                case "MaterialCollected":
-                    processMaterialCollected(edObject);
-                    break;
-                case "ApproachBody":
-                    processApproachBody(edObject);
-                    break;
-                case "SAASignalsFound":
-                    processSAASignalsFound(line);
-                    break;
-                case "Embark":
-                    processEmbark(edObject);
-                    break;
-                case "LeaveBody":
-                    processLeaveBody(edObject);
-                    break;
-                case "DockSRV":
-                    processDockSRV(edObject);
-                    break;
-                case "SupercruiseExit":
-                    processSupercruiseExit(edObject);
-                    break;
-                case "SupercruiseEntry":
-                    processSupercruiseEntry(edObject);
-                    break;
-                case "Commander":
-                    processCommander(edObject);
-                    break;
-                case "Materials":
-                    InventoryMaterials thisMaterials = new InventoryMaterials();
-                    thisMaterials.process(edObject);
-                    //processMaterials(edObject);
-                    break;
-                case "CodexEntry":
-                    processCodexEntry(edObject);
-                    break;
-                case "Liftoff":
-                    processLiftoff(line);
-                    break;
-                case "Shutdown":
-                    Shutdown thisShutdown = new Shutdown();
-                    thisShutdown.process(line);
-                    break;
-                case "Backpack":
-                    processBackpack(edObject);
-                    break;
-                case "HullDamage":
-                    processHullDamage(edObject);
-                    break;
-                case "ApproachSettlement":
-                    processApproachSettlement(edObject);
-                    break;
-                case "Synthesis":
-                    processSynthesis(edObject);
-                    break;
-                case "MultiSellExplorationData":
-                    processMultiSellExplorationData(edObject);
-                    break;
-                case "Docked":
-                    processDocked(edObject);
-                    break;
-                case "DataScanned":
-                    processDataScanned(edObject);
-                    break;
-                case "UseConsumable":
-                    processUseConsumable(edObject);
-                    break;
-                case "SRVDestroyed":
-                    processSRVDestroyed(edObject);
-                    break;
-                case "JetConeBoost":
-                    processJetConeBoost(edObject);
-                    break;
-            }
-        }
-
-        public void processStartJump(string line) {
-            //{ "timestamp":"2023-01-16T16:12:25Z", "event":"StartJump", "JumpType":"Hyperspace", "StarSystem":"Brambai IV-T c5-23", "SystemAddress":6390809338162, "StarClass":"K" }
-
-        }
-   
-
-        public void processSAAScanComplete(string line) { }
-        public void processLaunchSRV(string line) { }
-        public void processDisembark(EDData eventData) { }
-        public void processReservoirReplenished(EDData eventData) { }
         
 
 
-
-        public void processFSSDiscoveryScan(string line) { }
-        public void processScan(string line) {
-            ScanObjectBodyDetailed? edObject = JsonSerializer.Deserialize<ScanObjectBodyDetailed>(line);
-            if (edObject != null)
-            {
-                if (usedBodies.ContainsKey(edObject.BodyName) == false)
-                {
-                    if (edObject.StarType != null)
-                    {
-                        parseStar(edObject);
-                    }
-                    if (edObject.PlanetClass != null)
-                    {
-                        parseStellarBody(edObject);
-                    }
-                }
-            }
-        }
-
-        public void parseStellarBody(ScanObjectBodyDetailed bodyData)
-        {
-            var useGravity = bodyData.SurfaceGravity / 10;
-            var useTemp = Convert.ToInt32(bodyData.SurfaceTemperature);
-            double tempInCelsius = useTemp - 273.15;
-            int newRow = dataGridViewBodies.Rows.Add(
-                bodyData.BodyName,
-                bodyData.Landable,
-                bodyData.PlanetClass,
-                "",
-                useGravity.ToString("#.##"),
-                useTemp + "K (" + tempInCelsius.ToString("#.##") + "C)",
-               string.Format("{0:N}", bodyData.Radius),
-                0,
-                0,
-                bodyData.DistanceFromArrivalLS,
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                bodyData.BodyID
-                );
-            //Process Landable Colors
-            if (bodyData.Landable == true)
-            {
-                dataGridViewBodies[1, newRow].Style.BackColor = Color.Green;
-                dataGridViewBodies[1, newRow].Style.ForeColor = Color.White;
-
-            }
-            else
-            {
-                dataGridViewBodies[12, newRow].Style.BackColor = Color.Yellow;
-                dataGridViewBodies[13, newRow].Style.BackColor = Color.Yellow;
-                dataGridViewBodies[14, newRow].Style.BackColor = Color.Yellow;
-                dataGridViewBodies[15, newRow].Style.BackColor = Color.Yellow;
-
-            }
-            dataGridViewBodies[10, newRow].Style.BackColor = Color.Green;
-
-            var gravityColor = Color.Red;
-            var gravityFore = Color.Black;
-
-            if (useGravity <= 10 && useGravity > 6)
-            {
-                gravityColor = Color.Orange;
-
-            }
-            if (useGravity <= 6 && useGravity > 4)
-            {
-                gravityColor = Color.Yellow;
-            }
-            if (useGravity <= 4 && useGravity > 2)
-            {
-                gravityColor = Color.DarkGreen;
-            }
-            if (useGravity <= 2 && useGravity > 1)
-            {
-                gravityColor = Color.Green;
-            }
-            if (useGravity <= 1)
-            {
-                gravityColor = Color.LightGreen;
-            }
-            dataGridViewBodies[4, newRow].Style.BackColor = gravityColor;
-            dataGridViewBodies[4, newRow].Style.ForeColor = gravityFore;
-            if (bodyData.Materials != null)
-            {
-                processMaterialScan(bodyData, newRow);
-            }
-            if(bodyData.AtmosphereComposition != null)
-            {
-                processAtmosphere(bodyData, newRow);
-            }
-
-
-                usedBodies.Add(bodyData.BodyName, newRow);
-
-        }
-
-        public void processAtmosphere(ScanObjectBodyDetailed atmosphereData, int newRow)
-        {
-            string printAtmosphere = "";
-            string leadingZero = "";
-
-            foreach (var item in atmosphereData.AtmosphereComposition)
-            {
-                listBoxDebugOutput.Items.Add(item.Name);
-                //7
-                if (item.Percent < 1)
-                {
-                    leadingZero = "0";
-                }
-                printAtmosphere += item.Name + "_" +leadingZero+""+item.Percent.ToString("#.##") + "% ";
-            }
-            DataGridViewRow row = dataGridViewBodies.Rows[newRow];
-            row.MinimumHeight = 50;
-
-            dataGridViewBodies[3, newRow].Value += printAtmosphere;
-        }
-        public void processMaterialScan(ScanObjectBodyDetailed materialData, int newRow)
-        {
-            string printMats = "";
-            string leadingZero = "";
-            foreach (var item in materialData.Materials)
-            {
-                listBoxDebugOutput.Items.Add(item.Name);
-                //7
-                Debug.WriteLine(materialCount);
-                if(materialCount.ContainsKey(item.Name) == false)
-                {
-                    materialCount.Add(item.Name, 0);
-
-                }
-                if (materialCount[item.Name] < 100)
-                {
-                    if(item.Percent < 1)
-                    {
-                        leadingZero = "0";
-                    }
-                    printMats += item.Name + "_" +leadingZero+""+item.Percent.ToString("#.##") +"%_"+ "(" + materialCount[item.Name] + ") ";
-                }
-            }
-            DataGridViewRow row = dataGridViewBodies.Rows[newRow];
-            row.MinimumHeight = 50;
-           
-            dataGridViewBodies[7, newRow].Value = printMats;
-
-        }
-
-        public void parseStar(ScanObjectBodyDetailed bodyData)
-        {
-            var useTemp = Convert.ToInt32(bodyData.SurfaceTemperature);
-            double tempInCelsius = useTemp - 273.15;
-            int newRow = dataGridStars.Rows.Add(bodyData.BodyName, bodyData.StarType, bodyData.Luminosity,
-                string.Format("{0:N0}", bodyData.Age_MY),
-                string.Format("{0:N0}", bodyData.Radius),
-                 bodyData.StellarMass,
-                string.Format("{0:N0}", useTemp) + "K (" + tempInCelsius.ToString("#.##") + "C)",
-                bodyData.DistanceFromArrivalLS,
-                bodyData.BodyID
-              );
-            usedBodies.Add(bodyData.BodyName, newRow);
-
-        }
-        public void processTouchdown(string line) { }
+        
         public void processLocation(EDData eventData) {
             dataGridHeader[5, 0].Value = eventData.StarSystem;
         }
-        public void processNavRoute(EDData eventData) { }
-        public void processScanBaryCentre(EDData eventData) { }
-        public void processFSSAllBodiesFound(string line) { }
-        public void processFSSBodySignals(EDData eventData) { }
-        public void processFSSSignalDiscovered(EDData eventData) { }
-        public void processMaterialCollected(EDData eventData) { }
-        public void processApproachBody(EDData eventData) { }
-        public void processSAASignalsFound(string line) { }
-        public void processEmbark(EDData eventData) { }
-        public void processLeaveBody(EDData eventData) { }
-        public void processDockSRV(EDData eventData) { }
-        public void processSupercruiseExit(EDData eventData) { }
-        public void processSupercruiseEntry(EDData eventData) { }
-        public void processCommander(EDData eventData) { }
 
-        public void processCodexEntry(EDData eventData) { }
-        public void processLiftoff(string line) { }
-
-        public void processBackpack(EDData eventData) { }
-        public void processHullDamage(EDData eventData) { }
-        public void processApproachSettlement(EDData eventData) { }
-        public void processSynthesis(EDData eventData) { }
-        public void processMultiSellExplorationData(EDData eventData) { }
-        public void processDocked(EDData eventData) { }
-        public void processDataScanned(EDData eventData) { }
-        public void processUseConsumable(EDData eventData) { }
-        public void processSRVDestroyed(EDData eventData) { }
-        public void processJetConeBoost(EDData eventData) { }
 
 
         private void label1_Click(object sender, EventArgs e)
@@ -503,7 +108,8 @@ namespace Elite_Explorer_Dashboard_V2
 
         private void timerCheckLog_Tick(object sender, EventArgs e)
         {
-            readLogFile();
+            LogFile thisLogFile = new LogFile();
+            thisLogFile.read();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -522,7 +128,7 @@ namespace Elite_Explorer_Dashboard_V2
         public static void DoubleBuffered(this DataGridView dgv, bool setting)
         {
             Type dgvType = dgv.GetType();
-            PropertyInfo pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            PropertyInfo? pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
             pi.SetValue(dgv, setting, null);
         }
     }
