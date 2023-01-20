@@ -38,6 +38,8 @@ namespace Elite_Explorer_Dashboard_V2
                 MyImage.Settings.FillColor = (MagickColor.FromRgb((byte)255, (byte)255, (byte)255));
                 MyImage.Annotate(edObject.Body + "  ", Gravity.Northeast);
                 MyImage.Annotate(edObject.timestamp + " ", Gravity.Southeast);
+                MyImage.Annotate("twitter:@CMurlin99" + " ", Gravity.Southwest);
+
 
                 MyImage.Write(convertedPath);
                 mainform.labelScreenshotSystem.Text = edObject.Body;

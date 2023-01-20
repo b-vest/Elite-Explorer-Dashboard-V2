@@ -148,7 +148,7 @@ namespace Elite_Explorer_Dashboard_V2
                     {
                         foreach (var item in parentsData.Parents)
                         {
-                            if (item.Star >= 0 && useParents.Contains("Star:" + item.Star + " ") == false)
+                            if (item.Star > 0 && useParents.Contains("Star:" + item.Star + " ") == false)
                             {
                                 useParents += "Star:" + item.Star + " ";
                             }
@@ -220,7 +220,7 @@ namespace Elite_Explorer_Dashboard_V2
                                         mainform.materialCount.Add(item.Name, 0);
 
                                     }
-                                    if (mainform.materialCount[item.Name] < 100)
+                                    if (mainform.materialCount[item.Name] < 10)
                                     {
                                         if (item.Percent < 1)
                                         {

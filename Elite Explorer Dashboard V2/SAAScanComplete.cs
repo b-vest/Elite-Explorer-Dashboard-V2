@@ -17,7 +17,6 @@ namespace Elite_Explorer_Dashboard_V2
             SAAScanCompleteObject? edObject = JsonSerializer.Deserialize<SAAScanCompleteObject>(line);
             if (edObject.BodyName.Contains("Ring") == false && mainform.usedBodies.ContainsKey(edObject.BodyName))
             {
-                Debug.WriteLine(line);
                 mainform.dataGridViewBodies[11, mainform.usedBodies[edObject.BodyName]].Style.BackColor = Color.Green;
                 mainform.dataGridViewBodies[11, mainform.usedBodies[edObject.BodyName]].Style.ForeColor = Color.White;
                 mainform.dataGridViewBodies[11, mainform.usedBodies[edObject.BodyName]].Value = edObject.ProbesUsed;
