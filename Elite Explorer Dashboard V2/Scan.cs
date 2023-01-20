@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace Elite_Explorer_Dashboard_V2
 {
@@ -113,6 +114,7 @@ namespace Elite_Explorer_Dashboard_V2
 
             //Add Items to OM Tab Grid
             string bodyParents = processParents(bodyData);
+
             mainform.dataGridViewOM.Rows.Add(
                 bodyData.BodyName,
                 bodyData.BodyID,
@@ -126,8 +128,10 @@ namespace Elite_Explorer_Dashboard_V2
                 bodyData.Periapsis,
                 string.Format("{0:N0}", bodyData.OrbitalPeriod),
                 bodyData.AscendingNode,
-                bodyData.MeanAnomaly         
+                bodyData.MeanAnomaly
             );
+
+
             if (bodyData.BodyName != null){
                 mainform.usedBodies.Add(bodyData.BodyName, newRow);
             }
@@ -136,30 +140,38 @@ namespace Elite_Explorer_Dashboard_V2
         public string processParents(ScanObjectBodyDetailed parentsData)
         {
             string useParents = "";
-            if (parentsData != null)
+            if (mainform.usedParents.ContainsKey(parentsData.BodyName) == false)
             {
-                if (parentsData.Parents != null)
+                if (parentsData != null)
                 {
-                    foreach (var item in parentsData.Parents)
+                    if (parentsData.Parents != null)
                     {
-                        Debug.WriteLine(item);
-                        if (item.Star >=0)
+                        foreach (var item in parentsData.Parents)
                         {
-                            useParents += "Star:" + item.Star + " ";
-                            Debug.WriteLine(parentsData.BodyName);
-                            Debug.WriteLine(item.Star);
+                            if (item.Star >= 0 && useParents.Contains("Star:" + item.Star + " ") == false)
+                            {
+                                useParents += "Star:" + item.Star + " ";
+                            }
+                            if (item.Planet > 0 && useParents.Contains("Planet:" + item.Planet + " ") == false)
+                            {
+                                useParents += "Planet:" + item.Planet + " ";
+
+                            }
+                            if (item.Null > 0 && useParents.Contains("Null:" + item.Null + " ") == false)
+                            {
+                                useParents += "Null:" + item.Null + " ";
+
+                            }
+
                         }
-                        if (item.Planet >=0)
-                        {
-                            useParents += "Planet:" + item.Planet + " ";
-                            Debug.WriteLine(item.Planet);
-                        }
+                        
+                        return useParents;
                     }
-                    return useParents;
+                    return "NoParents";
                 }
-                return "NoParents";
+                return "NoParentData";
             }
-            return "NoParentData";
+            return "AlreadyProcessed";
         }
 
         public void processAtmosphere(ScanObjectBodyDetailed atmosphereData, int newRow)

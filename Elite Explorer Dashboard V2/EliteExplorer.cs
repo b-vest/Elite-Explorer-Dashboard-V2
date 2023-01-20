@@ -1,7 +1,9 @@
 using ImageMagick;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Windows.Forms;
 
@@ -12,6 +14,7 @@ namespace Elite_Explorer_Dashboard_V2
         public runningDataObject runningData = new runningDataObject();
         public Dictionary<string, int> usedBodies = new Dictionary<string, int>();
         public Dictionary<string, int> materialCount = new Dictionary<string, int>();
+        public Dictionary<string, int> usedParents = new Dictionary<string, int>();
 
         public EliteExplorer()
         {
@@ -30,7 +33,7 @@ namespace Elite_Explorer_Dashboard_V2
             listBoxDebugOutput.Items.Add(Properties.Settings.Default.LogPath.Contains("\\"));
             if (Properties.Settings.Default.LogPath.Contains("\\") == false)
             {
-                textBoxLogFilePath.Text = "C:\\Users\\" + Environment.UserName + "\\Saved Games\\Frontier Developments\\Elite Dangerous\\";
+                //textBoxLogFilePath.Text = "C:\\Users\\" + Environment.UserName + "\\Saved Games\\Frontier Developments\\Elite Dangerous\\";
                 Properties.Settings.Default.LogPath = "C:\\Users\\" + Environment.UserName + "\\Saved Games\\Frontier Developments\\Elite Dangerous\\";
             }
             else
@@ -57,8 +60,6 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridHeader.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
             dataGridHeader.DefaultCellStyle.Font = runningData.mediumFont;
 
-
-
             dataGridStars.RowHeadersVisible = false;
             dataGridStars.EnableHeadersVisualStyles = false;
             dataGridStars.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
@@ -82,20 +83,13 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridViewBodies.DefaultCellStyle.Font = runningData.mediumFont;
             dataGridViewBodies.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             dataGridViewBodies.Columns[7].DefaultCellStyle.Font = new Font("Consolas", 8, FontStyle.Regular);
-            
 
+            textBoxScreenshotPath.Text = Properties.Settings.Default.ScreenshotDestinationPath;
 
         }
 
-       
-
-       
-
-        
-
-
-        
-        public void processLocation(EDData eventData) {
+        public void processLocation(EDData eventData)
+        {
             dataGridHeader[5, 0].Value = eventData.StarSystem;
         }
 
@@ -119,6 +113,37 @@ namespace Elite_Explorer_Dashboard_V2
 
         private void label2_Click_1(object sender, EventArgs e)
         {
+
+        }
+
+        public void buttonProcessOM_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void label2_Click_2(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridViewBodies_Sorted(object sender, EventArgs e)
+        {
+            int rowCounter = 0;
+            foreach (DataGridViewRow row in dataGridViewBodies.Rows)
+            {
+                Debug.WriteLine(row.Cells["BodyName"].Value);
+                usedBodies[row.Cells["BodyName"].Value.ToString()] = rowCounter;
+                ++rowCounter;
+            }
 
         }
     }

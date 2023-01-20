@@ -13,6 +13,7 @@ namespace Elite_Explorer_Dashboard_V2
         {
             mainform.dataGridStars.Rows.Clear();
             mainform.dataGridViewBodies.Rows.Clear();
+            mainform.dataGridViewOM.Rows.Clear();
 
         }
     }

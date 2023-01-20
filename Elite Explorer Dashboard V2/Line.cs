@@ -81,6 +81,20 @@ namespace Elite_Explorer_Dashboard_V2
                     Shutdown thisShutdown = new Shutdown();
                     thisShutdown.process(line);
                     break;
+                case "ScanBaryCentre":
+                    //processScanBaryCentre(edObject);
+                    ScanBaryCentre thisBaryScan = new ScanBaryCentre();
+                    thisBaryScan.process(line);
+                    break;
+                case "FSSAllBodiesFound":
+                    AllBodiesFound thisBodiesfound = new AllBodiesFound();
+                    thisBodiesfound.process(line);
+                    break;
+                case "SAAScanComplete":
+                    //processSAAScanComplete(line);
+                    SAAScanComplete thisSAAScan = new SAAScanComplete();
+                    thisSAAScan.processSAAScanComplete(line);
+                    break;
             }
         }
 

@@ -50,6 +50,9 @@
             this.ColumnCruiseMode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabDashboard = new System.Windows.Forms.TabPage();
+            this.labelBodiesFound = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxScreenshotPath = new System.Windows.Forms.TextBox();
             this.labelScreenshotSystem = new System.Windows.Forms.Label();
             this.labelScreenshotTimestamp = new System.Windows.Forms.Label();
             this.labelStaticScreenshotText = new System.Windows.Forms.Label();
@@ -83,9 +86,6 @@
             this.TempK = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Distance = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabSettings = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBoxLogFilePath = new System.Windows.Forms.TextBox();
             this.tabMechanics = new System.Windows.Forms.TabPage();
             this.dataGridViewOM = new System.Windows.Forms.DataGridView();
             this.OMBodyName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -108,7 +108,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxConverted)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBodies)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridStars)).BeginInit();
-            this.tabSettings.SuspendLayout();
             this.tabMechanics.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOM)).BeginInit();
             this.SuspendLayout();
@@ -252,7 +251,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabDashboard);
-            this.tabControl1.Controls.Add(this.tabSettings);
             this.tabControl1.Controls.Add(this.tabMechanics);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
@@ -263,6 +261,9 @@
             // tabDashboard
             // 
             this.tabDashboard.BackColor = System.Drawing.Color.Black;
+            this.tabDashboard.Controls.Add(this.labelBodiesFound);
+            this.tabDashboard.Controls.Add(this.label2);
+            this.tabDashboard.Controls.Add(this.textBoxScreenshotPath);
             this.tabDashboard.Controls.Add(this.labelScreenshotSystem);
             this.tabDashboard.Controls.Add(this.labelScreenshotTimestamp);
             this.tabDashboard.Controls.Add(this.labelStaticScreenshotText);
@@ -277,6 +278,36 @@
             this.tabDashboard.Size = new System.Drawing.Size(1998, 1710);
             this.tabDashboard.TabIndex = 0;
             this.tabDashboard.Text = "Dashboard";
+            // 
+            // labelBodiesFound
+            // 
+            this.labelBodiesFound.BackColor = System.Drawing.Color.Black;
+            this.labelBodiesFound.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.labelBodiesFound.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelBodiesFound.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.labelBodiesFound.Location = new System.Drawing.Point(6, 413);
+            this.labelBodiesFound.Name = "labelBodiesFound";
+            this.labelBodiesFound.Size = new System.Drawing.Size(1002, 36);
+            this.labelBodiesFound.TabIndex = 9;
+            this.labelBodiesFound.Text = "Waiting for FSS All Bodies Found";
+            this.labelBodiesFound.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(1286, 417);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(113, 20);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Screenshot Path";
+            this.label2.Click += new System.EventHandler(this.label2_Click_2);
+            // 
+            // textBoxScreenshotPath
+            // 
+            this.textBoxScreenshotPath.Location = new System.Drawing.Point(1416, 414);
+            this.textBoxScreenshotPath.Name = "textBoxScreenshotPath";
+            this.textBoxScreenshotPath.Size = new System.Drawing.Size(576, 27);
+            this.textBoxScreenshotPath.TabIndex = 7;
             // 
             // labelScreenshotSystem
             // 
@@ -321,9 +352,9 @@
             // 
             this.listBoxDebugOutput.FormattingEnabled = true;
             this.listBoxDebugOutput.ItemHeight = 20;
-            this.listBoxDebugOutput.Location = new System.Drawing.Point(6, 1660);
+            this.listBoxDebugOutput.Location = new System.Drawing.Point(6, 1360);
             this.listBoxDebugOutput.Name = "listBoxDebugOutput";
-            this.listBoxDebugOutput.Size = new System.Drawing.Size(1750, 44);
+            this.listBoxDebugOutput.Size = new System.Drawing.Size(1750, 344);
             this.listBoxDebugOutput.TabIndex = 2;
             // 
             // dataGridViewBodies
@@ -362,7 +393,7 @@
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewBodies.DefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridViewBodies.GridColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.dataGridViewBodies.Location = new System.Drawing.Point(6, 425);
+            this.dataGridViewBodies.Location = new System.Drawing.Point(3, 462);
             this.dataGridViewBodies.Name = "dataGridViewBodies";
             this.dataGridViewBodies.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dataGridViewBodies.RowHeadersVisible = false;
@@ -372,6 +403,7 @@
             this.dataGridViewBodies.RowTemplate.Height = 29;
             this.dataGridViewBodies.Size = new System.Drawing.Size(1989, 1211);
             this.dataGridViewBodies.TabIndex = 2;
+            this.dataGridViewBodies.Sorted += new System.EventHandler(this.dataGridViewBodies_Sorted);
             // 
             // BodyName
             // 
@@ -616,36 +648,6 @@
             this.ID.ReadOnly = true;
             this.ID.Width = 50;
             // 
-            // tabSettings
-            // 
-            this.tabSettings.Controls.Add(this.label1);
-            this.tabSettings.Controls.Add(this.textBoxLogFilePath);
-            this.tabSettings.Location = new System.Drawing.Point(4, 29);
-            this.tabSettings.Name = "tabSettings";
-            this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSettings.Size = new System.Drawing.Size(1998, 1710);
-            this.tabSettings.TabIndex = 1;
-            this.tabSettings.Text = "Settings";
-            this.tabSettings.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(66, 82);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(213, 20);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Elite Dangerous Log File Path";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // textBoxLogFilePath
-            // 
-            this.textBoxLogFilePath.Location = new System.Drawing.Point(64, 108);
-            this.textBoxLogFilePath.Name = "textBoxLogFilePath";
-            this.textBoxLogFilePath.Size = new System.Drawing.Size(665, 27);
-            this.textBoxLogFilePath.TabIndex = 0;
-            // 
             // tabMechanics
             // 
             this.tabMechanics.BackColor = System.Drawing.Color.Black;
@@ -655,12 +657,14 @@
             this.tabMechanics.Padding = new System.Windows.Forms.Padding(3);
             this.tabMechanics.Size = new System.Drawing.Size(1998, 1710);
             this.tabMechanics.TabIndex = 2;
-            this.tabMechanics.Text = "Orbital Mecahnics";
+            this.tabMechanics.Text = "Orbital Elements";
             // 
             // dataGridViewOM
             // 
             this.dataGridViewOM.AllowUserToAddRows = false;
             this.dataGridViewOM.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dataGridViewOM.BackgroundColor = System.Drawing.Color.Black;
+            this.dataGridViewOM.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dataGridViewOM.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewOM.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.OMBodyName,
@@ -690,7 +694,7 @@
             this.dataGridViewOM.RowHeadersVisible = false;
             this.dataGridViewOM.RowHeadersWidth = 51;
             this.dataGridViewOM.RowTemplate.Height = 29;
-            this.dataGridViewOM.Size = new System.Drawing.Size(1986, 1277);
+            this.dataGridViewOM.Size = new System.Drawing.Size(1986, 914);
             this.dataGridViewOM.TabIndex = 0;
             // 
             // OMBodyName
@@ -737,10 +741,11 @@
             // 
             // SemiMajorAxis
             // 
-            this.SemiMajorAxis.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.SemiMajorAxis.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.SemiMajorAxis.HeaderText = "SemiMajorAxis";
             this.SemiMajorAxis.MinimumWidth = 6;
             this.SemiMajorAxis.Name = "SemiMajorAxis";
+            this.SemiMajorAxis.Width = 150;
             // 
             // Eccentricity
             // 
@@ -765,10 +770,11 @@
             // 
             // OrbitalPeriod
             // 
-            this.OrbitalPeriod.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.OrbitalPeriod.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.OrbitalPeriod.HeaderText = "OrbitalPeriod";
             this.OrbitalPeriod.MinimumWidth = 6;
             this.OrbitalPeriod.Name = "OrbitalPeriod";
+            this.OrbitalPeriod.Width = 200;
             // 
             // AscendingNode
             // 
@@ -808,8 +814,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxConverted)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBodies)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridStars)).EndInit();
-            this.tabSettings.ResumeLayout(false);
-            this.tabSettings.PerformLayout();
             this.tabMechanics.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOM)).EndInit();
             this.ResumeLayout(false);
@@ -818,9 +822,6 @@
 
         #endregion
         private TabControl tabControl1;
-        private TabPage tabSettings;
-        private Label label1;
-        private TextBox textBoxLogFilePath;
         public TabPage tabDashboard;
         public ListBox listBoxDebugOutput;
         private DataGridViewTextBoxColumn ColumnEvent;
@@ -868,6 +869,8 @@
         public System.Windows.Forms.Timer timerCheckLog;
         private TabPage tabMechanics;
         public DataGridView dataGridViewOM;
+        private Label label2;
+        private TextBox textBoxScreenshotPath;
         private DataGridViewTextBoxColumn OMBodyName;
         private DataGridViewTextBoxColumn OMBID;
         private DataGridViewTextBoxColumn Parents;
@@ -881,5 +884,6 @@
         private DataGridViewTextBoxColumn OrbitalPeriod;
         private DataGridViewTextBoxColumn AscendingNode;
         private DataGridViewTextBoxColumn MeanAnomaly;
+        public TextBox labelBodiesFound;
     }
 }
