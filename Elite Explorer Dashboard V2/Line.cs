@@ -95,6 +95,25 @@ namespace Elite_Explorer_Dashboard_V2
                     SAAScanComplete thisSAAScan = new SAAScanComplete();
                     thisSAAScan.processSAAScanComplete(line);
                     break;
+                case "Touchdown":
+                    Touchdown thisTouchdown = new Touchdown();
+                    thisTouchdown.process(line);
+                    break;
+                case "LaunchSRV":
+                    LaunchSRV thisLaunchSRV = new LaunchSRV();
+                    thisLaunchSRV.process();
+                    //processLaunchSRV(line);
+                    break;
+                case "Disembark":
+                    Disembark thisDisembark = new Disembark();
+                    thisDisembark.process();
+                    //processDisembark(edObject);
+                    break;
+                case "Liftoff":
+                    Liftoff thisLiftoff = new Liftoff();
+                    thisLiftoff.process();
+                    //processLiftoff(line);
+                    break;
             }
         }
 
