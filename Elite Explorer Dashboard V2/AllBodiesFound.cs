@@ -29,44 +29,65 @@ namespace Elite_Explorer_Dashboard_V2
         public void processOrbitalElements()
         {
             mainform.listBoxOrbitalElementsMath.Items.Add("Start Processing Orbital Elements");
+            double[] plotDataX = { 0 };
+            double[] plotDataY = { 0 };
+
+            mainform.formsPlotOrbit.Plot.AddPoint(0,0);
+
+
             foreach (DataGridViewRow row in mainform.dataGridViewOM.Rows)
             {
-                double[] xyzPrevious = {0,0,0,};
+
+
                 mainform.listBoxOrbitalElementsMath.Items.Add(row.Cells["OMBID"].Value);
                 mainform.listBoxOrbitalElementsMath.Items.Add(row.Cells["OMBodyName"].Value+" Orbits "+row.Cells["Parents"].Value);
 
+                double semiMajorKM = Convert.ToDouble(row.Cells["SemiMajorAxis"].Value);
+
                 double MARadians = (Math.PI / 180) * Convert.ToDouble(row.Cells["MeanAnomaly"].Value);
 
-                double EA = CalculateEccentricAnomaly(Convert.ToDouble(row.Cells["SemiMajorAxis"].Value), Convert.ToDouble(row.Cells["Eccentricity"].Value), MARadians);
+                double EA = CalculateEccentricAnomaly(semiMajorKM, Convert.ToDouble(row.Cells["Eccentricity"].Value), MARadians);
                 mainform.listBoxOrbitalElementsMath.Items.Add("Eccentric Anomaly: "+EA);
 
-                double TA = CalculateTrueAnomaly(Convert.ToDouble(row.Cells["SemiMajorAxis"].Value), Convert.ToDouble(row.Cells["Eccentricity"].Value), EA, MARadians);
+                double TA = CalculateTrueAnomaly(semiMajorKM, Convert.ToDouble(row.Cells["Eccentricity"].Value), EA, MARadians);
                 mainform.listBoxOrbitalElementsMath.Items.Add("True Anomaly: " + TA);
 
                 double inclinationRadians = (Math.PI / 180) * Convert.ToDouble(row.Cells["OrbitalInclination"].Value);
                 double raanRadians = (Math.PI / 180) * Convert.ToDouble(row.Cells["AscendingNode"].Value);
                 double aopRadians = (Math.PI / 180) * Convert.ToDouble(row.Cells["Periapsis"].Value);
 
-                double[] xyz = ConvertToCartesian(Convert.ToDouble(row.Cells["SemiMajorAxis"].Value), Convert.ToDouble(row.Cells["Eccentricity"].Value), inclinationRadians, raanRadians, aopRadians, TA);
+                double[] xyz = ConvertToCartesian(semiMajorKM, Convert.ToDouble(row.Cells["Eccentricity"].Value), inclinationRadians, raanRadians, aopRadians, TA);
                 mainform.listBoxOrbitalElementsMath.Items.Add("X,Y,Z: " + xyz[0] + ", " + xyz[1] + ", " + xyz[2]);
 
                 //Calculate to 0,0,0
 
                 double distance = Math.Sqrt(Math.Pow(xyz[0] - 0, 2) + Math.Pow(xyz[1] - 0, 2) + Math.Pow(xyz[2] - 0, 2));
-                double speedOfLight = 299792.458; // speed of light in kilometers per second
+                double speedOfLight = 299792458; // speed of light in meters per second
                 double lightSeconds = distance / speedOfLight;
                 mainform.listBoxOrbitalElementsMath.Items.Add("Distance to 0,0,0: " + distance+ " LS: "+lightSeconds);
 
+                Array.Resize(ref plotDataX, plotDataX.Length + 1);
+                plotDataX[plotDataX.Length - 1] = xyz[0];
 
-                if (xyzPrevious[0] >0)
-                {
-                    //Calculate Distance between nearest ID
+                Array.Resize(ref plotDataY, plotDataY.Length + 1);
 
-                }
+                plotDataY[plotDataY.Length - 1] = xyz[1];
 
-                xyzPrevious = xyz;
+                mainform.formsPlotOrbit.Plot.AddPoint(xyz[0], xyz[1]);
+                mainform.formsPlotOrbit.Plot.AddTooltip(label: row.Cells["OMBodyName"].Value.ToString(), x: xyz[0], y: xyz[1]);
 
+                mainform.dataGridViewCalculatedOM.Rows.Add(
+                    row.Cells["OMBodyName"].Value,
+                    TA,
+                    EA,
+                    xyz[0],
+                    xyz[1],
+                    xyz[2],
+                    lightSeconds
+                );
             }
+            //mainform.formsPlotOrbit.Plot.AddScatter(plotDataX, plotDataY, lineWidth: 0, label: "markers only");
+            mainform.formsPlotOrbit.Refresh();
         }
         static double[] ConvertToCartesian(double a, double e, double i, double raan, double aop, double ta)
         {

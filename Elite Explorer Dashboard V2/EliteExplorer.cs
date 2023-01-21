@@ -7,8 +7,10 @@ using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Windows.Forms;
 
+
 namespace Elite_Explorer_Dashboard_V2
 {
+
     public partial class EliteExplorer : Form
     {
         public runningDataObject runningData = new runningDataObject();
@@ -74,6 +76,14 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridViewOM.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
             dataGridViewOM.DefaultCellStyle.Font = runningData.mediumFont;
             dataGridViewOM.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+            dataGridViewCalculatedOM.RowHeadersVisible = false;
+            dataGridViewCalculatedOM.EnableHeadersVisualStyles = false;
+            dataGridViewCalculatedOM.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
+            dataGridViewCalculatedOM.ColumnHeadersDefaultCellStyle.ForeColor = Color.Orange;
+            dataGridViewCalculatedOM.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
+            dataGridViewCalculatedOM.DefaultCellStyle.Font = runningData.mediumFont;
+            dataGridViewCalculatedOM.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 
             dataGridViewBodies.RowHeadersVisible = false;
             dataGridViewBodies.EnableHeadersVisualStyles = false;

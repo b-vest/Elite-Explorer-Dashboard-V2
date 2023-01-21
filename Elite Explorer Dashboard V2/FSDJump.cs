@@ -17,6 +17,8 @@ namespace Elite_Explorer_Dashboard_V2
             mainform.dataGridStars.Rows.Clear();
             mainform.dataGridViewBodies.Rows.Clear();
             mainform.dataGridViewOM.Rows.Clear();
+            mainform.dataGridViewCalculatedOM.Rows.Clear();
+            mainform.formsPlotOrbit.Reset();
 
             mainform.runningData.CurrentSystem = edObject.StarSystem;
             mainform.labelBodiesFound.Text = "We have entered new system " + edObject.StarSystem + " waiting for updates from the FSS.";

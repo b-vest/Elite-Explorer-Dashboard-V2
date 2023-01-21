@@ -150,16 +150,16 @@ namespace Elite_Explorer_Dashboard_V2
                         {
                             if (item.Star > 0 && useParents.Contains("Star:" + item.Star + " ") == false)
                             {
-                                useParents += "Star:" + item.Star + " ";
+                                useParents = "Star:" + item.Star + " ";
                             }
                             if (item.Planet > 0 && useParents.Contains("Planet:" + item.Planet + " ") == false)
                             {
-                                useParents += "Planet:" + item.Planet + " ";
+                                useParents = "Planet:" + item.Planet + " ";
 
                             }
                             if (item.Null > 0 && useParents.Contains("Null:" + item.Null + " ") == false)
                             {
-                                useParents += "Null:" + item.Null + " ";
+                                useParents = "Null:" + item.Null + " ";
 
                             }
 
