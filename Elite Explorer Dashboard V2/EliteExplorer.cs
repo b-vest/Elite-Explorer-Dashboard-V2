@@ -18,6 +18,9 @@ namespace Elite_Explorer_Dashboard_V2
         public Dictionary<string, int> materialCount = new Dictionary<string, int>();
         public Dictionary<string, int> usedParents = new Dictionary<string, int>();
 
+        public Dictionary<string, dynamic> CompleteDict = new Dictionary<string, dynamic>();
+        public Dictionary<string, string> PeriodicTable = new Dictionary<string, string>();
+
         public EliteExplorer()
         {
             InitializeComponent();
@@ -41,6 +44,9 @@ namespace Elite_Explorer_Dashboard_V2
             else
             {
             }
+
+            //Load periodic table for name conversion
+
             timerCheckLog.Tag = runningData.CurrentLogFile;
             runningData.CurrentLogLineNumber = 0;
 

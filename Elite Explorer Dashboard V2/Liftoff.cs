@@ -11,8 +11,10 @@ namespace Elite_Explorer_Dashboard_V2
         public void process()
         {
             EliteExplorer mainform = (EliteExplorer)Application.OpenForms[0];
-
-            mainform.dataGridViewBodies[15, mainform.usedBodies[mainform.runningData.CurrentBody]].Style.BackColor = Color.Green;
+            if (mainform.dataGridViewBodies.Rows.Count > 0) 
+            {
+                mainform.dataGridViewBodies[15, mainform.usedBodies[mainform.runningData.CurrentBody]].Style.BackColor = Color.Green;
+            }
         }
     }
 }

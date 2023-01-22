@@ -12,8 +12,6 @@ namespace Elite_Explorer_Dashboard_V2
         {
             EliteExplorer mainform = (EliteExplorer)Application.OpenForms[0];
 
-            mainform.listBoxDebugOutput.Items.Add("Process Shutdonw");
-            mainform.listBoxDebugOutput.Items.Add(line);
             mainform.dataGridHeader[0, 0].Value = "Shutdown";
             mainform.dataGridHeader[1, 0].Value = "Shutdown";
             mainform.dataGridHeader[2, 0].Value = "Shutdown";

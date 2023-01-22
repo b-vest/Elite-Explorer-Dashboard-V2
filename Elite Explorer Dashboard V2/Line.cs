@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -22,12 +23,13 @@ namespace Elite_Explorer_Dashboard_V2
             {
                 return;
             }
-            mainform.listBoxDebugOutput.Items.Add(edObject.@event);
             if (edObject.BodyName == null && edObject.Body != null)
             {
                 edObject.BodyName = edObject.Body;
             }
             mainform.dataGridHeader[0, 0].Value = edObject.@event;
+
+
 
             switch (edObject.@event)
             {

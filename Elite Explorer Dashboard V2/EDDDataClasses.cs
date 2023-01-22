@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Elite_Explorer_Dashboard_V2
 {
+    public class ElementConvert
+    {
+        public string? name { get; set; }
+        public string? symbol { get; set; }
+    }
     public class MaterialsOBject
     {
         public string? Name { get; set; }
@@ -20,9 +25,9 @@ namespace Elite_Explorer_Dashboard_V2
 
     public class ParentsObject
     {
-        public int Planet { get; set; }
-        public int Star { get; set; }
-        public int Null { get; set; }
+        public int? Planet { get; set; }
+        public int? Star { get; set; }
+        public int? Null { get; set; }
     }
     public class FSSBodySignalsObject
     {
