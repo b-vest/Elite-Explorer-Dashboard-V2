@@ -1,8 +1,11 @@
-﻿using System;
+﻿using ScottPlot.Palettes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.DirectoryServices;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
@@ -25,79 +28,70 @@ namespace Elite_Explorer_Dashboard_V2
 
             double speedOfLight = 299792458; // speed of light in meters per second
 
-            if (mainform.CompleteDict.ContainsKey(edObject.BodyName.ToString()) == false)
+
+            if (mainform.bodyDictionary.ContainsKey(edObject.BodyName) == false)
             {
-                mainform.CompleteDict.Add(edObject.BodyName, new Dictionary<string, dynamic>());
+                mainform.bodyDictionary.Add(edObject.BodyName.ToString(), new ScanObjectBodyDetailed());
+                mainform.bodyDictionary.Add(edObject.BodyID.ToString(), new ScanObjectBodyDetailed());
 
-                mainform.CompleteDict[edObject.BodyName]["x"] = 0;
-                mainform.CompleteDict[edObject.BodyName]["y"] = 0;
-                mainform.CompleteDict[edObject.BodyName]["z"] = 0;
+                mainform.bodyDictionary[edObject.BodyName.ToString()] = edObject;
+                mainform.bodyDictionary[edObject.BodyID.ToString()].BodyName = edObject.BodyName;
 
-                mainform.CompleteDict[edObject.BodyName]["BodyName"] = edObject.BodyName;
-                mainform.CompleteDict[edObject.BodyName]["BodyID"] = edObject.BodyID;
-                mainform.CompleteDict[edObject.BodyName]["Parents"] = "";
-                mainform.CompleteDict[edObject.BodyName]["DistanceFromArrivalLS"] = edObject.DistanceFromArrivalLS;
-                mainform.CompleteDict[edObject.BodyName]["MassEM"] = edObject.MassEM;
-                mainform.CompleteDict[edObject.BodyName]["Radius"] = edObject.Radius;
                 if (edObject.SemiMajorAxis == null)
                 {
-                    mainform.CompleteDict[edObject.BodyName]["SemiMajorAxis"] = 0;
-                    mainform.CompleteDict[edObject.BodyName]["Eccentricity"] = 0;
-                    mainform.CompleteDict[edObject.BodyName]["OrbitalInclination"] = 0;
-                    mainform.CompleteDict[edObject.BodyName]["Periapsis"] = 0;
-                    mainform.CompleteDict[edObject.BodyName]["OrbitalPeriod"] = 0;
-                    mainform.CompleteDict[edObject.BodyName]["AscendingNode"] = 0;
-                    mainform.CompleteDict[edObject.BodyName]["MeanAnomaly"] = 0;
-                    mainform.CompleteDict[edObject.BodyName]["distanceParentMeters"] = 0;
+                    mainform.bodyDictionary[edObject.BodyName].SemiMajorAxis = 0;
+                    mainform.bodyDictionary[edObject.BodyName].Eccentricity = 0;
+                    mainform.bodyDictionary[edObject.BodyName].OrbitalInclination = 0;
+                    mainform.bodyDictionary[edObject.BodyName].Periapsis = 0;
+                    mainform.bodyDictionary[edObject.BodyName].OrbitalPeriod = 0;
+                    mainform.bodyDictionary[edObject.BodyName].AscendingNode = 0;
+                    mainform.bodyDictionary[edObject.BodyName].MeanAnomaly = 0;
+                    mainform.bodyDictionary[edObject.BodyName].DistanceToParentMeters = 0;
+                    mainform.bodyDictionary[edObject.BodyName].FoundParent = 0;
                 }
-                else
+
+                mainform.bodyDictionary[edObject.BodyName].FoundParent = processParents(edObject);
+                //mainform.richTextBoxDebug.AppendText(JsonSerializer.Serialize(edObject.Parents, new JsonSerializerOptions { WriteIndented = true }) + Environment.NewLine + Environment.NewLine);
+
+                mainform.bodyDictionary[edObject.BodyName.ToString()].MeanAnomalyRadians = (Math.PI / 180) * edObject.MeanAnomaly;
+                mainform.bodyDictionary[edObject.BodyName.ToString()].EccentricAnomaly = CalculateEccentricAnomaly(edObject.SemiMajorAxis, edObject.Eccentricity, mainform.bodyDictionary[edObject.BodyName.ToString()].MeanAnomalyRadians);
+                mainform.bodyDictionary[edObject.BodyName.ToString()].TrueAnomaly = CalculateTrueAnomaly(
+                    edObject.SemiMajorAxis,
+                    edObject.Eccentricity,
+                    mainform.bodyDictionary[edObject.BodyName].EccentricAnomaly,
+                    mainform.bodyDictionary[edObject.BodyName].MeanAnomalyRadians
+                );
+
+                mainform.bodyDictionary[edObject.BodyName.ToString()].InclinationRadians = (Math.PI / 180) * edObject.OrbitalInclination;
+                mainform.bodyDictionary[edObject.BodyName.ToString()].AscendingNodeRadians = (Math.PI / 180) * edObject.AscendingNode;
+                mainform.bodyDictionary[edObject.BodyName.ToString()].PeriapsisRadians = (Math.PI / 180) * edObject.Periapsis;
+
+                mainform.bodyDictionary[edObject.BodyName.ToString()].XYZ = ConvertToCartesian(
+                    edObject.SemiMajorAxis,
+                    edObject.Eccentricity,
+                    mainform.bodyDictionary[edObject.BodyName].InclinationRadians,
+                    mainform.bodyDictionary[edObject.BodyName].AscendingNodeRadians,
+                    mainform.bodyDictionary[edObject.BodyName].PeriapsisRadians,
+                    mainform.bodyDictionary[edObject.BodyName].TrueAnomaly
+                );
+                mainform.bodyDictionary[edObject.BodyName].DistanceToParentMeters = Math.Sqrt(Math.Pow(mainform.bodyDictionary[edObject.BodyName.ToString()].XYZ[0] - 0, 2) + Math.Pow(mainform.bodyDictionary[edObject.BodyName.ToString()].XYZ[1] - 0, 2) + Math.Pow(mainform.bodyDictionary[edObject.BodyName.ToString()].XYZ[2] - 0, 2));
+                mainform.bodyDictionary[edObject.BodyName].DistancetoParentsLS = mainform.bodyDictionary[edObject.BodyName].DistanceToParentMeters / speedOfLight;
+                mainform.bodyDictionary[edObject.BodyName].Children = new List<int>();
+                if (edObject.StarType != null)
                 {
-                    mainform.CompleteDict[edObject.BodyName]["SemiMajorAxis"] = edObject.SemiMajorAxis;
-                    mainform.CompleteDict[edObject.BodyName]["Eccentricity"] = edObject.Eccentricity;
-                    mainform.CompleteDict[edObject.BodyName]["OrbitalInclination"] = edObject.OrbitalInclination;
-                    mainform.CompleteDict[edObject.BodyName]["Periapsis"] = edObject.Periapsis;
-                    mainform.CompleteDict[edObject.BodyName]["OrbitalPeriod"] = edObject.OrbitalPeriod;
-                    mainform.CompleteDict[edObject.BodyName]["AscendingNode"] = edObject.AscendingNode;
-                    mainform.CompleteDict[edObject.BodyName]["MeanAnomaly"] = edObject.MeanAnomaly;
-
-                    mainform.CompleteDict[edObject.BodyName]["MARadians"] = (Math.PI / 180) * edObject.MeanAnomaly;
-                    mainform.CompleteDict[edObject.BodyName]["EA"] = CalculateEccentricAnomaly(edObject.SemiMajorAxis, edObject.Eccentricity, mainform.CompleteDict[edObject.BodyName]["MARadians"]);
-                    mainform.CompleteDict[edObject.BodyName]["TA"] = CalculateTrueAnomaly(edObject.SemiMajorAxis, edObject.Eccentricity, mainform.CompleteDict[edObject.BodyName]["EA"], mainform.CompleteDict[edObject.BodyName]["MARadians"]);
-                    mainform.CompleteDict[edObject.BodyName]["inclinationRadians"] = (Math.PI / 180) * edObject.OrbitalInclination;
-                    mainform.CompleteDict[edObject.BodyName]["raanRadians"] = (Math.PI / 180) * edObject.AscendingNode;
-                    mainform.CompleteDict[edObject.BodyName]["aopRadians"] = (Math.PI / 180) * edObject.Periapsis;
-
-                    double[] xyz = ConvertToCartesian(edObject.SemiMajorAxis, edObject.Eccentricity, mainform.CompleteDict[edObject.BodyName]["inclinationRadians"], mainform.CompleteDict[edObject.BodyName]["raanRadians"], mainform.CompleteDict[edObject.BodyName]["aopRadians"], mainform.CompleteDict[edObject.BodyName]["TA"]);
-                    mainform.CompleteDict[edObject.BodyName]["x"] = xyz[0];
-                    mainform.CompleteDict[edObject.BodyName]["y"] = xyz[1];
-                    mainform.CompleteDict[edObject.BodyName]["z"] = xyz[2];
-                    mainform.CompleteDict[edObject.BodyName]["distanceParentMeters"] = Math.Sqrt(Math.Pow(xyz[0] - 0, 2) + Math.Pow(xyz[1] - 0, 2) + Math.Pow(xyz[2] - 0, 2));
-                    mainform.CompleteDict[edObject.BodyName]["distanceParentLS"] = mainform.CompleteDict[edObject.BodyName]["distanceParentMeters"] / speedOfLight;
-
-                    mainform.CompleteDict[edObject.BodyName]["Parent"] = processParents(edObject);
-
+                    parseStar(edObject);
+                }
+                if (edObject.PlanetClass != null)
+                {
+                    parseStellarBody(edObject);
                 }
 
-                mainform.richTextBoxDebug.AppendText(JsonSerializer.Serialize(mainform.CompleteDict[edObject.BodyName])+Environment.NewLine+Environment.NewLine);
-                mainform.richTextBoxDebug.ScrollToCaret();
-            }
-            if (edObject != null)
-            {
-                if(edObject.BodyName != null) {
-                    if (mainform.usedBodies.ContainsKey(edObject.BodyName) == false)
-                    {
-                        if (edObject.StarType != null)
-                        {
-                            parseStar(edObject);
-                        }
-                        if (edObject.PlanetClass != null)
-                        {
-                            parseStellarBody(edObject);
-                        }
-                    }
-                }
+
             }
         }
+
+
+
         public void parseStellarBody(ScanObjectBodyDetailed bodyData)
         {
             string useBodyClass = bodyData.PlanetClass;
@@ -122,7 +116,7 @@ namespace Elite_Explorer_Dashboard_V2
                string.Format("{0:N}", bodyData.Radius),
                 0,
                 0,
-                string.Format("{0:N3}", bodyData.DistanceFromArrivalLS)+" ("+string.Format("{0:N4}",mainform.CompleteDict[bodyData.BodyName]["distanceParentLS"])+")",
+                string.Format("{0:N3}", bodyData.DistanceFromArrivalLS)+" (" + string.Format("{0:N4}", mainform.bodyDictionary[bodyData.BodyName].DistancetoParentsLS)+")",
                 "",
                 "",
                 "",
@@ -131,6 +125,12 @@ namespace Elite_Explorer_Dashboard_V2
                 "",
                 bodyData.BodyID
                 );
+            if(mainform.bodyDictionary[bodyData.BodyName].DistancetoParentsLS < 1)
+            {
+                mainform.dataGridViewBodies[9, newRow].Style.ForeColor = Color.White;
+
+            }
+            mainform.bodyDictionary[bodyData.BodyName].GridRow = newRow;
             //Process Landable Colors
             if (bodyData.Landable == true)
             {
@@ -182,67 +182,47 @@ namespace Elite_Explorer_Dashboard_V2
             {
                 processAtmosphere(bodyData, newRow);
             }
-
-            //Add Items to OM Tab Grid
-            string bodyParents = processParents(bodyData);
-
-            mainform.dataGridViewOM.Rows.Add(
-                bodyData.BodyName,
-                bodyData.BodyID,
-                bodyParents,
-                string.Format("{0:N0}", bodyData.DistanceFromArrivalLS),
-                bodyData.MassEM,
-                string.Format("{0:N0}", bodyData.Radius),
-                string.Format("{0:N0}", bodyData.SemiMajorAxis),
-                bodyData.Eccentricity,
-                bodyData.OrbitalInclination,
-                bodyData.Periapsis,
-                string.Format("{0:N0}", bodyData.OrbitalPeriod),
-                bodyData.AscendingNode,
-                bodyData.MeanAnomaly
-            );
-
+           
 
             if (bodyData.BodyName != null){
                 mainform.usedBodies.Add(bodyData.BodyName, newRow);
             }
         }
 
-        public string processParents(ScanObjectBodyDetailed parentsData)
+        public int? processParents(ScanObjectBodyDetailed parentsData)
         {
-            string useParent = "";
+            int? useParent = 0;
             if (mainform.usedParents.ContainsKey(parentsData.BodyName) == false)
             {
                 if (parentsData != null)
                 {
                     if (parentsData.Parents != null)
                     {
-                        mainform.richTextBoxDebug.AppendText(JsonSerializer.Serialize(parentsData.Parents) + Environment.NewLine + Environment.NewLine);
-                        mainform.richTextBoxDebug.ScrollToCaret();
+
+                        if (parentsData.Parents[0].Planet != null)
+                        {
+                            useParent = parentsData.Parents[0].Planet;
+                        }
+                        if (parentsData.Parents[0].Null != null)
+                        {
+                            useParent = parentsData.Parents[0].Null;
+                        }
                         if (parentsData.Parents[0].Star != null)
                         {
-                            useParent = parentsData.Parents[0].Star.ToString();
-                        }else if (parentsData.Parents[0].Planet != null)
-                        {
-                            useParent = parentsData.Parents[0].Planet.ToString();
-
+                            useParent = parentsData.Parents[0].Star;
                         }
-                        else if (parentsData.Parents[0].Null != null)
-                        {
-                            useParent = parentsData.Parents[0].Null.ToString();
-
-                        }
-                        mainform.richTextBoxDebug.AppendText(useParent+ Environment.NewLine+Environment.NewLine);
                         return useParent;
+
+
+
+                        //return "MaybeBarycentre";
                     }
 
-                    
-                    //return "MaybeBarycentre";
+                    return useParent;
                 }
-
-                return "NoParentData";
+                return useParent;
             }
-            return "AlreadyProcessed";
+            return useParent;
         }
 
         public void processAtmosphere(ScanObjectBodyDetailed atmosphereData, int newRow)
@@ -345,7 +325,7 @@ namespace Elite_Explorer_Dashboard_V2
                         }
                         int newBodyRow = mainform.dataGridViewBodies.Rows.Add(
                         bodyData.BodyName,
-                        primaryString+" Star",
+                        primaryString + " Star",
                         "-",
                         "-",
                         bodyData.StellarMass.ToString("#.##"),
@@ -364,47 +344,9 @@ namespace Elite_Explorer_Dashboard_V2
                        );
 
 
-                        //Add to OM tables
-                        if (bodyData.DistanceFromArrivalLS > 0)
-                        {
-                            string bodyParents = processParents(bodyData);
-                            mainform.dataGridViewOM.Rows.Add(
-                            bodyData.BodyName,
-                            bodyData.BodyID,
-                            bodyParents,
-                            string.Format("{0:N0}", bodyData.DistanceFromArrivalLS),
-                            bodyData.MassEM,
-                            string.Format("{0:N0}", bodyData.Radius),
-                            string.Format("{0:N0}", bodyData.SemiMajorAxis),
-                            bodyData.Eccentricity,
-                            bodyData.OrbitalInclination,
-                            bodyData.Periapsis,
-                            string.Format("{0:N0}", bodyData.OrbitalPeriod),
-                            bodyData.AscendingNode,
-                            bodyData.MeanAnomaly
-                            );
-                        }
-                        else
-                        {
-                            mainform.dataGridViewOM.Rows.Add(
-                            bodyData.BodyName,
-                            bodyData.BodyID,
-                            "Primary Star",
-                            string.Format("{0:N0}", bodyData.DistanceFromArrivalLS),
-                            bodyData.StellarMass,
-                            string.Format("{0:N0}", bodyData.Radius),
-                            "-",
-                            "-",
-                            "-",
-                            "-",
-                            "-",
-                            "-",
-                            "-"
-                            );
-                        }
-
-
                         mainform.usedBodies.Add(bodyData.BodyName, newStarRow);
+                        mainform.bodyDictionary[bodyData.BodyName].GridRow = newStarRow;
+
                     }
                 }
             }

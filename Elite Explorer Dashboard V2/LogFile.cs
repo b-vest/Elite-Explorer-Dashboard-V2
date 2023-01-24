@@ -38,7 +38,6 @@ namespace Elite_Explorer_Dashboard_V2
                 if (thisLineCount > mainform.runningData.CurrentLogLineNumber)
                 {
                     DateTime currentDateTime = DateTime.Now;
-                    mainform.listBoxDebugOutput.TopIndex = mainform.listBoxDebugOutput.Items.Count - 1;
                     //processLine(line);
 
                     Line thisLine = new Line();

@@ -15,34 +15,67 @@ namespace Elite_Explorer_Dashboard_V2
             ScanObjectBodyDetailed? bodyData = JsonSerializer.Deserialize<ScanObjectBodyDetailed>(line);
 
             string generatedBodyName = "BaryCentre-" + bodyData.BodyID;
+            double speedOfLight = 299792458; // speed of light in meters per second
 
-            if (mainform.CompleteDict.ContainsKey(generatedBodyName) == false)
+            if (mainform.bodyDictionary.ContainsKey(generatedBodyName) == false)
             {
-                mainform.CompleteDict.Add(generatedBodyName, new Dictionary<string, dynamic>());
-                mainform.CompleteDict[generatedBodyName]["SemiMajorAxis"] = bodyData.SemiMajorAxis;
-                mainform.CompleteDict[generatedBodyName]["Eccentricity"] = bodyData.Eccentricity;
-                mainform.CompleteDict[generatedBodyName]["OrbitalInclination"] = bodyData.OrbitalInclination;
-                mainform.CompleteDict[generatedBodyName]["Periapsis"] = bodyData.Periapsis;
-                mainform.CompleteDict[generatedBodyName]["AscendingNode"] = bodyData.AscendingNode;
-                mainform.CompleteDict[generatedBodyName]["MeanAnomaly"] = bodyData.MeanAnomaly;
+                mainform.bodyDictionary.Add(bodyData.BodyID.ToString(), new ScanObjectBodyDetailed());
 
-                mainform.CompleteDict[generatedBodyName]["MARadians"] = (Math.PI / 180) * bodyData.MeanAnomaly;
-                mainform.CompleteDict[generatedBodyName]["EA"] = CalculateEccentricAnomaly(bodyData.SemiMajorAxis, bodyData.Eccentricity, mainform.CompleteDict[generatedBodyName]["MARadians"]);
-                mainform.CompleteDict[generatedBodyName]["TA"] = CalculateTrueAnomaly(bodyData.SemiMajorAxis, bodyData.Eccentricity, mainform.CompleteDict[generatedBodyName]["EA"], mainform.CompleteDict[generatedBodyName]["MARadians"]);
-                mainform.CompleteDict[generatedBodyName]["inclinationRadians"] = (Math.PI / 180) * bodyData.OrbitalInclination;
-                mainform.CompleteDict[generatedBodyName]["raanRadians"] = (Math.PI / 180) * bodyData.AscendingNode;
-                mainform.CompleteDict[generatedBodyName]["aopRadians"] = (Math.PI / 180) * bodyData.Periapsis;
+                mainform.bodyDictionary[generatedBodyName] = bodyData;
+                mainform.bodyDictionary[generatedBodyName].BodyName = generatedBodyName;
+                mainform.bodyDictionary[bodyData.BodyID.ToString()].BodyName = generatedBodyName;
+                mainform.bodyDictionary[generatedBodyName].MeanAnomalyRadians = (Math.PI / 180) * bodyData.MeanAnomaly;
+                mainform.bodyDictionary[generatedBodyName].EccentricAnomaly = CalculateEccentricAnomaly(bodyData.SemiMajorAxis, bodyData.Eccentricity, mainform.bodyDictionary[generatedBodyName].MeanAnomalyRadians);
+                mainform.bodyDictionary[generatedBodyName].TrueAnomaly = CalculateTrueAnomaly(
+                    bodyData.SemiMajorAxis,
+                    bodyData.Eccentricity,
+                    mainform.bodyDictionary[generatedBodyName].EccentricAnomaly,
+                    mainform.bodyDictionary[generatedBodyName].MeanAnomalyRadians
+                );
 
-                double speedOfLight = 299792458; // speed of light in meters per second
-                double[] xyz = ConvertToCartesian(bodyData.SemiMajorAxis, bodyData.Eccentricity, mainform.CompleteDict[generatedBodyName]["inclinationRadians"], mainform.CompleteDict[generatedBodyName]["raanRadians"], mainform.CompleteDict[generatedBodyName]["aopRadians"], mainform.CompleteDict[generatedBodyName]["TA"]);
-                mainform.CompleteDict[generatedBodyName]["x"] = xyz[0];
-                mainform.CompleteDict[generatedBodyName]["y"] = xyz[1];
-                mainform.CompleteDict[generatedBodyName]["z"] = xyz[2];
-                mainform.CompleteDict[generatedBodyName]["distanceParentMeters"] = Math.Sqrt(Math.Pow(xyz[0] - 0, 2) + Math.Pow(xyz[1] - 0, 2) + Math.Pow(xyz[2] - 0, 2));
-                mainform.CompleteDict[generatedBodyName]["distanceParentLS"] = mainform.CompleteDict[generatedBodyName]["distanceParentMeters"] / speedOfLight;
+                mainform.bodyDictionary[generatedBodyName].InclinationRadians = (Math.PI / 180) * bodyData.OrbitalInclination;
+                mainform.bodyDictionary[generatedBodyName].AscendingNodeRadians = (Math.PI / 180) * bodyData.AscendingNode;
+                mainform.bodyDictionary[generatedBodyName].PeriapsisRadians = (Math.PI / 180) * bodyData.Periapsis;
+
+                mainform.bodyDictionary[generatedBodyName].XYZ = ConvertToCartesian(
+                    bodyData.SemiMajorAxis,
+                    bodyData.Eccentricity,
+                    mainform.bodyDictionary[generatedBodyName].InclinationRadians,
+                    mainform.bodyDictionary[generatedBodyName].AscendingNodeRadians,
+                    mainform.bodyDictionary[generatedBodyName].PeriapsisRadians,
+                    mainform.bodyDictionary[generatedBodyName].TrueAnomaly
+                );
+                mainform.bodyDictionary[generatedBodyName].DistanceToParentMeters = Math.Sqrt(Math.Pow(mainform.bodyDictionary[generatedBodyName].XYZ[0] - 0, 2) + Math.Pow(mainform.bodyDictionary[generatedBodyName].XYZ[1] - 0, 2) + Math.Pow(mainform.bodyDictionary[generatedBodyName].XYZ[2] - 0, 2));
+                mainform.bodyDictionary[generatedBodyName].DistancetoParentsLS = mainform.bodyDictionary[generatedBodyName].DistanceToParentMeters / speedOfLight;
+                mainform.bodyDictionary[generatedBodyName].Children = new List<int>();
+                mainform.bodyDictionary[generatedBodyName].FoundParent = -99;
+
+                int newBaryRow = mainform.dataGridViewBodies.Rows.Add(
+                generatedBodyName,
+                "BaryCentre",
+                "BaryCentre",
+                "--",
+                "--",
+                "--",
+                "--",
+                "--",
+                "--",
+                "--",
+                "--",
+                "--",
+                "--",
+                "--",
+                "--",
+                "--",
+                bodyData.BodyID,
+                ""
+                );
+                mainform.richTextBoxDebug.AppendText("BaryCentre New Row: "+ newBaryRow + Environment.NewLine);
+
+                mainform.bodyDictionary[generatedBodyName].GridRow = newBaryRow;
 
             }
-         }
+        }
     
 
     static double[] ConvertToCartesian(double a, double e, double i, double raan, double aop, double ta)

@@ -1,198 +1,199 @@
-﻿using System;
+﻿using ScottPlot.Palettes;
+using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace Elite_Explorer_Dashboard_V2
 {
     public class AllBodiesFound
     {
-         EliteExplorer mainform = (EliteExplorer)Application.OpenForms[0];
+        EliteExplorer mainform = (EliteExplorer)Application.OpenForms[0];
         public void process(string line)
         {
             FSSAllBodiesFound? edObject = JsonSerializer.Deserialize<FSSAllBodiesFound>(line);
-            mainform.labelBodiesFound.Text = "All " + edObject.Count + " Bodies in " + edObject.SystemName + " have been scanned.";
+
+            if (edObject != null)
+            {
+                mainform.labelBodiesFound.Text = "All " + edObject.Count + " Bodies in " + edObject.SystemName + " have been scanned.";
+            }
             if (mainform.dataGridViewBodies.Rows != null && mainform.dataGridViewBodies.Rows.Count != 0)
             {
                 mainform.dataGridViewBodies.Sort(mainform.dataGridViewBodies.Columns["BID"], ListSortDirection.Ascending);
                 mainform.dataGridViewOM.Sort(mainform.dataGridViewOM.Columns["OMBID"], ListSortDirection.Ascending);
-                processOrbitalElements();
+
+                calculateChildren();
 
                 processDistances();
 
+                updateGrid();
+
+            }
+        }
+
+        public void updateGrid()
+        {
+            foreach (var body in mainform.bodyDictionary)
+            {
+                ScanObjectBodyDetailed bodyInfo = body.Value;
+                int checkInt = 0;
+                bool isInt = int.TryParse(body.Key, out checkInt);
+                if (isInt == false && bodyInfo.BodyName.Contains("Belt Cluster") == false && bodyInfo.BodyName.Contains("System Center") == false)
+                {
+                    string useNeighbor = bodyInfo.NeighborName + " (" + string.Format("{0:N6}", bodyInfo.NeighborLS) + ")";
+                    mainform.richTextBoxDebug.AppendText(useNeighbor + Environment.NewLine + Environment.NewLine);
+                    mainform.dataGridViewBodies[17, mainform.usedBodies[bodyInfo.BodyName]].Value = useNeighbor;
+
+                    if(bodyInfo.NeighborLS >= 1)
+                    {
+                        mainform.dataGridViewBodies[17, mainform.usedBodies[bodyInfo.BodyName]].Style.BackColor = Color.Green;
+                        mainform.dataGridViewBodies[17, mainform.usedBodies[bodyInfo.BodyName]].Style.ForeColor = Color.White;
+                    }
+                    if (bodyInfo.NeighborLS < 1 && bodyInfo.NeighborLS >=0.01)
+                    {
+                        mainform.dataGridViewBodies[17, mainform.usedBodies[bodyInfo.BodyName]].Style.BackColor = Color.Orange;
+                        mainform.dataGridViewBodies[17, mainform.usedBodies[bodyInfo.BodyName]].Style.ForeColor = Color.White;
+                    }
+                    if (bodyInfo.NeighborLS < 0.01)
+                    {
+                        mainform.dataGridViewBodies[17, mainform.usedBodies[bodyInfo.BodyName]].Style.BackColor = Color.Red;
+                        mainform.dataGridViewBodies[17, mainform.usedBodies[bodyInfo.BodyName]].Style.ForeColor = Color.White;
+                    }
+                }
+            }
+        }
+        public void calculateChildren()
+        {
+            if (mainform.bodyDictionary.ContainsKey("-99") == false)
+            {
+                string generatedBodyname = "System Center";
+                int generatedBodyID = -99;
+
+                mainform.bodyDictionary.Add(generatedBodyID.ToString(), new ScanObjectBodyDetailed());
+
+                mainform.bodyDictionary.Add(generatedBodyname, new ScanObjectBodyDetailed());
+
+                mainform.bodyDictionary[generatedBodyID.ToString()].BodyID = generatedBodyID;
+                mainform.bodyDictionary[generatedBodyID.ToString()].BodyName = generatedBodyname;
+                mainform.bodyDictionary[generatedBodyname].BodyName = generatedBodyname;
+                mainform.bodyDictionary[generatedBodyname].BodyID = generatedBodyID;
+
+                mainform.bodyDictionary[generatedBodyname].SemiMajorAxis = 0;
+                mainform.bodyDictionary[generatedBodyname].Eccentricity = 0;
+                mainform.bodyDictionary[generatedBodyname].OrbitalInclination = 0;
+                mainform.bodyDictionary[generatedBodyname].Periapsis = 0;
+                mainform.bodyDictionary[generatedBodyname].OrbitalPeriod = 0;
+                mainform.bodyDictionary[generatedBodyname].AscendingNode = 0;
+                mainform.bodyDictionary[generatedBodyname].MeanAnomaly = 0;
+                mainform.bodyDictionary[generatedBodyname].DistanceToParentMeters = 0;
+                mainform.bodyDictionary[generatedBodyname].FoundParent = 0;
+                mainform.bodyDictionary[generatedBodyname].Children = new List<int>();
+                mainform.bodyDictionary[generatedBodyname].XYZ = new double[3];
+                mainform.bodyDictionary[generatedBodyname].XYZ[0] = 0;
+                mainform.bodyDictionary[generatedBodyname].XYZ[1] = 0;
+                mainform.bodyDictionary[generatedBodyname].XYZ[1] = 0;
+
+            }
+            foreach (var body in mainform.bodyDictionary)
+            {
+                ScanObjectBodyDetailed bodyInfo = body.Value;
+                mainform.richTextBoxDebug.AppendText(JsonSerializer.Serialize(bodyInfo.BodyID, new JsonSerializerOptions { WriteIndented = true }) + Environment.NewLine + Environment.NewLine);
+                mainform.richTextBoxDebug.ScrollToCaret();
+                if (bodyInfo.BodyName != null)
+                {
+                    int checkInt = 0;
+                    bool isInt = int.TryParse(body.Key, out checkInt);
+                    if (isInt == false && bodyInfo.BodyName.Contains("Belt Cluster") == false)
+                    {
+                        mainform.richTextBoxDebug.AppendText(bodyInfo.BodyName + Environment.NewLine);
+                        int? useParent = bodyInfo.FoundParent;
+                        if (mainform.bodyDictionary.ContainsKey(useParent.ToString()) == false)
+                        {
+                            useParent = -99;
+
+
+                        }
+
+                        string parentName = mainform.bodyDictionary[useParent.ToString()].BodyName;
+
+                        //mainform.bodyDictionary[parentName].Children.Add(bodyInfo.BodyID);
+
+                        mainform.richTextBoxDebug.AppendText(parentName + " " + useParent + Environment.NewLine);
+                        mainform.richTextBoxDebug.ScrollToCaret();
+
+                        Debug.WriteLine(parentName);
+                        if (mainform.bodyDictionary[parentName] != null)
+                        {
+                            mainform.bodyDictionary[parentName].Children.Add(bodyInfo.BodyID);
+                        }
+
+                    }
+                }
             }
         }
 
         public void processDistances()
         {
-            mainform.listBoxOrbitalElementsMath.Items.Add("Calculating Distances");
+            double speedOfLight = 299792458; // speed of light in meters per second
 
-            int parentRowCounter = 0;
-            if (mainform.dataGridViewCalculatedOM.Rows.Count > 1)
+
+            mainform.richTextBoxDebug.AppendText("Calculating Distances" + Environment.NewLine);
+            mainform.richTextBoxDebug.ScrollToCaret();
+            foreach (var body in mainform.bodyDictionary)
             {
-                foreach (DataGridViewRow parentRow in mainform.dataGridViewCalculatedOM.Rows)
-                {
-                    int bodyRowCounter = 0;
-                    double[] lastchildCYZ = { 0, 0, 0 };
-                    mainform.listBoxOrbitalElementsMath.Items.Add("Checking Parent " + parentRow.Cells["BodyNameCalc"].Value);
-                    double[] parentXYZ = { Convert.ToDouble(parentRow.Cells["CalcX"].Value), Convert.ToDouble(parentRow.Cells["CalcY"].Value), Convert.ToDouble(parentRow.Cells["CalcZ"].Value) };
+                ScanObjectBodyDetailed bodyInfo = body.Value;
 
-                    foreach (DataGridViewRow bodyRow in mainform.dataGridViewCalculatedOM.Rows)
+                int checkInt = 0;
+                bool isInt = int.TryParse(body.Key, out checkInt);
+                if (isInt == false && bodyInfo.BodyName.Contains("Belt Cluster") == false)
+                {
+                    mainform.richTextBoxDebug.AppendText(bodyInfo.BodyName + Environment.NewLine);
+                    foreach (var i in bodyInfo.Children)
                     {
-
-                        mainform.listBoxOrbitalElementsMath.Items.Add("\tChecking Child " + bodyRow.Cells["BodyNameCalc"].Value);
-
-                        double[] childXYZ = { Convert.ToDouble(bodyRow.Cells["CalcX"].Value), Convert.ToDouble(bodyRow.Cells["CalcY"].Value), Convert.ToDouble(bodyRow.Cells["CalcZ"].Value) };
-
-                        double distance = Math.Sqrt(Math.Pow(childXYZ[0] - lastchildCYZ[0], 2) + Math.Pow(childXYZ[1] - lastchildCYZ[1], 2) + Math.Pow(childXYZ[2] - lastchildCYZ[2], 2));
-                        double speedOfLight = 299792458; // speed of light in meters per second
-                        double lightSeconds = distance / speedOfLight;
-                        double mM = distance / 1000000;
-                        if (lightSeconds < 1)
+                        if (i != bodyInfo.BodyID)
                         {
-                            mainform.listBoxOrbitalElementsMath.Items.Add("Distance from  " + parentRow.Cells["BodyNameCalc"].Value + " to " + bodyRow.Cells["BodyNameCalc"].Value + " LS: " + lightSeconds);
+                            mainform.richTextBoxDebug.AppendText("\t" + i.ToString() + Environment.NewLine);
+                            var childName = mainform.bodyDictionary[i.ToString()].BodyName;
 
+                            foreach (var j in bodyInfo.Children)
+                            {
+                                if(i != j)
+                                {
+                                    if (j != bodyInfo.BodyID)
+                                    {
+                                        var childName2 = mainform.bodyDictionary[j.ToString()].BodyName;
 
-                            mainform.dataGridViewCalculatedOM[9, bodyRowCounter].Value = lightSeconds;
+                                            Debug.WriteLine(childName + " " + childName2);
+                                            double distance = Math.Sqrt(Math.Pow(mainform.bodyDictionary[childName].XYZ[0] - mainform.bodyDictionary[childName2].XYZ[0], 2) + Math.Pow(mainform.bodyDictionary[childName].XYZ[1] - mainform.bodyDictionary[childName2].XYZ[1], 2) + Math.Pow(mainform.bodyDictionary[childName].XYZ[2] - mainform.bodyDictionary[childName2].XYZ[2], 2));
+                                            double lightSeconds = distance / speedOfLight;
 
-                                //mainform.dataGridViewBodies[17, mainform.usedBodies[bodyRow.Cells["BodyNameCalc"].Value.ToString()]].Value = string.Format("{0:N3}", mM)+" Mm";
-                              
-                            
+                                            mainform.richTextBoxDebug.AppendText("\t\tCalculating " + childName + " To " + childName2 + " " + lightSeconds + Environment.NewLine);
+                                            if (mainform.bodyDictionary[childName].NeighborMeters == null || mainform.bodyDictionary[childName].NeighborMeters > lightSeconds)
+                                            {
+                                                mainform.bodyDictionary[childName].NeighborMeters = distance;
+                                                mainform.bodyDictionary[childName].NeighborLS = lightSeconds;
+                                                mainform.bodyDictionary[childName].NeighborName = childName2;
+
+                                            }
+                                    }
+                                }
+                            }
                         }
-
-
-                        lastchildCYZ = childXYZ;
-
-
-
-                        ++bodyRowCounter;
                     }
-                    ++parentRowCounter;
                 }
+
             }
-        }
-        public void processOrbitalElements()
-        {
-            mainform.listBoxOrbitalElementsMath.Items.Add("Start Processing Orbital Elements");
-            double[] plotDataX = { 0 };
-            double[] plotDataY = { 0 };
+            mainform.richTextBoxDebug.AppendText(JsonSerializer.Serialize(mainform.bodyDictionary, new JsonSerializerOptions { WriteIndented = true }) + Environment.NewLine + Environment.NewLine);
 
-
-
-            foreach (DataGridViewRow row in mainform.dataGridViewOM.Rows)
-            {
-
-                if (row.Cells["SemiMajorAxis"].Value != "-")
-                {
-                    mainform.listBoxOrbitalElementsMath.Items.Add(row.Cells["OMBID"].Value);
-                    mainform.listBoxOrbitalElementsMath.Items.Add(row.Cells["OMBodyName"].Value + " Orbits " + row.Cells["Parents"].Value);
-
-                    double semiMajorKM = Convert.ToDouble(row.Cells["SemiMajorAxis"].Value);
-
-                    double MARadians = (Math.PI / 180) * Convert.ToDouble(row.Cells["MeanAnomaly"].Value);
-
-                    double EA = CalculateEccentricAnomaly(semiMajorKM, Convert.ToDouble(row.Cells["Eccentricity"].Value), MARadians);
-                    mainform.listBoxOrbitalElementsMath.Items.Add("Eccentric Anomaly: " + EA);
-
-                    double TA = CalculateTrueAnomaly(semiMajorKM, Convert.ToDouble(row.Cells["Eccentricity"].Value), EA, MARadians);
-                    mainform.listBoxOrbitalElementsMath.Items.Add("True Anomaly: " + TA);
-
-                    double inclinationRadians = (Math.PI / 180) * Convert.ToDouble(row.Cells["OrbitalInclination"].Value);
-                    double raanRadians = (Math.PI / 180) * Convert.ToDouble(row.Cells["AscendingNode"].Value);
-                    double aopRadians = (Math.PI / 180) * Convert.ToDouble(row.Cells["Periapsis"].Value);
-
-                    double[] xyz = ConvertToCartesian(semiMajorKM, Convert.ToDouble(row.Cells["Eccentricity"].Value), inclinationRadians, raanRadians, aopRadians, TA);
-                    mainform.listBoxOrbitalElementsMath.Items.Add("X,Y,Z: " + xyz[0] + ", " + xyz[1] + ", " + xyz[2]);
-
-                    //Calculate to 0,0,0
-
-                    double distance = Math.Sqrt(Math.Pow(xyz[0] - 0, 2) + Math.Pow(xyz[1] - 0, 2) + Math.Pow(xyz[2] - 0, 2));
-                    double speedOfLight = 299792458; // speed of light in meters per second
-                    double lightSeconds = distance / speedOfLight;
-                    mainform.listBoxOrbitalElementsMath.Items.Add("Distance to 0,0,0: " + distance + " LS: " + lightSeconds);
-
-                    mainform.dataGridViewCalculatedOM.Rows.Add(
-                        row.Cells["OMBodyName"].Value,
-                        row.Cells["OMBID"].Value,
-                        row.Cells["Parents"].Value,
-                        TA,
-                        EA,
-                        xyz[0],
-                        xyz[1],
-                        xyz[2],
-                        lightSeconds
-                    );
-                }
-                else
-                {
-                    mainform.dataGridViewCalculatedOM.Rows.Add(
-                         row.Cells["OMBodyName"].Value,
-                         row.Cells["OMBID"].Value,
-                        row.Cells["Parents"].Value,
-                         0,
-                         0,
-                         0,
-                         0,
-                         0,
-                         0
-                         );
-                }
-            }
-            //mainform.formsPlotOrbit.Plot.AddScatter(plotDataX, plotDataY, lineWidth: 0, label: "markers only");
-        }
-        static double[] ConvertToCartesian(double a, double e, double i, double raan, double aop, double ta)
-        {
-            double[] xyz = new double[3];
-
-            // Calculate r
-            double r = a * (1 - e * e) / (1 + e * Math.Cos(ta));
-
-            // Calculate x, y, z
-            xyz[0] = r * (Math.Cos(raan) * Math.Cos(aop + ta) - Math.Sin(raan) * Math.Sin(aop + ta) * Math.Cos(i));
-            xyz[1] = r * (Math.Sin(raan) * Math.Cos(aop + ta) + Math.Cos(raan) * Math.Sin(aop + ta) * Math.Cos(i));
-            xyz[2] = r * Math.Sin(aop + ta) * Math.Sin(i);
-
-            return xyz;
-        }
-        static double CalculateEccentricAnomaly(double a, double e, double M)
-        {
-            double E = M;
-            double tolerance = 1e-8;
-            double maxIterations = 100;
-
-            for (int i = 0; i < maxIterations; i++)
-            {
-                double error = E - e * Math.Sin(E) - M;
-                if (Math.Abs(error) < tolerance)
-                {
-                    break;
-                }
-                E = E - error / (1 - e * Math.Cos(E));
-            }
-
-            return E;
-        }
-        static double CalculateTrueAnomaly(double a, double e, double E, double M)
-        {
-            double ta = 0.0;
-            if (e < 1) // elliptical orbit
-            {
-                ta = 2 * Math.Atan(Math.Sqrt((1 + e) / (1 - e)) * Math.Tan(E / 2));
-            }
-            else if (e == 1) // parabolic orbit
-            {
-                ta = 2 * Math.Atan(Math.Tan(E / 2));
-            }
-            else // hyperbolic orbit
-            {
-                ta = 2 * Math.Atan(Math.Sqrt((e + 1) / (e - 1)) * Math.Tanh(E / 2));
-            }
-            return ta;
         }
     }
 }
+       

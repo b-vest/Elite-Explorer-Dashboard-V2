@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -252,6 +253,37 @@ namespace Elite_Explorer_Dashboard_V2
         public string? timestamp { get; set; }
         public List<double>? StarPos { get; set; }
         public List<AtmosphereCompositionObject>? AtmosphereComposition { get; set; }
+
+        public double[]? XYZ { get; set; }
+
+        public string? NeighborName { get; set; }
+
+        public int? NeighborID { get; set; }
+
+        public double? NeighborMeters { get; set; }
+        public double? NeighborLS { get; set; }
+
+        public int? FoundParent { get; set; }
+
+        public double MeanAnomalyRadians { get; set; }
+
+        public double EccentricAnomaly { get; set; }
+
+        public double TrueAnomaly { get; set; }
+
+        public double InclinationRadians { get; set; }
+
+        public double AscendingNodeRadians { get; set; }
+
+        public double PeriapsisRadians { get; set; }
+
+        public double DistanceToParentMeters { get; set; }
+
+        public double DistancetoParentsLS { get; set; }
+
+        public List<int> Children { get; set; }
+
+        public int GridRow { get; set; }
     }
     public class EDData
     {
@@ -328,6 +360,35 @@ namespace Elite_Explorer_Dashboard_V2
         public string? Commander { get; set; }
         public int BodyCount { get; set; }
         public int NonBodyCount { get; set; }
+
+        public double[]? XYZ { get; set; }
+
+        public string? NeighborName { get; set; }
+
+        public int? NeighborID { get; set; }
+
+        public int? FoundParent { get; set; }
+
+        public double? MeanAnomalyRadians { get; set; }
+
+        public double? EccentricAnomaly { get; set; }
+
+        public double? TrueAnomaly { get; set; }
+
+        public double? InclinationRadians { get; set; }
+
+        public double? AscendingNodeRadians { get; set; }
+
+        public double? PeriapsisRadians { get; set; }
+
+        public double? DistanceToParentMeters { get; set; }
+
+        public double? DistancetoParentsLS { get; set; }
+
+        public int[]? Children { get; set; }
+        public int? Parent { get; set; }
+
+       
 
     }
 }
