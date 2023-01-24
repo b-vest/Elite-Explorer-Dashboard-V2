@@ -24,6 +24,10 @@ namespace Elite_Explorer_Dashboard_V2
 
         public Dictionary<string, dynamic> CompleteDict = new Dictionary<string, dynamic>();
 
+        new OrbitMathFunctions orbitMath = new OrbitMathFunctions();
+        LogFile thisLogFile = new LogFile();
+
+
         public EliteExplorer()
         {
             InitializeComponent();
@@ -76,8 +80,10 @@ namespace Elite_Explorer_Dashboard_V2
 
         private void timerCheckLog_Tick(object sender, EventArgs e)
         {
-            LogFile thisLogFile = new LogFile();
-            thisLogFile.read();
+            timerCheckLog.Enabled = false;
+            thisLogFile.read(runningData,orbitMath);
+            timerCheckLog.Enabled = true;
+
         }
 
         private void label2_Click(object sender, EventArgs e)

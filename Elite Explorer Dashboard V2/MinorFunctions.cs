@@ -11,12 +11,10 @@ namespace Elite_Explorer_Dashboard_V2
     {
         public void processLineMusic(EDData eventData, DataGridView dataGridHeader)
         {
-
             if (eventData.MusicTrack != "NoTrack")
             {
                 dataGridHeader[8, 0].Value = eventData.MusicTrack;
             }
-
         }
         public void updateLocationCell(EDData eventData, DataGridView dataGridHeader)
         {

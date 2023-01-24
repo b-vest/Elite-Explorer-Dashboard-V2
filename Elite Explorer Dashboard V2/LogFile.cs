@@ -8,7 +8,6 @@ namespace Elite_Explorer_Dashboard_V2
 {
     internal class LogFile
     {
-        EliteExplorer mainform = (EliteExplorer)Application.OpenForms[0];
 
         public string findLatest()
         {
@@ -19,33 +18,31 @@ namespace Elite_Explorer_Dashboard_V2
             return thisLogFile;
         }
 
-        public void read()
+        public void read(runningDataObject runningData, OrbitMathFunctions orbitMath)
         {
             int thisLineCount = 0;
-            mainform.timerCheckLog.Enabled = false;
-            mainform.runningData.CurrentLogFile = findLatest();
-            if (mainform.runningData.CurrentLogFile == null)
+            runningData.CurrentLogFile = findLatest();
+            if (runningData.CurrentLogFile == null)
             {
                 return;
             }
-            var fs = new FileStream(mainform.runningData.CurrentLogFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            var fs = new FileStream(runningData.CurrentLogFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             var sr = new StreamReader(fs);
             string? line = String.Empty;
             while ((line = sr.ReadLine()) != null)
             {
 
                 ++thisLineCount;
-                if (thisLineCount > mainform.runningData.CurrentLogLineNumber)
+                if (thisLineCount > runningData.CurrentLogLineNumber)
                 {
                     DateTime currentDateTime = DateTime.Now;
                     //processLine(line);
 
                     Line thisLine = new Line();
-                    thisLine.process(line);
+                    thisLine.process(line, orbitMath);
                 }
             }
-            mainform.runningData.CurrentLogLineNumber = thisLineCount;
-            mainform.timerCheckLog.Enabled = true;
+            runningData.CurrentLogLineNumber = thisLineCount;
             return;
         }
     }

@@ -11,7 +11,7 @@ namespace Elite_Explorer_Dashboard_V2
 {
     public class Line
     {
-        public void process(string line)
+        public void process(string line, OrbitMathFunctions orbitMath)
         {
             EliteExplorer mainform = (EliteExplorer)Application.OpenForms[0];
 
