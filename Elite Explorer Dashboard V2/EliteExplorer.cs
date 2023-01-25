@@ -15,11 +15,8 @@ namespace Elite_Explorer_Dashboard_V2
     public partial class EliteExplorer : Form
     {
         public runningDataObject runningData = new runningDataObject();
-        public Dictionary<string, int> usedParents = new Dictionary<string, int>();
-        public Dictionary<int, string> BodyIDtoName = new Dictionary<int, string>();
-        public Dictionary<string, dynamic> CompleteDict = new Dictionary<string, dynamic>();
 
-        new OrbitMathFunctions orbitMath = new OrbitMathFunctions();
+        //new OrbitMathFunctions orbitMath = new OrbitMathFunctions();
         LogFile thisLogFile = new LogFile();
 
 
@@ -56,7 +53,7 @@ namespace Elite_Explorer_Dashboard_V2
         private void timerCheckLog_Tick(object sender, EventArgs e)
         {
             timerCheckLog.Enabled = false;
-            thisLogFile.read(runningData,orbitMath, dataGridHeader, dataGridStars, dataGridViewBodies, labelBodiesFound);
+            thisLogFile.read(runningData, dataGridHeader, dataGridStars, dataGridViewBodies, labelBodiesFound);
             timerCheckLog.Enabled = true;
 
         }

@@ -33,7 +33,7 @@ namespace Elite_Explorer_Dashboard_V2
                 string[] imageDimensions = Properties.Settings.Default.ConvertResolution.Split('x');
                 MyImage.Resize(Int32.Parse(imageDimensions[0]), Int32.Parse(imageDimensions[1]));
 
-                MyImage.Settings.FontPointsize = 36;
+                MyImage.Settings.FontPointsize = 16;
                 MyImage.Settings.FontFamily = "Consolas";
                 MyImage.Settings.FillColor = (MagickColor.FromRgb((byte)255, (byte)255, (byte)255));
                 MyImage.Annotate(edObject.Body + "  ", Gravity.Northeast);

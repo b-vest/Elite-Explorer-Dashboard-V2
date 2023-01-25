@@ -306,7 +306,7 @@
             // labelScreenshotSystem
             // 
             this.labelScreenshotSystem.AutoSize = true;
-            this.labelScreenshotSystem.Location = new System.Drawing.Point(1326, 116);
+            this.labelScreenshotSystem.Location = new System.Drawing.Point(1294, 118);
             this.labelScreenshotSystem.Name = "labelScreenshotSystem";
             this.labelScreenshotSystem.Size = new System.Drawing.Size(56, 20);
             this.labelScreenshotSystem.TabIndex = 6;
@@ -315,7 +315,7 @@
             // labelScreenshotTimestamp
             // 
             this.labelScreenshotTimestamp.AutoSize = true;
-            this.labelScreenshotTimestamp.Location = new System.Drawing.Point(1326, 148);
+            this.labelScreenshotTimestamp.Location = new System.Drawing.Point(1294, 148);
             this.labelScreenshotTimestamp.Name = "labelScreenshotTimestamp";
             this.labelScreenshotTimestamp.Size = new System.Drawing.Size(83, 20);
             this.labelScreenshotTimestamp.TabIndex = 5;
@@ -325,7 +325,7 @@
             // labelStaticScreenshotText
             // 
             this.labelStaticScreenshotText.AutoSize = true;
-            this.labelStaticScreenshotText.Location = new System.Drawing.Point(1326, 86);
+            this.labelStaticScreenshotText.Location = new System.Drawing.Point(1294, 84);
             this.labelStaticScreenshotText.Name = "labelStaticScreenshotText";
             this.labelStaticScreenshotText.Size = new System.Drawing.Size(124, 20);
             this.labelStaticScreenshotText.TabIndex = 4;

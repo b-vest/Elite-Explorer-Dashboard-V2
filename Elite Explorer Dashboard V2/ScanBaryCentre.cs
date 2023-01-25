@@ -22,7 +22,8 @@ namespace Elite_Explorer_Dashboard_V2
 
                 runningData.bodyDictionary[generatedBodyName] = bodyData;
                 runningData.bodyDictionary[generatedBodyName].BodyName = generatedBodyName;
-                runningData.bodyDictionary[bodyData.BodyID.ToString()].BodyName = generatedBodyName;
+
+                runningData.bodyIDToName[bodyData.BodyID] = generatedBodyName;
                 runningData.bodyDictionary[generatedBodyName].MeanAnomalyRadians = (Math.PI / 180) * bodyData.MeanAnomaly;
                 runningData.bodyDictionary[generatedBodyName].EccentricAnomaly = OrbitMathFunctions.CalculateEccentricAnomaly(bodyData.SemiMajorAxis, bodyData.Eccentricity, runningData.bodyDictionary[generatedBodyName].MeanAnomalyRadians);
                 runningData.bodyDictionary[generatedBodyName].TrueAnomaly = OrbitMathFunctions.CalculateTrueAnomaly(

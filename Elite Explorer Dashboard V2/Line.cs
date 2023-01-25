@@ -11,7 +11,7 @@ namespace Elite_Explorer_Dashboard_V2
 {
     public class Line
     {
-        public void process(string line, runningDataObject runningData, OrbitMathFunctions orbitMath, DataGridView dataGridHeader, DataGridView dataGridStars, DataGridView dataGridBodies, TextBox labelBodiesFound)
+        public void process(string line, runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridStars, DataGridView dataGridBodies, TextBox labelBodiesFound)
         {
             EliteExplorer mainform = (EliteExplorer)Application.OpenForms[0];
 

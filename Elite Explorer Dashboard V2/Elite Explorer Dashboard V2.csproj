@@ -21,6 +21,8 @@
 
   <ItemGroup>
     <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="12.2.2" />
+    <PackageReference Include="Microsoft.Chart.Controls" Version="4.7.2046" />
+    <PackageReference Include="OpenTK" Version="4.7.5" />
     <PackageReference Include="ScottPlot.WinForms" Version="4.1.60" />
   </ItemGroup>
 
