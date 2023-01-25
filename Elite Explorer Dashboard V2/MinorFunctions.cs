@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -32,16 +33,18 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridHeader[7, 0].Value = eventData.RemainingJumpsInRoute;
 
         }
-        public void processLineFSDJump(string line, runningDataObject runningData, Dictionary<string, dynamic> CompleteDict, Dictionary<string, ScanObjectBodyDetailed> bodyDictionary, DataGridView dataGrodStars, DataGridView dataGridViewBodies, DataGridView dataGridStars, DataGridView dataGridViewOM, DataGridView dataGridViewCalculatedOM)
+        public void processLineFSDJump(string line, runningDataObject runningData, DataGridView dataGridViewBodies, DataGridView dataGridStars)
         {
             FSDJumpObject? edObject = JsonSerializer.Deserialize<FSDJumpObject>(line);
             dataGridStars.Rows.Clear();
             dataGridViewBodies.Rows.Clear();
-            dataGridViewOM.Rows.Clear();
-            dataGridViewCalculatedOM.Rows.Clear();
-            CompleteDict.Clear();
-            bodyDictionary.Clear();
-            runningData.CurrentSystem = edObject.StarSystem;
+            runningData.bodyDictionary.Clear();
+            runningData.bodyIDToName.Clear();
+            if (edObject != null)
+            {
+                runningData.CurrentSystem = edObject.StarSystem;
+            }
+
         }
         public void processLineFuelScoop(EDData eventData, runningDataObject runningData, DataGridView dataGridHeader)
         {
@@ -52,8 +55,14 @@ namespace Elite_Explorer_Dashboard_V2
         public void processLineTouchdown(string line, runningDataObject runningData, Dictionary<string, int> usedBodies, DataGridView dataGridViewBodies)
         {
             TouchdownObject? edObject = JsonSerializer.Deserialize<TouchdownObject>(line);
-            dataGridViewBodies[12, usedBodies[edObject.Body]].Style.BackColor = Color.Green;
-            runningData.CurrentBody = edObject.Body;
+            if (edObject != null)
+            {
+                if (edObject.Body != null)
+                {
+                    dataGridViewBodies[12, usedBodies[edObject.Body]].Style.BackColor = Color.Green;
+                    runningData.CurrentBody = edObject.Body;
+                }
+            }
         }
         public void processLineShutdown(string line, DataGridView dataGridHeader)
         {
@@ -98,27 +107,71 @@ namespace Elite_Explorer_Dashboard_V2
         {
 
             SAAScanCompleteObject? edObject = JsonSerializer.Deserialize<SAAScanCompleteObject>(line);
-            if (edObject.BodyName.Contains("Ring") == false && usedBodies.ContainsKey(edObject.BodyName))
+            if (edObject != null)
             {
-                dataGridViewBodies[11, usedBodies[edObject.BodyName]].Style.BackColor = Color.Green;
-                dataGridViewBodies[11, usedBodies[edObject.BodyName]].Style.ForeColor = Color.White;
-                dataGridViewBodies[11, usedBodies[edObject.BodyName]].Value = edObject.ProbesUsed;
+                if (edObject.BodyName != null)
+                {
+                    if (edObject.BodyName.Contains("Ring") == false && usedBodies.ContainsKey(edObject.BodyName))
+                    {
+                        dataGridViewBodies[11, usedBodies[edObject.BodyName]].Style.BackColor = Color.Green;
+                        dataGridViewBodies[11, usedBodies[edObject.BodyName]].Style.ForeColor = Color.White;
+                        dataGridViewBodies[11, usedBodies[edObject.BodyName]].Value = edObject.ProbesUsed;
+                    }
+                }
+            }
+        }
+        public void processMaterialsLine(EDData? storedMaterials, runningDataObject runningData)
+        {
+            if(storedMaterials != null) {
+                if(storedMaterials.Raw != null) {
+                    if (runningData.materialCount != null)
+                    {
+                        foreach (var item in storedMaterials.Raw)
+                        {
+                            if (item.Name != null)
+                            {
+                                if (runningData.materialCount.ContainsKey(item.Name) == false)
+                                {
+                                    runningData.materialCount.Add(item.Name, item.Count);
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         public void processLineLaunchSRV(runningDataObject runningData, Dictionary<string, int> usedBodies, DataGridView dataGridViewBodies)
         {
-            dataGridViewBodies[13, usedBodies[runningData.CurrentBody]].Style.BackColor = Color.Green;
-        }
+            if (runningData != null)
+            {
+                if (runningData.CurrentBody != null)
+                {
+                    dataGridViewBodies[13, usedBodies[runningData.CurrentBody]].Style.BackColor = Color.Green;
+                }
+            }
+         }
         public void processLineLiftoff(runningDataObject runningData, Dictionary<string, int> usedBodies, DataGridView dataGridViewBodies)
         {
-            if (dataGridViewBodies.Rows.Count > 0)
+            if (runningData != null)
             {
-                dataGridViewBodies[15, usedBodies[runningData.CurrentBody]].Style.BackColor = Color.Green;
+                if (runningData.CurrentBody != null)
+                {
+                    if (dataGridViewBodies.Rows.Count > 0)
+                    {
+                        dataGridViewBodies[15, usedBodies[runningData.CurrentBody]].Style.BackColor = Color.Green;
+                    }
+                }
             }
         }
         public void processLineDisembark(runningDataObject runningData, Dictionary<string, int> usedBodies, DataGridView dataGridViewBodies)
         {
-            dataGridViewBodies[14, usedBodies[runningData.CurrentBody]].Style.BackColor = Color.Green;
+            if (runningData != null)
+            {
+                if (runningData.CurrentBody != null)
+                {
+                    dataGridViewBodies[14, usedBodies[runningData.CurrentBody]].Style.BackColor = Color.Green;
+                }
+            }
         }
     }
 

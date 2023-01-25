@@ -18,7 +18,7 @@ namespace Elite_Explorer_Dashboard_V2
             return thisLogFile;
         }
 
-        public void read(runningDataObject runningData, OrbitMathFunctions orbitMath)
+        public void read(runningDataObject runningData, OrbitMathFunctions orbitMath, DataGridView dataGridHeader, DataGridView dataGridStars, DataGridView dataGridBodies, TextBox labelBodiesFound)
         {
             int thisLineCount = 0;
             runningData.CurrentLogFile = findLatest();
@@ -39,7 +39,7 @@ namespace Elite_Explorer_Dashboard_V2
                     //processLine(line);
 
                     Line thisLine = new Line();
-                    thisLine.process(line, orbitMath);
+                    thisLine.process(line, runningData, orbitMath, dataGridHeader, dataGridStars, dataGridBodies, labelBodiesFound);
                 }
             }
             runningData.CurrentLogLineNumber = thisLineCount;

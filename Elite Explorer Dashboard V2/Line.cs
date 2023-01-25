@@ -11,7 +11,7 @@ namespace Elite_Explorer_Dashboard_V2
 {
     public class Line
     {
-        public void process(string line, OrbitMathFunctions orbitMath)
+        public void process(string line, runningDataObject runningData, OrbitMathFunctions orbitMath, DataGridView dataGridHeader, DataGridView dataGridStars, DataGridView dataGridBodies, TextBox labelBodiesFound)
         {
             EliteExplorer mainform = (EliteExplorer)Application.OpenForms[0];
 
@@ -51,7 +51,7 @@ namespace Elite_Explorer_Dashboard_V2
                     //processFSDTarget(edObject);
                     break;
                 case "FSDJump":
-                    MinorFunctions.processLineFSDJump(line, mainform.runningData, mainform.CompleteDict, mainform.bodyDictionary, mainform.dataGridStars, mainform.dataGridViewBodies, mainform.dataGridStars, mainform.dataGridViewOM, mainform.dataGridViewCalculatedOM);
+                    MinorFunctions.processLineFSDJump(line, runningData, dataGridBodies, dataGridStars);
                     break;
                 case "FuelScoop":
                     MinorFunctions.processLineFuelScoop(edObject, mainform.runningData, mainform.dataGridHeader);
@@ -63,16 +63,14 @@ namespace Elite_Explorer_Dashboard_V2
                     break;
                 case "Scan":
                     Scan thisScan = new Scan();
-                    thisScan.process(line);
+                    runningDataObject runingData =  thisScan.process(line, runningData, dataGridHeader, dataGridStars, dataGridBodies);
                     //processScan(line);
                     break;
                 case "SAASignalsFound":
-                    MinorFunctions.processLineSAASignalsFound(line, mainform.usedBodies, mainform.dataGridViewBodies);
+                    MinorFunctions.processLineSAASignalsFound(line, runningData.usedBodies, mainform.dataGridViewBodies);
                     break;
                 case "Materials":
-                    InventoryMaterials thisMaterials = new InventoryMaterials();
-                    thisMaterials.process(edObject);
-                    //processMaterials(edObject);
+                    MinorFunctions.processMaterialsLine(edObject, runningData);
                     break;
                 case "Shutdown":
                     MinorFunctions.processLineShutdown(line, mainform.dataGridHeader);
@@ -80,26 +78,26 @@ namespace Elite_Explorer_Dashboard_V2
                 case "ScanBaryCentre":
                     //processScanBaryCentre(edObject);
                     ScanBaryCentre thisBaryScan = new ScanBaryCentre();
-                    thisBaryScan.process(line);
+                    thisBaryScan.process(line, runningData, dataGridBodies);
                     break;
                 case "FSSAllBodiesFound":
                     AllBodiesFound thisBodiesfound = new AllBodiesFound();
-                    thisBodiesfound.process(line);
+                    thisBodiesfound.process(line, runningData, dataGridBodies, labelBodiesFound);
                     break;
                 case "SAAScanComplete":
-                    MinorFunctions.processLineSAAScanComplete(line, mainform.usedBodies, mainform.dataGridViewBodies);
+                    MinorFunctions.processLineSAAScanComplete(line, runningData.usedBodies, mainform.dataGridViewBodies);
                     break;
                 case "Touchdown":
-                    MinorFunctions.processLineTouchdown(line, mainform.runningData, mainform.usedBodies, mainform.dataGridViewBodies);
+                    MinorFunctions.processLineTouchdown(line, mainform.runningData, runningData.usedBodies, mainform.dataGridViewBodies);
                     break;
                 case "LaunchSRV":
-                    MinorFunctions.processLineLaunchSRV(mainform.runningData, mainform.usedBodies, mainform.dataGridViewBodies);
+                    MinorFunctions.processLineLaunchSRV(mainform.runningData, runningData.usedBodies, mainform.dataGridViewBodies);
                     break;
                 case "Disembark":
-                    MinorFunctions.processLineDisembark(mainform.runningData, mainform.usedBodies, mainform.dataGridViewBodies);
+                    MinorFunctions.processLineDisembark(mainform.runningData, runningData.usedBodies, mainform.dataGridViewBodies);
                     break;
                 case "Liftoff":
-                    MinorFunctions.processLineLiftoff(mainform.runningData, mainform.usedBodies,mainform.dataGridViewBodies);
+                    MinorFunctions.processLineLiftoff(mainform.runningData, runningData.usedBodies,mainform.dataGridViewBodies);
                     break;
             }
         }

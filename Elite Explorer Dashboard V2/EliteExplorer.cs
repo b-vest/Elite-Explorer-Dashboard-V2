@@ -15,13 +15,8 @@ namespace Elite_Explorer_Dashboard_V2
     public partial class EliteExplorer : Form
     {
         public runningDataObject runningData = new runningDataObject();
-        public Dictionary<string, int> usedBodies = new Dictionary<string, int>();
-        public Dictionary<string, int> materialCount = new Dictionary<string, int>();
         public Dictionary<string, int> usedParents = new Dictionary<string, int>();
         public Dictionary<int, string> BodyIDtoName = new Dictionary<int, string>();
-
-        public Dictionary<string,ScanObjectBodyDetailed> bodyDictionary = new Dictionary<string,ScanObjectBodyDetailed>();
-
         public Dictionary<string, dynamic> CompleteDict = new Dictionary<string, dynamic>();
 
         new OrbitMathFunctions orbitMath = new OrbitMathFunctions();
@@ -37,19 +32,13 @@ namespace Elite_Explorer_Dashboard_V2
             bootstrapProgram();
 
             BootstrapDataGrids bootstrapObject = new BootstrapDataGrids();
-            bootstrapObject.bootstrap(runningData, dataGridHeader, dataGridStars, dataGridViewOM, dataGridViewBodies, dataGridViewCalculatedOM);
-            //MinorFunctions minorFunctionsObject = new MinorFunctions();
-
-
+            bootstrapObject.bootstrap(runningData, dataGridHeader, dataGridStars, dataGridViewBodies);
             timerCheckLog.Enabled = true;
+
         }
-
-
 
         private void bootstrapProgram()
         {
-            EliteExplorer mainform = (EliteExplorer)Application.OpenForms[0];
-
             if (Properties.Settings.Default.LogPath.Contains("\\") == false)
             {
                 //textBoxLogFilePath.Text = "C:\\Users\\" + Environment.UserName + "\\Saved Games\\Frontier Developments\\Elite Dangerous\\";
@@ -58,30 +47,16 @@ namespace Elite_Explorer_Dashboard_V2
             else
             {
             }
-
             //Load periodic table for name conversion
-
             timerCheckLog.Tag = runningData.CurrentLogFile;
             runningData.CurrentLogLineNumber = 0;
-
             textBoxScreenshotPath.Text = Properties.Settings.Default.ScreenshotDestinationPath;
-
-
-        }
-
-
-
-
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void timerCheckLog_Tick(object sender, EventArgs e)
         {
             timerCheckLog.Enabled = false;
-            thisLogFile.read(runningData,orbitMath);
+            thisLogFile.read(runningData,orbitMath, dataGridHeader, dataGridStars, dataGridViewBodies, labelBodiesFound);
             timerCheckLog.Enabled = true;
 
         }
@@ -96,16 +71,7 @@ namespace Elite_Explorer_Dashboard_V2
 
         }
 
-        public void buttonProcessOM_Click(object sender, EventArgs e)
-        {
-        }
-
         private void label2_Click_2(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
         {
 
         }
@@ -120,10 +86,7 @@ namespace Elite_Explorer_Dashboard_V2
             int rowCounter = 0;
             foreach (DataGridViewRow row in dataGridViewBodies.Rows)
             {
-                Debug.WriteLine(row.Cells["BodyName"].Value);
-                usedBodies[row.Cells["BodyName"].Value.ToString()] = rowCounter;
-
-             
+                runningData.usedBodies[row.Cells["BodyName"].Value.ToString()] = rowCounter;
                 ++rowCounter;
             }
 

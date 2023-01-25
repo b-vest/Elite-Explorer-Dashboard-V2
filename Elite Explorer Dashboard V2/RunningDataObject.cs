@@ -35,5 +35,14 @@ namespace Elite_Explorer_Dashboard_V2
         public dynamic? smallFont { get; set; }
         public bool Realtime { get; set; }
 
+        public Dictionary<int?,string?> bodyIDToName = new Dictionary<int?,string?>();
+        public Dictionary<string, int> usedParents = new Dictionary<string,int>();
+        public Dictionary<string, int> materialCount = new Dictionary<string,int>();
+        public Dictionary<string, int> usedBodies = new Dictionary<string, int>();
+
+        public Dictionary<string, ScanObjectBodyDetailed> bodyDictionary = new Dictionary<string, ScanObjectBodyDetailed>();
+
+
     }
+
 }

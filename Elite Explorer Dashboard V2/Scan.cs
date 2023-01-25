@@ -17,82 +17,72 @@ namespace Elite_Explorer_Dashboard_V2
 {
     internal class Scan
     {
-        EliteExplorer mainform = (EliteExplorer)Application.OpenForms[0];
-
-        public void process(string line)
+        public runningDataObject process(string line, runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridStars, DataGridView dataGridBodies)
         {
 
             ScanObjectBodyDetailed? edObject = JsonSerializer.Deserialize<ScanObjectBodyDetailed>(line);
 
-
-
             double speedOfLight = 299792458; // speed of light in meters per second
 
-
-            if (mainform.bodyDictionary.ContainsKey(edObject.BodyName) == false)
+            if(runningData.bodyIDToName.ContainsKey(edObject.BodyID) == false)
             {
-                mainform.bodyDictionary.Add(edObject.BodyName.ToString(), new ScanObjectBodyDetailed());
-                mainform.bodyDictionary.Add(edObject.BodyID.ToString(), new ScanObjectBodyDetailed());
-
-                mainform.bodyDictionary[edObject.BodyName.ToString()] = edObject;
-                mainform.bodyDictionary[edObject.BodyID.ToString()].BodyName = edObject.BodyName;
+                runningData.bodyIDToName.Add(edObject.BodyID, edObject.BodyName);
+                runningData.bodyDictionary.Add(edObject.BodyName.ToString(), new ScanObjectBodyDetailed());
+                runningData.bodyDictionary[edObject.BodyName.ToString()] = edObject;
 
                 if (edObject.SemiMajorAxis == null)
                 {
-                    mainform.bodyDictionary[edObject.BodyName].SemiMajorAxis = 0;
-                    mainform.bodyDictionary[edObject.BodyName].Eccentricity = 0;
-                    mainform.bodyDictionary[edObject.BodyName].OrbitalInclination = 0;
-                    mainform.bodyDictionary[edObject.BodyName].Periapsis = 0;
-                    mainform.bodyDictionary[edObject.BodyName].OrbitalPeriod = 0;
-                    mainform.bodyDictionary[edObject.BodyName].AscendingNode = 0;
-                    mainform.bodyDictionary[edObject.BodyName].MeanAnomaly = 0;
-                    mainform.bodyDictionary[edObject.BodyName].DistanceToParentMeters = 0;
-                    mainform.bodyDictionary[edObject.BodyName].FoundParent = 0;
+                    runningData.bodyDictionary[edObject.BodyName].SemiMajorAxis = 0;
+                    runningData.bodyDictionary[edObject.BodyName].Eccentricity = 0;
+                    runningData.bodyDictionary[edObject.BodyName].OrbitalInclination = 0;
+                    runningData.bodyDictionary[edObject.BodyName].Periapsis = 0;
+                    runningData.bodyDictionary[edObject.BodyName].OrbitalPeriod = 0;
+                    runningData.bodyDictionary[edObject.BodyName].AscendingNode = 0;
+                    runningData.bodyDictionary[edObject.BodyName].MeanAnomaly = 0;
+                    runningData.bodyDictionary[edObject.BodyName].DistanceToParentMeters = 0;
+                    runningData.bodyDictionary[edObject.BodyName].FoundParent = 0;
                 }
+                runningData.bodyDictionary[edObject.BodyName].FoundParent = processParents(edObject, runningData);
 
-                mainform.bodyDictionary[edObject.BodyName].FoundParent = processParents(edObject);
-                //mainform.richTextBoxDebug.AppendText(JsonSerializer.Serialize(edObject.Parents, new JsonSerializerOptions { WriteIndented = true }) + Environment.NewLine + Environment.NewLine);
-
-                mainform.bodyDictionary[edObject.BodyName.ToString()].MeanAnomalyRadians = (Math.PI / 180) * edObject.MeanAnomaly;
-                mainform.bodyDictionary[edObject.BodyName.ToString()].EccentricAnomaly = CalculateEccentricAnomaly(edObject.SemiMajorAxis, edObject.Eccentricity, mainform.bodyDictionary[edObject.BodyName.ToString()].MeanAnomalyRadians);
-                mainform.bodyDictionary[edObject.BodyName.ToString()].TrueAnomaly = CalculateTrueAnomaly(
+                runningData.bodyDictionary[edObject.BodyName.ToString()].MeanAnomalyRadians = (Math.PI / 180) * edObject.MeanAnomaly;
+                runningData.bodyDictionary[edObject.BodyName.ToString()].EccentricAnomaly = OrbitMathFunctions.CalculateEccentricAnomaly(edObject.SemiMajorAxis, edObject.Eccentricity, runningData.bodyDictionary[edObject.BodyName.ToString()].MeanAnomalyRadians);
+                runningData.bodyDictionary[edObject.BodyName.ToString()].TrueAnomaly = OrbitMathFunctions.CalculateTrueAnomaly(
                     edObject.SemiMajorAxis,
                     edObject.Eccentricity,
-                    mainform.bodyDictionary[edObject.BodyName].EccentricAnomaly,
-                    mainform.bodyDictionary[edObject.BodyName].MeanAnomalyRadians
+                    runningData.bodyDictionary[edObject.BodyName].EccentricAnomaly,
+                    runningData.bodyDictionary[edObject.BodyName].MeanAnomalyRadians
                 );
 
-                mainform.bodyDictionary[edObject.BodyName.ToString()].InclinationRadians = (Math.PI / 180) * edObject.OrbitalInclination;
-                mainform.bodyDictionary[edObject.BodyName.ToString()].AscendingNodeRadians = (Math.PI / 180) * edObject.AscendingNode;
-                mainform.bodyDictionary[edObject.BodyName.ToString()].PeriapsisRadians = (Math.PI / 180) * edObject.Periapsis;
+                runningData.bodyDictionary[edObject.BodyName.ToString()].InclinationRadians = (Math.PI / 180) * edObject.OrbitalInclination;
+                runningData.bodyDictionary[edObject.BodyName.ToString()].AscendingNodeRadians = (Math.PI / 180) * edObject.AscendingNode;
+                runningData.bodyDictionary[edObject.BodyName.ToString()].PeriapsisRadians = (Math.PI / 180) * edObject.Periapsis;
 
-                mainform.bodyDictionary[edObject.BodyName.ToString()].XYZ = ConvertToCartesian(
+                runningData.bodyDictionary[edObject.BodyName.ToString()].XYZ = OrbitMathFunctions.ConvertToCartesian(
                     edObject.SemiMajorAxis,
                     edObject.Eccentricity,
-                    mainform.bodyDictionary[edObject.BodyName].InclinationRadians,
-                    mainform.bodyDictionary[edObject.BodyName].AscendingNodeRadians,
-                    mainform.bodyDictionary[edObject.BodyName].PeriapsisRadians,
-                    mainform.bodyDictionary[edObject.BodyName].TrueAnomaly
+                    runningData.bodyDictionary[edObject.BodyName].InclinationRadians,
+                    runningData.bodyDictionary[edObject.BodyName].AscendingNodeRadians,
+                    runningData.bodyDictionary[edObject.BodyName].PeriapsisRadians,
+                    runningData.bodyDictionary[edObject.BodyName].TrueAnomaly
                 );
-                mainform.bodyDictionary[edObject.BodyName].DistanceToParentMeters = Math.Sqrt(Math.Pow(mainform.bodyDictionary[edObject.BodyName.ToString()].XYZ[0] - 0, 2) + Math.Pow(mainform.bodyDictionary[edObject.BodyName.ToString()].XYZ[1] - 0, 2) + Math.Pow(mainform.bodyDictionary[edObject.BodyName.ToString()].XYZ[2] - 0, 2));
-                mainform.bodyDictionary[edObject.BodyName].DistancetoParentsLS = mainform.bodyDictionary[edObject.BodyName].DistanceToParentMeters / speedOfLight;
-                mainform.bodyDictionary[edObject.BodyName].Children = new List<int>();
+                runningData.bodyDictionary[edObject.BodyName].DistanceToParentMeters = Math.Sqrt(Math.Pow(runningData.bodyDictionary[edObject.BodyName.ToString()].XYZ[0] - 0, 2) + Math.Pow(runningData.bodyDictionary[edObject.BodyName.ToString()].XYZ[1] - 0, 2) + Math.Pow(runningData.bodyDictionary[edObject.BodyName.ToString()].XYZ[2] - 0, 2));
+                runningData.bodyDictionary[edObject.BodyName].DistancetoParentsLS = runningData.bodyDictionary[edObject.BodyName].DistanceToParentMeters / speedOfLight;
+                runningData.bodyDictionary[edObject.BodyName].Children = new List<int>();
                 if (edObject.StarType != null)
                 {
-                    parseStar(edObject);
+                    parseStar(edObject, runningData, dataGridStars, dataGridBodies);
                 }
                 if (edObject.PlanetClass != null)
                 {
-                    parseStellarBody(edObject);
+                    parseStellarBody(edObject, runningData, dataGridBodies);
                 }
-
-
             }
+            return runningData;
         }
 
 
 
-        public void parseStellarBody(ScanObjectBodyDetailed bodyData)
+        public void parseStellarBody(ScanObjectBodyDetailed bodyData, runningDataObject runningData, DataGridView dataGridBodies)
         {
             string useBodyClass = bodyData.PlanetClass;
             if(useBodyClass == "High metal content body") { useBodyClass = "HMC"; }
@@ -106,7 +96,7 @@ namespace Elite_Explorer_Dashboard_V2
             var useGravity = bodyData.SurfaceGravity / 10;
             var useTemp = Convert.ToInt32(bodyData.SurfaceTemperature);
             double tempInCelsius = useTemp - 273.15;
-            int newRow = mainform.dataGridViewBodies.Rows.Add(
+            int newRow = dataGridBodies.Rows.Add(
                 bodyData.BodyName,
                 bodyData.Landable,
                 useBodyClass,
@@ -116,7 +106,7 @@ namespace Elite_Explorer_Dashboard_V2
                string.Format("{0:N}", bodyData.Radius),
                 0,
                 0,
-                string.Format("{0:N3}", bodyData.DistanceFromArrivalLS)+" (" + string.Format("{0:N4}", mainform.bodyDictionary[bodyData.BodyName].DistancetoParentsLS)+")",
+                string.Format("{0:N3}", bodyData.DistanceFromArrivalLS)+" (" + string.Format("{0:N4}", runningData.bodyDictionary[bodyData.BodyName].DistancetoParentsLS)+")",
                 "",
                 "",
                 "",
@@ -125,28 +115,28 @@ namespace Elite_Explorer_Dashboard_V2
                 "",
                 bodyData.BodyID
                 );
-            if(mainform.bodyDictionary[bodyData.BodyName].DistancetoParentsLS < 1)
+            if(runningData.bodyDictionary[bodyData.BodyName].DistancetoParentsLS < 1)
             {
-                mainform.dataGridViewBodies[9, newRow].Style.ForeColor = Color.White;
+                dataGridBodies[9, newRow].Style.ForeColor = Color.White;
 
             }
-            mainform.bodyDictionary[bodyData.BodyName].GridRow = newRow;
+            runningData.bodyDictionary[bodyData.BodyName].GridRow = newRow;
             //Process Landable Colors
             if (bodyData.Landable == true)
             {
-                mainform.dataGridViewBodies[1, newRow].Style.BackColor = Color.Green;
-                mainform.dataGridViewBodies[1, newRow].Style.ForeColor = Color.White;
+                dataGridBodies[1, newRow].Style.BackColor = Color.Green;
+                dataGridBodies[1, newRow].Style.ForeColor = Color.White;
 
             }
             else
             {
-                mainform.dataGridViewBodies[12, newRow].Style.BackColor = Color.Yellow;
-                mainform.dataGridViewBodies[13, newRow].Style.BackColor = Color.Yellow;
-                mainform.dataGridViewBodies[14, newRow].Style.BackColor = Color.Yellow;
-                mainform.dataGridViewBodies[15, newRow].Style.BackColor = Color.Yellow;
+                dataGridBodies[12, newRow].Style.BackColor = Color.Yellow;
+                dataGridBodies[13, newRow].Style.BackColor = Color.Yellow;
+                dataGridBodies[14, newRow].Style.BackColor = Color.Yellow;
+                dataGridBodies[15, newRow].Style.BackColor = Color.Yellow;
 
             }
-            mainform.dataGridViewBodies[10, newRow].Style.BackColor = Color.Green;
+            dataGridBodies[10, newRow].Style.BackColor = Color.Green;
 
             var gravityColor = Color.Red;
             var gravityFore = Color.Black;
@@ -172,27 +162,27 @@ namespace Elite_Explorer_Dashboard_V2
             {
                 gravityColor = Color.LightGreen;
             }
-            mainform.dataGridViewBodies[4, newRow].Style.BackColor = gravityColor;
-            mainform.dataGridViewBodies[4, newRow].Style.ForeColor = gravityFore;
+            dataGridBodies[4, newRow].Style.BackColor = gravityColor;
+            dataGridBodies[4, newRow].Style.ForeColor = gravityFore;
             if (bodyData.Materials != null)
             {
-                processMaterialScan(bodyData, newRow);
+                processMaterialScan(bodyData, newRow, runningData, dataGridBodies);
             }
             if (bodyData.AtmosphereComposition != null)
             {
-                processAtmosphere(bodyData, newRow);
+                processAtmosphere(bodyData, newRow, dataGridBodies);
             }
            
 
             if (bodyData.BodyName != null){
-                mainform.usedBodies.Add(bodyData.BodyName, newRow);
+                runningData.usedBodies.Add(bodyData.BodyName, newRow);
             }
         }
 
-        public int? processParents(ScanObjectBodyDetailed parentsData)
+        public int? processParents(ScanObjectBodyDetailed parentsData, runningDataObject runningData)
         {
             int? useParent = 0;
-            if (mainform.usedParents.ContainsKey(parentsData.BodyName) == false)
+            if (runningData.usedParents.ContainsKey(parentsData.BodyName) == false)
             {
                 if (parentsData != null)
                 {
@@ -225,7 +215,7 @@ namespace Elite_Explorer_Dashboard_V2
             return useParent;
         }
 
-        public void processAtmosphere(ScanObjectBodyDetailed atmosphereData, int newRow)
+        public void processAtmosphere(ScanObjectBodyDetailed atmosphereData, int newRow, DataGridView dataGridBodies)
         {
             string printAtmosphere = "";
             string leadingZero = "";
@@ -244,16 +234,16 @@ namespace Elite_Explorer_Dashboard_V2
                     }
                 }
             }
-            DataGridViewRow row = mainform.dataGridViewBodies.Rows[newRow];
+            DataGridViewRow row = dataGridBodies.Rows[newRow];
             row.MinimumHeight = 50;
 
-            mainform.dataGridViewBodies[3, newRow].Value += printAtmosphere;
+            dataGridBodies[3, newRow].Value += printAtmosphere;
         }
-        public void processMaterialScan(ScanObjectBodyDetailed materialData, int newRow)
+        public void processMaterialScan(ScanObjectBodyDetailed materialData, int newRow, runningDataObject runningData, DataGridView dataGridBodies)
         {
             string printMats = "";
             string leadingZero = "";
-            if (mainform != null)
+            if (runningData != null)
             {
                 if (materialData != null)
                 {
@@ -264,49 +254,49 @@ namespace Elite_Explorer_Dashboard_V2
                             if (item.Name == "zirconium") { item.Name = "Zr"; }
                             if (item.Name == "arsenic") { item.Name = "As"; }
                             if (item.Name == "technetium") { item.Name = "Tc"; }
-
+                            if (item.Name == "sulphur") { item.Name = "S"; }
 
                             //7
                             if (item != null)
                             {
                                 if (item.Name != null)
                                 {
-                                    if (mainform.materialCount.ContainsKey(item.Name) == false)
+                                    if (runningData.materialCount.ContainsKey(item.Name) == false)
                                     {
-                                        mainform.materialCount.Add(item.Name, 0);
+                                        runningData.materialCount.Add(item.Name, 0);
 
                                     }
-                                    if (mainform.materialCount[item.Name] < 10)
+                                    if (runningData.materialCount[item.Name] < 10)
                                     {
                                         if (item.Percent < 1)
                                         {
                                             leadingZero = "0";
                                         }
                                         string useName = item.Name;
-                                        printMats += item.Name + "_" + leadingZero + "" + item.Percent.ToString("#.##") + "%_" + "(" + mainform.materialCount[item.Name] + ") ";
+                                        printMats += item.Name + "_" + leadingZero + "" + item.Percent.ToString("#.##") + "%_" + "(" + runningData.materialCount[item.Name] + ") ";
                                     }
                                 }
                             }
                         }
-                        DataGridViewRow row = mainform.dataGridViewBodies.Rows[newRow];
+                        DataGridViewRow row = dataGridBodies.Rows[newRow];
                         row.MinimumHeight = 50;
 
-                        mainform.dataGridViewBodies[7, newRow].Value = printMats;
+                        dataGridBodies[7, newRow].Value = printMats;
                     }
                 }
             }
         }
 
-        public void parseStar(ScanObjectBodyDetailed bodyData)
+        public void parseStar(ScanObjectBodyDetailed bodyData, runningDataObject runningData, DataGridView dataGridStars, DataGridView dataGridBodies)
         {
-            if(mainform != null) {
+            if(runningData != null) {
                 if (bodyData != null)
                 {
                     if (bodyData.BodyName != null)
                     {
                         var useTemp = Convert.ToInt32(bodyData.SurfaceTemperature);
                         double tempInCelsius = useTemp - 273.15;
-                        int newStarRow = mainform.dataGridStars.Rows.Add(bodyData.BodyName, bodyData.StarType, bodyData.Luminosity,
+                        int newStarRow = dataGridStars.Rows.Add(bodyData.BodyName, bodyData.StarType, bodyData.Luminosity,
                             string.Format("{0:N0}", bodyData.Age_MY),
                             string.Format("{0:N0}", bodyData.Radius),
                              bodyData.StellarMass,
@@ -316,6 +306,7 @@ namespace Elite_Explorer_Dashboard_V2
                           );
                         useTemp = Convert.ToInt32(bodyData.SurfaceTemperature);
 
+
                         //Add identifier to bodies table
                         tempInCelsius = useTemp - 273.15;
                         string primaryString = "Secondary";
@@ -323,7 +314,7 @@ namespace Elite_Explorer_Dashboard_V2
                         {
                             primaryString = "Primary";
                         }
-                        int newBodyRow = mainform.dataGridViewBodies.Rows.Add(
+                        int newBodyRow = dataGridBodies.Rows.Add(
                         bodyData.BodyName,
                         primaryString + " Star",
                         "-",
@@ -343,62 +334,12 @@ namespace Elite_Explorer_Dashboard_V2
                         bodyData.BodyID
                        );
 
-
-                        mainform.usedBodies.Add(bodyData.BodyName, newStarRow);
-                        mainform.bodyDictionary[bodyData.BodyName].GridRow = newStarRow;
+                        runningData.usedBodies.Add(bodyData.BodyName, newStarRow);
+                        runningData.bodyDictionary[bodyData.BodyName].GridRow = newStarRow;
 
                     }
                 }
             }
-        }
-        static double[] ConvertToCartesian(double a, double e, double i, double raan, double aop, double ta)
-        {
-            double[] xyz = new double[3];
-
-            // Calculate r
-            double r = a * (1 - e * e) / (1 + e * Math.Cos(ta));
-
-            // Calculate x, y, z
-            xyz[0] = r * (Math.Cos(raan) * Math.Cos(aop + ta) - Math.Sin(raan) * Math.Sin(aop + ta) * Math.Cos(i));
-            xyz[1] = r * (Math.Sin(raan) * Math.Cos(aop + ta) + Math.Cos(raan) * Math.Sin(aop + ta) * Math.Cos(i));
-            xyz[2] = r * Math.Sin(aop + ta) * Math.Sin(i);
-
-            return xyz;
-        }
-        static double CalculateEccentricAnomaly(double a, double e, double M)
-        {
-            double E = M;
-            double tolerance = 1e-8;
-            double maxIterations = 100;
-
-            for (int i = 0; i < maxIterations; i++)
-            {
-                double error = E - e * Math.Sin(E) - M;
-                if (Math.Abs(error) < tolerance)
-                {
-                    break;
-                }
-                E = E - error / (1 - e * Math.Cos(E));
-            }
-
-            return E;
-        }
-        static double CalculateTrueAnomaly(double a, double e, double E, double M)
-        {
-            double ta = 0.0;
-            if (e < 1) // elliptical orbit
-            {
-                ta = 2 * Math.Atan(Math.Sqrt((1 + e) / (1 - e)) * Math.Tan(E / 2));
-            }
-            else if (e == 1) // parabolic orbit
-            {
-                ta = 2 * Math.Atan(Math.Tan(E / 2));
-            }
-            else // hyperbolic orbit
-            {
-                ta = 2 * Math.Atan(Math.Sqrt((e + 1) / (e - 1)) * Math.Tanh(E / 2));
-            }
-            return ta;
         }
     }
 

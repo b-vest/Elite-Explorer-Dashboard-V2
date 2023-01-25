@@ -10,7 +10,7 @@ namespace Elite_Explorer_Dashboard_V2
 {
     internal class BootstrapDataGrids
     {
-        public void bootstrap(runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridStars, DataGridView dataGridViewOM, DataGridView dataGridViewBodies, DataGridView dataGridViewCalculatedOM)
+        public void bootstrap(runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridStars, DataGridView dataGridViewBodies)
         {
             //Load Fonts into running Data
             runningData.hugeFont = new Font("Consolas", 9);
@@ -21,7 +21,6 @@ namespace Elite_Explorer_Dashboard_V2
             //Setup Data Grids Add DoubleBuffered
             dataGridHeader.DoubleBuffered(true);
             dataGridViewBodies.DoubleBuffered(true);
-            dataGridViewOM.DoubleBuffered(true);
 
             dataGridHeader.RowHeadersVisible = false;
             dataGridHeader.EnableHeadersVisualStyles = false;
@@ -37,22 +36,6 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridStars.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
             dataGridStars.DefaultCellStyle.Font = runningData.mediumFont;
 
-            dataGridViewOM.RowHeadersVisible = false;
-            dataGridViewOM.EnableHeadersVisualStyles = false;
-            dataGridViewOM.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
-            dataGridViewOM.ColumnHeadersDefaultCellStyle.ForeColor = Color.Orange;
-            dataGridViewOM.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
-            dataGridViewOM.DefaultCellStyle.Font = runningData.mediumFont;
-            dataGridViewOM.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-
-            dataGridViewCalculatedOM.RowHeadersVisible = false;
-            dataGridViewCalculatedOM.EnableHeadersVisualStyles = false;
-            dataGridViewCalculatedOM.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
-            dataGridViewCalculatedOM.ColumnHeadersDefaultCellStyle.ForeColor = Color.Orange;
-            dataGridViewCalculatedOM.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
-            dataGridViewCalculatedOM.DefaultCellStyle.Font = runningData.mediumFont;
-            dataGridViewCalculatedOM.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-
             dataGridViewBodies.RowHeadersVisible = false;
             dataGridViewBodies.EnableHeadersVisualStyles = false;
             dataGridViewBodies.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
@@ -61,7 +44,6 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridViewBodies.DefaultCellStyle.Font = runningData.mediumFont;
             dataGridViewBodies.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             dataGridViewBodies.Columns[7].DefaultCellStyle.Font = new Font("Consolas", 8, FontStyle.Regular);
-
 
         }
     }
