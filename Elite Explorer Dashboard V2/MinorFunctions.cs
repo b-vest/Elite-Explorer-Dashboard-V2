@@ -33,16 +33,19 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridHeader[7, 0].Value = eventData.RemainingJumpsInRoute;
 
         }
-        public void processLineFSDJump(string line, runningDataObject runningData, DataGridView dataGridViewBodies, DataGridView dataGridStars)
+        public void processLineFSDJump(string line, runningDataObject runningData, DataGridView dataGridViewBodies, DataGridView dataGridStars, DataGridView dataGridHeader)
         {
             FSDJumpObject? edObject = JsonSerializer.Deserialize<FSDJumpObject>(line);
             dataGridStars.Rows.Clear();
             dataGridViewBodies.Rows.Clear();
             runningData.bodyDictionary.Clear();
             runningData.bodyIDToName.Clear();
+            runningData.usedBodies.Clear();
             if (edObject != null)
             {
                 runningData.CurrentSystem = edObject.StarSystem;
+                dataGridHeader[5,0 ].Value = runningData.CurrentSystem;
+
             }
 
         }
@@ -170,6 +173,17 @@ namespace Elite_Explorer_Dashboard_V2
                 if (runningData.CurrentBody != null)
                 {
                     dataGridViewBodies[14, usedBodies[runningData.CurrentBody]].Style.BackColor = Color.Green;
+                }
+            }
+        }
+        public void processLineLocation(EDData edObject, runningDataObject runningData, DataGridView datagridViewHeader)
+        {
+            if (runningData != null)
+            {
+                runningData.CurrentSystem = edObject.StarSystem;
+                if (runningData.CurrentSystem != null)
+                {
+                    datagridViewHeader[5,0].Value = runningData.CurrentSystem;
                 }
             }
         }

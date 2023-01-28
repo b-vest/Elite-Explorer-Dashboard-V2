@@ -1,5 +1,4 @@
-﻿using ScottPlot.Ticks;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -51,7 +50,7 @@ namespace Elite_Explorer_Dashboard_V2
                     //processFSDTarget(edObject);
                     break;
                 case "FSDJump":
-                    MinorFunctions.processLineFSDJump(line, runningData, dataGridBodies, dataGridStars);
+                    MinorFunctions.processLineFSDJump(line, runningData, dataGridBodies, dataGridStars, dataGridHeader);
                     break;
                 case "FuelScoop":
                     MinorFunctions.processLineFuelScoop(edObject, mainform.runningData, mainform.dataGridHeader);
@@ -98,6 +97,9 @@ namespace Elite_Explorer_Dashboard_V2
                     break;
                 case "Liftoff":
                     MinorFunctions.processLineLiftoff(mainform.runningData, runningData.usedBodies,mainform.dataGridViewBodies);
+                    break;
+                case "Location":
+                    MinorFunctions.processLineLocation(edObject, mainform.runningData, mainform.dataGridHeader);
                     break;
             }
         }

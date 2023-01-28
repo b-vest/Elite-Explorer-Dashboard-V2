@@ -31,6 +31,7 @@ namespace Elite_Explorer_Dashboard_V2
             BootstrapDataGrids bootstrapObject = new BootstrapDataGrids();
             bootstrapObject.bootstrap(runningData, dataGridHeader, dataGridStars, dataGridViewBodies);
             timerCheckLog.Enabled = true;
+            
 
         }
 
@@ -48,6 +49,7 @@ namespace Elite_Explorer_Dashboard_V2
             timerCheckLog.Tag = runningData.CurrentLogFile;
             runningData.CurrentLogLineNumber = 0;
             textBoxScreenshotPath.Text = Properties.Settings.Default.ScreenshotDestinationPath;
+
         }
 
         private void timerCheckLog_Tick(object sender, EventArgs e)
@@ -90,6 +92,21 @@ namespace Elite_Explorer_Dashboard_V2
         }
 
         private void dataGridStars_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void buttonViewOrbits_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        async private void buttonViewOrbits_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxScreenshotPath_TextChanged(object sender, EventArgs e)
         {
 
         }

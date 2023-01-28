@@ -35,8 +35,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridHeader = new System.Windows.Forms.DataGridView();
             this.ColumnEvent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnCommanderName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -58,6 +58,19 @@
             this.labelStaticScreenshotText = new System.Windows.Forms.Label();
             this.pictureBoxConverted = new System.Windows.Forms.PictureBox();
             this.dataGridViewBodies = new System.Windows.Forms.DataGridView();
+            this.dataGridStars = new System.Windows.Forms.DataGridView();
+            this.StarName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Lum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AgeMY = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Radius = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Mass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TempK = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Distance = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabMechanics = new System.Windows.Forms.TabPage();
+            this.timerCheckLog = new System.Windows.Forms.Timer(this.components);
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.BodyName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Landable = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BpdyClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -76,19 +89,6 @@
             this.LO = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MainNeighbor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridStars = new System.Windows.Forms.DataGridView();
-            this.StarName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Lum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AgeMY = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Radius = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Mass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TempK = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Distance = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabMechanics = new System.Windows.Forms.TabPage();
-            this.timerCheckLog = new System.Windows.Forms.Timer(this.components);
-            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridHeader)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabDashboard.SuspendLayout();
@@ -155,7 +155,7 @@
             this.dataGridHeader.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.Black;
             this.dataGridHeader.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.dataGridHeader.RowTemplate.Height = 29;
-            this.dataGridHeader.Size = new System.Drawing.Size(2275, 1760);
+            this.dataGridHeader.Size = new System.Drawing.Size(2054, 1760);
             this.dataGridHeader.TabIndex = 0;
             // 
             // ColumnEvent
@@ -241,7 +241,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(2085, 2481);
+            this.tabControl1.Size = new System.Drawing.Size(2072, 2481);
             this.tabControl1.TabIndex = 1;
             // 
             // tabDashboard
@@ -261,7 +261,7 @@
             this.tabDashboard.Location = new System.Drawing.Point(4, 29);
             this.tabDashboard.Name = "tabDashboard";
             this.tabDashboard.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDashboard.Size = new System.Drawing.Size(2077, 2448);
+            this.tabDashboard.Size = new System.Drawing.Size(2064, 2448);
             this.tabDashboard.TabIndex = 0;
             this.tabDashboard.Text = "Dashboard";
             // 
@@ -289,7 +289,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(1365, 413);
+            this.label2.Location = new System.Drawing.Point(1285, 413);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(113, 20);
             this.label2.TabIndex = 8;
@@ -298,15 +298,15 @@
             // 
             // textBoxScreenshotPath
             // 
-            this.textBoxScreenshotPath.Location = new System.Drawing.Point(1498, 414);
+            this.textBoxScreenshotPath.Location = new System.Drawing.Point(1411, 413);
             this.textBoxScreenshotPath.Name = "textBoxScreenshotPath";
-            this.textBoxScreenshotPath.Size = new System.Drawing.Size(576, 27);
+            this.textBoxScreenshotPath.Size = new System.Drawing.Size(563, 27);
             this.textBoxScreenshotPath.TabIndex = 7;
             // 
             // labelScreenshotSystem
             // 
             this.labelScreenshotSystem.AutoSize = true;
-            this.labelScreenshotSystem.Location = new System.Drawing.Point(1294, 118);
+            this.labelScreenshotSystem.Location = new System.Drawing.Point(1199, 118);
             this.labelScreenshotSystem.Name = "labelScreenshotSystem";
             this.labelScreenshotSystem.Size = new System.Drawing.Size(56, 20);
             this.labelScreenshotSystem.TabIndex = 6;
@@ -315,7 +315,7 @@
             // labelScreenshotTimestamp
             // 
             this.labelScreenshotTimestamp.AutoSize = true;
-            this.labelScreenshotTimestamp.Location = new System.Drawing.Point(1294, 148);
+            this.labelScreenshotTimestamp.Location = new System.Drawing.Point(1199, 146);
             this.labelScreenshotTimestamp.Name = "labelScreenshotTimestamp";
             this.labelScreenshotTimestamp.Size = new System.Drawing.Size(83, 20);
             this.labelScreenshotTimestamp.TabIndex = 5;
@@ -325,7 +325,7 @@
             // labelStaticScreenshotText
             // 
             this.labelStaticScreenshotText.AutoSize = true;
-            this.labelStaticScreenshotText.Location = new System.Drawing.Point(1294, 84);
+            this.labelStaticScreenshotText.Location = new System.Drawing.Point(1199, 84);
             this.labelStaticScreenshotText.Name = "labelStaticScreenshotText";
             this.labelStaticScreenshotText.Size = new System.Drawing.Size(124, 20);
             this.labelStaticScreenshotText.TabIndex = 4;
@@ -335,7 +335,7 @@
             // pictureBoxConverted
             // 
             this.pictureBoxConverted.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBoxConverted.Location = new System.Drawing.Point(1495, 84);
+            this.pictureBoxConverted.Location = new System.Drawing.Point(1411, 84);
             this.pictureBoxConverted.Name = "pictureBoxConverted";
             this.pictureBoxConverted.Size = new System.Drawing.Size(576, 324);
             this.pictureBoxConverted.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -346,6 +346,8 @@
             // 
             this.dataGridViewBodies.AllowUserToAddRows = false;
             this.dataGridViewBodies.AllowUserToDeleteRows = false;
+            this.dataGridViewBodies.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewBodies.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridViewBodies.BackgroundColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.dataGridViewBodies.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -387,163 +389,9 @@
             dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewBodies.RowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridViewBodies.RowTemplate.Height = 29;
-            this.dataGridViewBodies.Size = new System.Drawing.Size(2068, 1925);
+            this.dataGridViewBodies.Size = new System.Drawing.Size(2055, 1925);
             this.dataGridViewBodies.TabIndex = 2;
             this.dataGridViewBodies.Sorted += new System.EventHandler(this.dataGridViewBodies_Sorted);
-            // 
-            // BodyName
-            // 
-            this.BodyName.Frozen = true;
-            this.BodyName.HeaderText = "Body Name";
-            this.BodyName.MinimumWidth = 200;
-            this.BodyName.Name = "BodyName";
-            this.BodyName.Width = 220;
-            // 
-            // Landable
-            // 
-            this.Landable.Frozen = true;
-            this.Landable.HeaderText = "Land?";
-            this.Landable.MinimumWidth = 6;
-            this.Landable.Name = "Landable";
-            this.Landable.Width = 110;
-            // 
-            // BpdyClass
-            // 
-            this.BpdyClass.Frozen = true;
-            this.BpdyClass.HeaderText = "Body Class";
-            this.BpdyClass.MinimumWidth = 6;
-            this.BpdyClass.Name = "BpdyClass";
-            this.BpdyClass.Width = 150;
-            // 
-            // Atmosphere
-            // 
-            this.Atmosphere.Frozen = true;
-            this.Atmosphere.HeaderText = "Atmosphere";
-            this.Atmosphere.MinimumWidth = 6;
-            this.Atmosphere.Name = "Atmosphere";
-            this.Atmosphere.Width = 180;
-            // 
-            // Gravity
-            // 
-            this.Gravity.Frozen = true;
-            this.Gravity.HeaderText = "Gravity";
-            this.Gravity.MinimumWidth = 6;
-            this.Gravity.Name = "Gravity";
-            this.Gravity.Width = 90;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.Frozen = true;
-            this.dataGridViewTextBoxColumn1.HeaderText = "TempK";
-            this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.Width = 150;
-            // 
-            // BodyRadius
-            // 
-            this.BodyRadius.Frozen = true;
-            this.BodyRadius.HeaderText = "Radius";
-            this.BodyRadius.MinimumWidth = 6;
-            this.BodyRadius.Name = "BodyRadius";
-            this.BodyRadius.Width = 125;
-            // 
-            // Mat
-            // 
-            this.Mat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Mat.DefaultCellStyle = dataGridViewCellStyle5;
-            this.Mat.Frozen = true;
-            this.Mat.HeaderText = "Mat";
-            this.Mat.MinimumWidth = 6;
-            this.Mat.Name = "Mat";
-            this.Mat.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Mat.Width = 125;
-            // 
-            // Sigs
-            // 
-            this.Sigs.Frozen = true;
-            this.Sigs.HeaderText = "Sigs";
-            this.Sigs.MinimumWidth = 6;
-            this.Sigs.Name = "Sigs";
-            this.Sigs.Width = 150;
-            // 
-            // BodyDistance
-            // 
-            this.BodyDistance.Frozen = true;
-            this.BodyDistance.HeaderText = "Distance";
-            this.BodyDistance.MinimumWidth = 6;
-            this.BodyDistance.Name = "BodyDistance";
-            this.BodyDistance.Width = 125;
-            // 
-            // FSC
-            // 
-            this.FSC.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.FSC.Frozen = true;
-            this.FSC.HeaderText = "FSC";
-            this.FSC.MinimumWidth = 6;
-            this.FSC.Name = "FSC";
-            this.FSC.Width = 45;
-            // 
-            // DSC
-            // 
-            this.DSC.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.DSC.Frozen = true;
-            this.DSC.HeaderText = "DSC";
-            this.DSC.MinimumWidth = 6;
-            this.DSC.Name = "DSC";
-            this.DSC.Width = 45;
-            // 
-            // LND
-            // 
-            this.LND.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.LND.Frozen = true;
-            this.LND.HeaderText = "LND";
-            this.LND.MinimumWidth = 6;
-            this.LND.Name = "LND";
-            this.LND.Width = 45;
-            // 
-            // SRV
-            // 
-            this.SRV.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.SRV.Frozen = true;
-            this.SRV.HeaderText = "SRV";
-            this.SRV.MinimumWidth = 6;
-            this.SRV.Name = "SRV";
-            this.SRV.Width = 45;
-            // 
-            // FF
-            // 
-            this.FF.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.FF.Frozen = true;
-            this.FF.HeaderText = "FF";
-            this.FF.MinimumWidth = 6;
-            this.FF.Name = "FF";
-            this.FF.Width = 40;
-            // 
-            // LO
-            // 
-            this.LO.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.LO.Frozen = true;
-            this.LO.HeaderText = "LO";
-            this.LO.MinimumWidth = 6;
-            this.LO.Name = "LO";
-            this.LO.Width = 40;
-            // 
-            // BID
-            // 
-            this.BID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.BID.Frozen = true;
-            this.BID.HeaderText = "BID";
-            this.BID.MinimumWidth = 6;
-            this.BID.Name = "BID";
-            this.BID.Width = 45;
-            // 
-            // MainNeighbor
-            // 
-            this.MainNeighbor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.MainNeighbor.HeaderText = "Closest Neighbor";
-            this.MainNeighbor.MinimumWidth = 6;
-            this.MainNeighbor.Name = "MainNeighbor";
             // 
             // dataGridStars
             // 
@@ -657,7 +505,7 @@
             this.tabMechanics.Location = new System.Drawing.Point(4, 29);
             this.tabMechanics.Name = "tabMechanics";
             this.tabMechanics.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMechanics.Size = new System.Drawing.Size(2077, 2448);
+            this.tabMechanics.Size = new System.Drawing.Size(2064, 2448);
             this.tabMechanics.TabIndex = 2;
             this.tabMechanics.Text = "Orbital Elements";
             // 
@@ -666,12 +514,167 @@
             this.timerCheckLog.Interval = 1000;
             this.timerCheckLog.Tick += new System.EventHandler(this.timerCheckLog_Tick);
             // 
+            // BodyName
+            // 
+            this.BodyName.Frozen = true;
+            this.BodyName.HeaderText = "Body Name";
+            this.BodyName.MinimumWidth = 200;
+            this.BodyName.Name = "BodyName";
+            this.BodyName.Width = 240;
+            // 
+            // Landable
+            // 
+            this.Landable.Frozen = true;
+            this.Landable.HeaderText = "Land?";
+            this.Landable.MinimumWidth = 6;
+            this.Landable.Name = "Landable";
+            this.Landable.Width = 80;
+            // 
+            // BpdyClass
+            // 
+            this.BpdyClass.Frozen = true;
+            this.BpdyClass.HeaderText = "Body Class";
+            this.BpdyClass.MinimumWidth = 6;
+            this.BpdyClass.Name = "BpdyClass";
+            this.BpdyClass.Width = 200;
+            // 
+            // Atmosphere
+            // 
+            this.Atmosphere.Frozen = true;
+            this.Atmosphere.HeaderText = "Atmosphere";
+            this.Atmosphere.MinimumWidth = 6;
+            this.Atmosphere.Name = "Atmosphere";
+            this.Atmosphere.Width = 160;
+            // 
+            // Gravity
+            // 
+            this.Gravity.Frozen = true;
+            this.Gravity.HeaderText = "Gravity";
+            this.Gravity.MinimumWidth = 6;
+            this.Gravity.Name = "Gravity";
+            this.Gravity.Width = 90;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.Frozen = true;
+            this.dataGridViewTextBoxColumn1.HeaderText = "TempK";
+            this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.Width = 150;
+            // 
+            // BodyRadius
+            // 
+            this.BodyRadius.Frozen = true;
+            this.BodyRadius.HeaderText = "Radius";
+            this.BodyRadius.MinimumWidth = 6;
+            this.BodyRadius.Name = "BodyRadius";
+            this.BodyRadius.Width = 140;
+            // 
+            // Mat
+            // 
+            this.Mat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Mat.DefaultCellStyle = dataGridViewCellStyle5;
+            this.Mat.Frozen = true;
+            this.Mat.HeaderText = "Mat";
+            this.Mat.MinimumWidth = 6;
+            this.Mat.Name = "Mat";
+            this.Mat.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Mat.Width = 125;
+            // 
+            // Sigs
+            // 
+            this.Sigs.Frozen = true;
+            this.Sigs.HeaderText = "Sigs";
+            this.Sigs.MinimumWidth = 6;
+            this.Sigs.Name = "Sigs";
+            this.Sigs.Width = 150;
+            // 
+            // BodyDistance
+            // 
+            this.BodyDistance.Frozen = true;
+            this.BodyDistance.HeaderText = "Distance";
+            this.BodyDistance.MinimumWidth = 6;
+            this.BodyDistance.Name = "BodyDistance";
+            this.BodyDistance.Width = 80;
+            // 
+            // FSC
+            // 
+            this.FSC.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.FSC.Frozen = true;
+            this.FSC.HeaderText = "FSC";
+            this.FSC.MinimumWidth = 6;
+            this.FSC.Name = "FSC";
+            this.FSC.Width = 45;
+            // 
+            // DSC
+            // 
+            this.DSC.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.DSC.Frozen = true;
+            this.DSC.HeaderText = "DSC";
+            this.DSC.MinimumWidth = 6;
+            this.DSC.Name = "DSC";
+            this.DSC.Width = 45;
+            // 
+            // LND
+            // 
+            this.LND.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.LND.Frozen = true;
+            this.LND.HeaderText = "LND";
+            this.LND.MinimumWidth = 6;
+            this.LND.Name = "LND";
+            this.LND.Width = 45;
+            // 
+            // SRV
+            // 
+            this.SRV.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.SRV.Frozen = true;
+            this.SRV.HeaderText = "SRV";
+            this.SRV.MinimumWidth = 6;
+            this.SRV.Name = "SRV";
+            this.SRV.Width = 45;
+            // 
+            // FF
+            // 
+            this.FF.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.FF.Frozen = true;
+            this.FF.HeaderText = "FF";
+            this.FF.MinimumWidth = 6;
+            this.FF.Name = "FF";
+            this.FF.Width = 45;
+            // 
+            // LO
+            // 
+            this.LO.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.LO.Frozen = true;
+            this.LO.HeaderText = "LO";
+            this.LO.MinimumWidth = 6;
+            this.LO.Name = "LO";
+            this.LO.Width = 45;
+            // 
+            // BID
+            // 
+            this.BID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.BID.Frozen = true;
+            this.BID.HeaderText = "BID";
+            this.BID.MinimumWidth = 6;
+            this.BID.Name = "BID";
+            this.BID.Width = 45;
+            // 
+            // MainNeighbor
+            // 
+            this.MainNeighbor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.MainNeighbor.HeaderText = "Closest Neighbor";
+            this.MainNeighbor.MinimumWidth = 6;
+            this.MainNeighbor.Name = "MainNeighbor";
+            this.MainNeighbor.Width = 300;
+            // 
             // EliteExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Desktop;
-            this.ClientSize = new System.Drawing.Size(2109, 2505);
+            this.ClientSize = new System.Drawing.Size(2096, 2505);
             this.Controls.Add(this.tabControl1);
             this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));

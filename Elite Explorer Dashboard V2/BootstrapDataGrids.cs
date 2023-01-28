@@ -13,10 +13,10 @@ namespace Elite_Explorer_Dashboard_V2
         public void bootstrap(runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridStars, DataGridView dataGridViewBodies)
         {
             //Load Fonts into running Data
-            runningData.hugeFont = new Font("Consolas", 9);
-            runningData.largeFont = new Font("Consolas", 8);
-            runningData.mediumFont = new Font("Consolas", 7);
-            runningData.smallFont = new Font("Consolas", 6);
+            runningData.hugeFont = new Font("Lucida Sans", 9);
+            runningData.largeFont = new Font("Lucida Sans", 8);
+            runningData.mediumFont = new Font("Lucida Sans", 7);
+            runningData.smallFont = new Font("Lucida Sans", 6);
 
             //Setup Data Grids Add DoubleBuffered
             dataGridHeader.DoubleBuffered(true);
@@ -43,7 +43,7 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridViewBodies.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
             dataGridViewBodies.DefaultCellStyle.Font = runningData.mediumFont;
             dataGridViewBodies.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            dataGridViewBodies.Columns[7].DefaultCellStyle.Font = new Font("Consolas", 8, FontStyle.Regular);
+            dataGridViewBodies.Columns[7].DefaultCellStyle.Font = new Font("Lucida Sans", 8, FontStyle.Regular);
 
         }
     }

@@ -1,5 +1,4 @@
-﻿using ScottPlot.Palettes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -238,6 +237,13 @@ namespace Elite_Explorer_Dashboard_V2
             row.MinimumHeight = 50;
 
             dataGridBodies[3, newRow].Value += printAtmosphere;
+            if (atmosphereData.Landable == true)
+            {
+                dataGridBodies[3, newRow].Style.BackColor = Color.Green;
+                dataGridBodies[3, newRow].Style.ForeColor = Color.White;
+
+
+            }
         }
         public void processMaterialScan(ScanObjectBodyDetailed materialData, int newRow, runningDataObject runningData, DataGridView dataGridBodies)
         {
