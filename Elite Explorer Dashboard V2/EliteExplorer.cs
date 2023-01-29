@@ -15,6 +15,7 @@ namespace Elite_Explorer_Dashboard_V2
     public partial class EliteExplorer : Form
     {
         public runningDataObject runningData = new runningDataObject();
+        BootstrapDataGrids bootstrapObject = new BootstrapDataGrids();
 
         //new OrbitMathFunctions orbitMath = new OrbitMathFunctions();
         LogFile thisLogFile = new LogFile();
@@ -28,7 +29,6 @@ namespace Elite_Explorer_Dashboard_V2
         {
             bootstrapProgram();
 
-            BootstrapDataGrids bootstrapObject = new BootstrapDataGrids();
             bootstrapObject.bootstrap(runningData, dataGridHeader, dataGridStars, dataGridViewBodies);
             timerCheckLog.Enabled = true;
             
@@ -46,6 +46,8 @@ namespace Elite_Explorer_Dashboard_V2
             {
             }
             //Load periodic table for name conversion
+            runningData = bootstrapObject.buildConversionTables(runningData);
+
             timerCheckLog.Tag = runningData.CurrentLogFile;
             runningData.CurrentLogLineNumber = 0;
             textBoxScreenshotPath.Text = Properties.Settings.Default.ScreenshotDestinationPath;
@@ -101,7 +103,7 @@ namespace Elite_Explorer_Dashboard_V2
 
         }
 
-        async private void buttonViewOrbits_Click_1(object sender, EventArgs e)
+        private void buttonViewOrbits_Click_1(object sender, EventArgs e)
         {
 
         }

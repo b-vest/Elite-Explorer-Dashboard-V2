@@ -12,6 +12,10 @@ namespace Elite_Explorer_Dashboard_V2
     {
         public void process(string line, runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridStars, DataGridView dataGridBodies, TextBox labelBodiesFound)
         {
+            if(line.Contains("ScanOrganic") == true)
+            {
+                return;
+            }
             EliteExplorer mainform = (EliteExplorer)Application.OpenForms[0];
 
             EDData? edObject = JsonSerializer.Deserialize<EDData>(line);

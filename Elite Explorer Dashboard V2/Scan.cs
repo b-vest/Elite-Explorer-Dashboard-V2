@@ -84,28 +84,26 @@ namespace Elite_Explorer_Dashboard_V2
         public void parseStellarBody(ScanObjectBodyDetailed bodyData, runningDataObject runningData, DataGridView dataGridBodies)
         {
             string useBodyClass = bodyData.PlanetClass;
-            if(useBodyClass == "High metal content body") { useBodyClass = "HMC"; }
-            if (useBodyClass == "Rocky body") { useBodyClass = "RB"; }
-            if (useBodyClass == "Sudarsky class III gas giant") { useBodyClass = "SIIIGG"; }
-            if (useBodyClass == "Gas giant with water based life") { useBodyClass = "GGWBL"; }
-            if (useBodyClass == "Icy body") { useBodyClass = "IB"; }
 
-
-
+            if(runningData.bodyConversion.ContainsKey(useBodyClass))
+            {
+                useBodyClass = runningData.bodyConversion[useBodyClass];
+            }
             var useGravity = bodyData.SurfaceGravity / 10;
             var useTemp = Convert.ToInt32(bodyData.SurfaceTemperature);
-            double tempInCelsius = useTemp - 273.15;
+            double useRadius = bodyData.Radius / 1000000;
+            double distanceMM = runningData.bodyDictionary[bodyData.BodyName].DistanceToParentMeters / 1000000;
             int newRow = dataGridBodies.Rows.Add(
                 bodyData.BodyName,
                 bodyData.Landable,
                 useBodyClass,
                 "",
                 useGravity.ToString("#.##"),
-                useTemp + "K (" + tempInCelsius.ToString("#.##") + "C)",
-               string.Format("{0:N}", bodyData.Radius),
+                useTemp + "K",
+               string.Format("{0:N}", useRadius)+" Mm",
                 0,
                 0,
-                string.Format("{0:N3}", bodyData.DistanceFromArrivalLS)+" (" + string.Format("{0:N4}", runningData.bodyDictionary[bodyData.BodyName].DistancetoParentsLS)+")",
+                string.Format("{0:N3}", bodyData.DistanceFromArrivalLS)+" (" + string.Format("{0:N1}", distanceMM)+"-Mm)",
                 "",
                 "",
                 "",
@@ -169,7 +167,7 @@ namespace Elite_Explorer_Dashboard_V2
             }
             if (bodyData.AtmosphereComposition != null)
             {
-                processAtmosphere(bodyData, newRow, dataGridBodies);
+                processAtmosphere(bodyData, newRow, dataGridBodies, runningData);
             }
            
 
@@ -214,22 +212,27 @@ namespace Elite_Explorer_Dashboard_V2
             return useParent;
         }
 
-        public void processAtmosphere(ScanObjectBodyDetailed atmosphereData, int newRow, DataGridView dataGridBodies)
+        public void processAtmosphere(ScanObjectBodyDetailed atmosphereData, int newRow, DataGridView dataGridBodies, runningDataObject runningData)
         {
             string printAtmosphere = "";
             string leadingZero = "";
+
             if (atmosphereData != null)
             {
                 if (atmosphereData.AtmosphereComposition != null)
                 {
                     foreach (var item in atmosphereData.AtmosphereComposition)
                     {
+                        string useName = item.Name;
+                        if (runningData.atmosphereConversion.ContainsKey(item.Name)){
+                            useName = runningData.atmosphereConversion[item.Name];
+                        }
                         //7
                         if (item.Percent < 1)
                         {
                             leadingZero = "0";
                         }
-                        printAtmosphere += item.Name + "_" + leadingZero + "" + item.Percent.ToString("#.##") + "% ";
+                        printAtmosphere += useName + "_" + leadingZero + "" + item.Percent.ToString("#.##") + "% ";
                     }
                 }
             }
@@ -257,10 +260,11 @@ namespace Elite_Explorer_Dashboard_V2
                     {
                         foreach (var item in materialData.Materials)
                         {
-                            if (item.Name == "zirconium") { item.Name = "Zr"; }
-                            if (item.Name == "arsenic") { item.Name = "As"; }
-                            if (item.Name == "technetium") { item.Name = "Tc"; }
-                            if (item.Name == "sulphur") { item.Name = "S"; }
+                            string useItem = item.Name;
+                            if (runningData.materialConversion.ContainsKey(item.Name))
+                            {
+                                useItem = runningData.materialConversion[item.Name];
+                            }
 
                             //7
                             if (item != null)
@@ -279,7 +283,7 @@ namespace Elite_Explorer_Dashboard_V2
                                             leadingZero = "0";
                                         }
                                         string useName = item.Name;
-                                        printMats += item.Name + "_" + leadingZero + "" + item.Percent.ToString("#.##") + "%_" + "(" + runningData.materialCount[item.Name] + ") ";
+                                        printMats += useItem + "_" + leadingZero + "" + item.Percent.ToString("#.##") + "%_" + "(" + runningData.materialCount[item.Name] + ") ";
                                     }
                                 }
                             }
@@ -301,12 +305,13 @@ namespace Elite_Explorer_Dashboard_V2
                     if (bodyData.BodyName != null)
                     {
                         var useTemp = Convert.ToInt32(bodyData.SurfaceTemperature);
-                        double tempInCelsius = useTemp - 273.15;
+                        double useRadius = bodyData.Radius / 1000000;
+
                         int newStarRow = dataGridStars.Rows.Add(bodyData.BodyName, bodyData.StarType, bodyData.Luminosity,
                             string.Format("{0:N0}", bodyData.Age_MY),
                             string.Format("{0:N0}", bodyData.Radius),
                              bodyData.StellarMass,
-                            string.Format("{0:N0}", useTemp) + "K (" + tempInCelsius.ToString("#.##") + "C)",
+                            string.Format("{0:N0}", useTemp) + "K",
                             bodyData.DistanceFromArrivalLS,
                             bodyData.BodyID
                           );
@@ -314,7 +319,6 @@ namespace Elite_Explorer_Dashboard_V2
 
 
                         //Add identifier to bodies table
-                        tempInCelsius = useTemp - 273.15;
                         string primaryString = "Secondary";
                         if(bodyData.DistanceFromArrivalLS == 0)
                         {
@@ -322,12 +326,12 @@ namespace Elite_Explorer_Dashboard_V2
                         }
                         int newBodyRow = dataGridBodies.Rows.Add(
                         bodyData.BodyName,
-                        primaryString + " Star",
-                        "-",
+                        "NA",
+                        "Star",
                         "-",
                         bodyData.StellarMass.ToString("#.##"),
-                        useTemp + "K (" + tempInCelsius.ToString("#.##") + "C)",
-                        string.Format("{0:N}", bodyData.Radius),
+                        useTemp + "K",
+                        string.Format("{0:N}", useRadius)+" Mm",
                         "-",
                         "-",
                         bodyData.DistanceFromArrivalLS,

@@ -54,7 +54,7 @@ namespace Elite_Explorer_Dashboard_V2
 
                 int newBaryRow = dataGridBodies.Rows.Add(
                 generatedBodyName,
-                "BaryCentre",
+                "NA",
                 "BaryCentre",
                 "--",
                 "--",

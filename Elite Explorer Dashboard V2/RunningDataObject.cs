@@ -42,6 +42,14 @@ namespace Elite_Explorer_Dashboard_V2
 
         public Dictionary<string, ScanObjectBodyDetailed> bodyDictionary = new Dictionary<string, ScanObjectBodyDetailed>();
 
+        public Dictionary<string, string> atmosphereConversion = new Dictionary<string, string>();
+        public Dictionary<string, string> materialConversion = new Dictionary<string, string>();
+
+        public Dictionary<string, string> bodyConversion = new Dictionary<string, string>();
+
+
+
+
 
     }
 

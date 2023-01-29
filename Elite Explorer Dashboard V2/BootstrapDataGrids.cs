@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -13,10 +14,10 @@ namespace Elite_Explorer_Dashboard_V2
         public void bootstrap(runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridStars, DataGridView dataGridViewBodies)
         {
             //Load Fonts into running Data
-            runningData.hugeFont = new Font("Lucida Sans", 9);
-            runningData.largeFont = new Font("Lucida Sans", 8);
-            runningData.mediumFont = new Font("Lucida Sans", 7);
-            runningData.smallFont = new Font("Lucida Sans", 6);
+            runningData.hugeFont = new Font("Lucida Sans", 11);
+            runningData.largeFont = new Font("Lucida Sans", 10);
+            runningData.mediumFont = new Font("Lucida Sans", 9);
+            runningData.smallFont = new Font("Lucida Sans", 8);
 
             //Setup Data Grids Add DoubleBuffered
             dataGridHeader.DoubleBuffered(true);
@@ -45,6 +46,44 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridViewBodies.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             dataGridViewBodies.Columns[7].DefaultCellStyle.Font = new Font("Lucida Sans", 8, FontStyle.Regular);
 
+        }
+        public runningDataObject buildConversionTables(runningDataObject runningData)
+        {
+            //Materials
+            runningData.materialConversion.Add("zirconium", "Zr");
+            runningData.materialConversion.Add("arsenic", "As");
+            runningData.materialConversion.Add("technetium", "Tc");
+            runningData.materialConversion.Add("sulphur", "S");
+            runningData.materialConversion.Add("polonium", "Po");
+
+
+            //Atmosphere
+            runningData.atmosphereConversion.Add("SulphurDioxide", "S02");
+            runningData.atmosphereConversion.Add("Nitrogen", "N");
+            runningData.atmosphereConversion.Add("CarbonDioxide", "C02");
+            runningData.atmosphereConversion.Add("Methane", "CH4");
+            runningData.atmosphereConversion.Add("Argon", "Ar");
+            runningData.atmosphereConversion.Add("Ammonia", "NH3");
+            runningData.atmosphereConversion.Add("Hydrogen", "H");
+            runningData.atmosphereConversion.Add("Helium", "He");
+            runningData.atmosphereConversion.Add("Neon", "Ne");
+
+
+
+            runningData.bodyConversion.Add("High metal content body", "HMC");
+            runningData.bodyConversion.Add("Rocky body", "RB");
+            runningData.bodyConversion.Add("Rocky ice body", "RIB");
+
+            runningData.bodyConversion.Add("Sudarsky class I gas giant", "SD1GG");
+            runningData.bodyConversion.Add("Sudarsky class II gas giant", "SD2GG");
+            runningData.bodyConversion.Add("Sudarsky class III gas giant", "SD3GG");
+            runningData.bodyConversion.Add("Gas giant with water based life", "GGWBL");
+            runningData.bodyConversion.Add("Icy body", "IB");
+
+
+
+
+            return runningData;
         }
     }
 }
