@@ -1,2 +1,3 @@
 # Elite-Explorer-Dashboard-V2
-This source code currently has some hard coded values that may not let it work on some machines, mainly the destination folder for converted screenshots. If you create a folder under Pictures named EDConverted this should work.
+## What Is It?
+Elite Explorer Dashboard V2 is the second iteration of a project I started about three years ago. I tested many different ways to process this data. All the different setups I tested involved some kind of server, database engine, and other technologies that I tied together while trying to build what this project brings. Anyone trying to replicate the previous experiments would probably pull their hair out trying to glue all of it together with Perl and JavaScript.
