@@ -96,8 +96,8 @@ namespace Elite_Explorer_Dashboard_V2
                             {
                                 theseSignals += item.Type_Localised + "-(" + item.Count + ")";
                             }
-                            dataGridViewBodies[8, usedBodies[edObject.BodyName]].Style.BackColor = Color.Green;
-                            dataGridViewBodies[8, usedBodies[edObject.BodyName]].Style.ForeColor = Color.White;
+                            //dataGridViewBodies[8, usedBodies[edObject.BodyName]].Style.BackColor = Color.Green;
+                            dataGridViewBodies[8, usedBodies[edObject.BodyName]].Style.ForeColor = Color.LightBlue;
                             dataGridViewBodies[8, usedBodies[edObject.BodyName]].Value = theseSignals;
                         }
                     }

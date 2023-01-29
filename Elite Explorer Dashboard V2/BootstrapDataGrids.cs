@@ -14,10 +14,10 @@ namespace Elite_Explorer_Dashboard_V2
         public void bootstrap(runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridStars, DataGridView dataGridViewBodies)
         {
             //Load Fonts into running Data
-            runningData.hugeFont = new Font("Lucida Sans", 11);
-            runningData.largeFont = new Font("Lucida Sans", 10);
-            runningData.mediumFont = new Font("Lucida Sans", 9);
-            runningData.smallFont = new Font("Lucida Sans", 8);
+            runningData.hugeFont = new Font("Lucida Sans", 12);
+            runningData.largeFont = new Font("Lucida Sans", 11);
+            runningData.mediumFont = new Font("Lucida Sans", 10);
+            runningData.smallFont = new Font("Lucida Sans", 9);
 
             //Setup Data Grids Add DoubleBuffered
             dataGridHeader.DoubleBuffered(true);

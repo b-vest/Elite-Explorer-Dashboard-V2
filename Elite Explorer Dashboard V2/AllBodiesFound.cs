@@ -45,18 +45,19 @@ namespace Elite_Explorer_Dashboard_V2
                 bool isInt = int.TryParse(body.Key, out checkInt);
                 if (isInt == false && bodyInfo.BodyName.Contains("Belt Cluster") == false && bodyInfo.BodyName.Contains("System Center") == false)
                 {
-                    string useNeighbor = bodyInfo.NeighborName + " (" + string.Format("{0:N6}", bodyInfo.NeighborLS) + ")";
+                    double? Nmm = bodyInfo.NeighborMeters / 1000000;
+                    string useNeighbor = bodyInfo.NeighborName + " (" + string.Format("{0:N4}", bodyInfo.NeighborLS) + "-Ls) ("+ string.Format("{0:N4}",Nmm) +"-Mm)";
                     dataGridBodies[17, runningData.usedBodies[bodyInfo.BodyName]].Value = useNeighbor;
 
                     if(bodyInfo.NeighborLS >= 1)
                     {
-                        dataGridBodies[17, runningData.usedBodies[bodyInfo.BodyName]].Style.BackColor = Color.Green;
-                        dataGridBodies[17, runningData.usedBodies[bodyInfo.BodyName]].Style.ForeColor = Color.White;
+                        //dataGridBodies[17, runningData.usedBodies[bodyInfo.BodyName]].Style.BackColor = Color.Green;
+                        dataGridBodies[17, runningData.usedBodies[bodyInfo.BodyName]].Style.ForeColor = Color.LightGreen;
                     }
                     if (bodyInfo.NeighborLS < 1 && bodyInfo.NeighborLS >=0.01)
                     {
-                        dataGridBodies[17, runningData.usedBodies[bodyInfo.BodyName]].Style.BackColor = Color.Orange;
-                        dataGridBodies[17, runningData.usedBodies[bodyInfo.BodyName]].Style.ForeColor = Color.White;
+                        //dataGridBodies[17, runningData.usedBodies[bodyInfo.BodyName]].Style.BackColor = Color.Orange;
+                        dataGridBodies[17, runningData.usedBodies[bodyInfo.BodyName]].Style.ForeColor = Color.Orange;
                     }
                     if (bodyInfo.NeighborLS < 0.01)
                     {

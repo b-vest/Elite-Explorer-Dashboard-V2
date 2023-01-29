@@ -100,21 +100,23 @@ namespace Elite_Explorer_Dashboard_V2
                 "",
                 useGravity.ToString("#.##"),
                 useTemp + "K",
-               string.Format("{0:N}", useRadius)+" Mm",
+               string.Format("{0:N}", useRadius) + " Mm",
                 0,
                 0,
-                string.Format("{0:N3}", bodyData.DistanceFromArrivalLS)+" (" + string.Format("{0:N1}", distanceMM)+"-Mm)",
+                string.Format("{0:N3}", bodyData.DistanceFromArrivalLS),
                 "",
                 "",
                 "",
                 "",
                 "",
                 "",
-                bodyData.BodyID
-                );
+                bodyData.BodyID,
+                "",
+                string.Format("{0:N1}", distanceMM) + "(Mm) " + string.Format("{0:N4}", runningData.bodyDictionary[bodyData.BodyName].DistancetoParentsLS) + "(Ls)"
+        );
             if(runningData.bodyDictionary[bodyData.BodyName].DistancetoParentsLS < 1)
             {
-                dataGridBodies[9, newRow].Style.ForeColor = Color.White;
+                dataGridBodies[18, newRow].Style.ForeColor = Color.White;
 
             }
             runningData.bodyDictionary[bodyData.BodyName].GridRow = newRow;
