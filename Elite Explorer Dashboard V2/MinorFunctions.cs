@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScottPlot;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -33,14 +34,18 @@ namespace Elite_Explorer_Dashboard_V2
             dataGridHeader[7, 0].Value = eventData.RemainingJumpsInRoute;
 
         }
-        public void processLineFSDJump(string line, runningDataObject runningData, DataGridView dataGridViewBodies, DataGridView dataGridStars, DataGridView dataGridHeader)
+        public void processLineFSDJump(string line, runningDataObject runningData, DataGridView dataGridViewBodies, DataGridView dataGridHeader, TextBox labelBodiesFound, FormsPlot systemCountPlot)
         {
             FSDJumpObject? edObject = JsonSerializer.Deserialize<FSDJumpObject>(line);
-            dataGridStars.Rows.Clear();
             dataGridViewBodies.Rows.Clear();
             runningData.bodyDictionary.Clear();
             runningData.bodyIDToName.Clear();
             runningData.usedBodies.Clear();
+            systemCountPlot.Plot.Clear();
+            systemCountPlot.Refresh();
+            //runningData.bodyCount.Clear();
+
+            labelBodiesFound.Text = "Jump Complete - Waiting for FSS Scan Data -";
             if (edObject != null)
             {
                 runningData.CurrentSystem = edObject.StarSystem;

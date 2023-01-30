@@ -29,7 +29,7 @@ namespace Elite_Explorer_Dashboard_V2
         {
             bootstrapProgram();
 
-            bootstrapObject.bootstrap(runningData, dataGridHeader, dataGridStars, dataGridViewBodies);
+            bootstrapObject.bootstrap(runningData, dataGridHeader, dataGridViewBodies);
             timerCheckLog.Enabled = true;
             
 
@@ -57,7 +57,7 @@ namespace Elite_Explorer_Dashboard_V2
         private void timerCheckLog_Tick(object sender, EventArgs e)
         {
             timerCheckLog.Enabled = false;
-            thisLogFile.read(runningData, dataGridHeader, dataGridStars, dataGridViewBodies, labelBodiesFound);
+            thisLogFile.read(runningData, dataGridHeader, dataGridViewBodies, labelBodiesFound, systemCountPlot);
             timerCheckLog.Enabled = true;
 
         }
@@ -109,6 +109,11 @@ namespace Elite_Explorer_Dashboard_V2
         }
 
         private void textBoxScreenshotPath_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void formsPlot1_Load(object sender, EventArgs e)
         {
 
         }

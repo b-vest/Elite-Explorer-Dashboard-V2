@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScottPlot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace Elite_Explorer_Dashboard_V2
             return thisLogFile;
         }
 
-        public void read(runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridStars, DataGridView dataGridBodies, TextBox labelBodiesFound)
+        public void read(runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridBodies, TextBox labelBodiesFound, FormsPlot systemCountPlot)
         {
             int thisLineCount = 0;
             runningData.CurrentLogFile = findLatest();
@@ -39,7 +40,7 @@ namespace Elite_Explorer_Dashboard_V2
                     //processLine(line);
 
                     Line thisLine = new Line();
-                    thisLine.process(line, runningData, dataGridHeader, dataGridStars, dataGridBodies, labelBodiesFound);
+                    thisLine.process(line, runningData, dataGridHeader, dataGridBodies, labelBodiesFound, systemCountPlot);
                 }
             }
             runningData.CurrentLogLineNumber = thisLineCount;

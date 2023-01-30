@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScottPlot;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Elite_Explorer_Dashboard_V2
 {
     public class Line
     {
-        public void process(string line, runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridStars, DataGridView dataGridBodies, TextBox labelBodiesFound)
+        public void process(string line, runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridBodies, TextBox labelBodiesFound, FormsPlot systemCountPlot)
         {
             if(line.Contains("ScanOrganic") == true)
             {
@@ -54,7 +55,7 @@ namespace Elite_Explorer_Dashboard_V2
                     //processFSDTarget(edObject);
                     break;
                 case "FSDJump":
-                    MinorFunctions.processLineFSDJump(line, runningData, dataGridBodies, dataGridStars, dataGridHeader);
+                    MinorFunctions.processLineFSDJump(line, runningData, dataGridBodies, dataGridHeader, labelBodiesFound, systemCountPlot);
                     break;
                 case "FuelScoop":
                     MinorFunctions.processLineFuelScoop(edObject, mainform.runningData, mainform.dataGridHeader);
@@ -66,7 +67,7 @@ namespace Elite_Explorer_Dashboard_V2
                     break;
                 case "Scan":
                     Scan thisScan = new Scan();
-                    runningDataObject runingData =  thisScan.process(line, runningData, dataGridHeader, dataGridStars, dataGridBodies);
+                    runningDataObject runingData =  thisScan.process(line, runningData, dataGridHeader, dataGridBodies, systemCountPlot);
                     //processScan(line);
                     break;
                 case "SAASignalsFound":

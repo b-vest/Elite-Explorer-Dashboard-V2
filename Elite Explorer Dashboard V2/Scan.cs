@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HelixToolkit.Wpf;
+using ScottPlot;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -16,7 +18,7 @@ namespace Elite_Explorer_Dashboard_V2
 {
     internal class Scan
     {
-        public runningDataObject process(string line, runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridStars, DataGridView dataGridBodies)
+        public runningDataObject process(string line, runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridBodies, FormsPlot systemCountPlot)
         {
 
             ScanObjectBodyDetailed? edObject = JsonSerializer.Deserialize<ScanObjectBodyDetailed>(line);
@@ -69,25 +71,63 @@ namespace Elite_Explorer_Dashboard_V2
                 runningData.bodyDictionary[edObject.BodyName].Children = new List<int>();
                 if (edObject.StarType != null)
                 {
-                    parseStar(edObject, runningData, dataGridStars, dataGridBodies);
+                    parseStar(edObject, runningData, dataGridBodies);
                 }
                 if (edObject.PlanetClass != null)
                 {
-                    parseStellarBody(edObject, runningData, dataGridBodies);
+                    runningData = parseStellarBody(edObject, runningData, dataGridBodies);
                 }
             }
+            updateBodyCountPlot(runningData, systemCountPlot);
             return runningData;
         }
 
+        public void updateBodyCountPlot(runningDataObject runningData, FormsPlot systemCountPlot)
+        {
+            int barCounter = 0;
+            double[] barValues = { };
+            double[] barPositions = { };
+            double highValue = 0;
+            List<ScottPlot.Plottable.Bar> bars = new();
+            foreach (var body in runningData.bodyCount)
+            {
+                if(body.Value > highValue)
+                {
+                    highValue = body.Value;
+                }
+                ScottPlot.Plottable.Bar bar = new ScottPlot.Plottable.Bar()
+                {
+                    Value = body.Value,
+                    Position = barCounter+1,
+                    FillColor = ScottPlot.Palette.Category10.GetColor(barCounter),
+                    Label = body.Key,
+                    LineWidth = 1
+                };
+                bars.Add(bar);
+                barCounter += 1;
+            }
+            Debug.WriteLine(barValues);
+            systemCountPlot.Plot.Clear();
+            systemCountPlot.Plot.AddBarSeries(bars);
+            systemCountPlot.Plot.SetAxisLimitsY(0, highValue+2);
+            systemCountPlot.Refresh();
+        }
 
-
-        public void parseStellarBody(ScanObjectBodyDetailed bodyData, runningDataObject runningData, DataGridView dataGridBodies)
+        public runningDataObject parseStellarBody(ScanObjectBodyDetailed bodyData, runningDataObject runningData, DataGridView dataGridBodies)
         {
             string useBodyClass = bodyData.PlanetClass;
 
             if(runningData.bodyConversion.ContainsKey(useBodyClass))
             {
                 useBodyClass = runningData.bodyConversion[useBodyClass];
+            }
+            if(runningData.bodyCount.ContainsKey(useBodyClass) == false)
+            {
+                runningData.bodyCount.Add(useBodyClass, 1);
+            }
+            else
+            {
+                runningData.bodyCount[useBodyClass] += 1;
             }
             var useGravity = bodyData.SurfaceGravity / 10;
             var useTemp = Convert.ToInt32(bodyData.SurfaceTemperature);
@@ -176,6 +216,7 @@ namespace Elite_Explorer_Dashboard_V2
             if (bodyData.BodyName != null){
                 runningData.usedBodies.Add(bodyData.BodyName, newRow);
             }
+            return runningData;
         }
 
         public int? processParents(ScanObjectBodyDetailed parentsData, runningDataObject runningData)
@@ -299,55 +340,38 @@ namespace Elite_Explorer_Dashboard_V2
             }
         }
 
-        public void parseStar(ScanObjectBodyDetailed bodyData, runningDataObject runningData, DataGridView dataGridStars, DataGridView dataGridBodies)
+        public void parseStar(ScanObjectBodyDetailed bodyData, runningDataObject runningData, DataGridView dataGridBodies)
         {
             if(runningData != null) {
                 if (bodyData != null)
                 {
                     if (bodyData.BodyName != null)
                     {
-                        var useTemp = Convert.ToInt32(bodyData.SurfaceTemperature);
+                        int useTemp = Convert.ToInt32(bodyData.SurfaceTemperature);
                         double useRadius = bodyData.Radius / 1000000;
-
-                        int newStarRow = dataGridStars.Rows.Add(bodyData.BodyName, bodyData.StarType, bodyData.Luminosity,
-                            string.Format("{0:N0}", bodyData.Age_MY),
-                            string.Format("{0:N0}", bodyData.Radius),
-                             bodyData.StellarMass,
-                            string.Format("{0:N0}", useTemp) + "K",
-                            bodyData.DistanceFromArrivalLS,
-                            bodyData.BodyID
-                          );
-                        useTemp = Convert.ToInt32(bodyData.SurfaceTemperature);
-
-
                         //Add identifier to bodies table
-                        string primaryString = "Secondary";
-                        if(bodyData.DistanceFromArrivalLS == 0)
-                        {
-                            primaryString = "Primary";
-                        }
                         int newBodyRow = dataGridBodies.Rows.Add(
                         bodyData.BodyName,
-                        "NA",
-                        "Star",
-                        "-",
-                        bodyData.StellarMass.ToString("#.##"),
+                        "*NA",
+                        "*Star "+bodyData.StarType+" "+bodyData.Luminosity,
+                        "*",
+                        bodyData.StellarMass.ToString("#.###")+" SM",
                         useTemp + "K",
                         string.Format("{0:N}", useRadius)+" Mm",
-                        "-",
-                        "-",
-                        bodyData.DistanceFromArrivalLS,
-                        "-",
-                        "-",
-                        "-",
-                        "-",
-                        "-",
-                        "-",
+                        "*",
+                        "*",
+                        string.Format("{0:N3}",bodyData.DistanceFromArrivalLS),
+                        "*",
+                        "*",
+                        "*",
+                        "*",
+                        "*",
+                        "*",
                         bodyData.BodyID
                        );
 
-                        runningData.usedBodies.Add(bodyData.BodyName, newStarRow);
-                        runningData.bodyDictionary[bodyData.BodyName].GridRow = newStarRow;
+                        runningData.usedBodies.Add(bodyData.BodyName, newBodyRow);
+                        runningData.bodyDictionary[bodyData.BodyName].GridRow = newBodyRow;
 
                     }
                 }

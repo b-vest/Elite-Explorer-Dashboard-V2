@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScottPlot;
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,7 +19,6 @@ namespace Elite_Explorer_Dashboard_V2
         public void process(string line, runningDataObject runningData, DataGridView dataGridBodies, TextBox labelBodiesFound)
         {
             FSSAllBodiesFound? edObject = JsonSerializer.Deserialize<FSSAllBodiesFound>(line);
-
             if (edObject != null)
             {
                 labelBodiesFound.Text = "All " + edObject.Count + " Bodies in " + edObject.SystemName + " have been scanned.";
@@ -32,6 +32,7 @@ namespace Elite_Explorer_Dashboard_V2
                 runningData = processDistances(runningData);
 
                 updateGrid(runningData, dataGridBodies);
+
 
             }
         }

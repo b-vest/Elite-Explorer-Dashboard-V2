@@ -11,7 +11,7 @@ namespace Elite_Explorer_Dashboard_V2
 {
     internal class BootstrapDataGrids
     {
-        public void bootstrap(runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridStars, DataGridView dataGridViewBodies)
+        public void bootstrap(runningDataObject runningData, DataGridView dataGridHeader,DataGridView dataGridViewBodies)
         {
             //Load Fonts into running Data
             runningData.hugeFont = new Font("Lucida Sans", 12);
@@ -29,13 +29,6 @@ namespace Elite_Explorer_Dashboard_V2
 
             dataGridHeader.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
             dataGridHeader.DefaultCellStyle.Font = runningData.mediumFont;
-
-            dataGridStars.RowHeadersVisible = false;
-            dataGridStars.EnableHeadersVisualStyles = false;
-            dataGridStars.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
-            dataGridStars.ColumnHeadersDefaultCellStyle.ForeColor = Color.Orange;
-            dataGridStars.ColumnHeadersDefaultCellStyle.Font = runningData.largeFont;
-            dataGridStars.DefaultCellStyle.Font = runningData.mediumFont;
 
             dataGridViewBodies.RowHeadersVisible = false;
             dataGridViewBodies.EnableHeadersVisualStyles = false;
@@ -73,12 +66,13 @@ namespace Elite_Explorer_Dashboard_V2
             runningData.bodyConversion.Add("High metal content body", "HMC");
             runningData.bodyConversion.Add("Rocky body", "RB");
             runningData.bodyConversion.Add("Rocky ice body", "RIB");
-
             runningData.bodyConversion.Add("Sudarsky class I gas giant", "SD1GG");
             runningData.bodyConversion.Add("Sudarsky class II gas giant", "SD2GG");
             runningData.bodyConversion.Add("Sudarsky class III gas giant", "SD3GG");
             runningData.bodyConversion.Add("Gas giant with water based life", "GGWBL");
             runningData.bodyConversion.Add("Icy body", "IB");
+            runningData.bodyConversion.Add("Gas giant with ammonia based life", "GGABL");
+
 
 
 
