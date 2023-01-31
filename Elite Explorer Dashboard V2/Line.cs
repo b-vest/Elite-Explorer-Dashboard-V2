@@ -11,7 +11,7 @@ namespace Elite_Explorer_Dashboard_V2
 {
     public class Line
     {
-        public void process(string line, runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridBodies, TextBox labelBodiesFound, FormsPlot systemCountPlot)
+        public void process(string line, runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridBodies, TextBox labelBodiesFound, FormsPlot systemCountPlot, FormsPlot starCountPlot)
         {
             if(line.Contains("ScanOrganic") == true)
             {
@@ -67,7 +67,7 @@ namespace Elite_Explorer_Dashboard_V2
                     break;
                 case "Scan":
                     Scan thisScan = new Scan();
-                    runningDataObject runingData =  thisScan.process(line, runningData, dataGridHeader, dataGridBodies, systemCountPlot);
+                    runningDataObject runingData =  thisScan.process(line, runningData, dataGridHeader, dataGridBodies, systemCountPlot, starCountPlot);
                     //processScan(line);
                     break;
                 case "SAASignalsFound":

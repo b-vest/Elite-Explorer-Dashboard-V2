@@ -18,7 +18,7 @@ namespace Elite_Explorer_Dashboard_V2
 {
     internal class Scan
     {
-        public runningDataObject process(string line, runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridBodies, FormsPlot systemCountPlot)
+        public runningDataObject process(string line, runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridBodies, FormsPlot systemCountPlot, FormsPlot starCountPlot)
         {
 
             ScanObjectBodyDetailed? edObject = JsonSerializer.Deserialize<ScanObjectBodyDetailed>(line);
@@ -71,7 +71,7 @@ namespace Elite_Explorer_Dashboard_V2
                 runningData.bodyDictionary[edObject.BodyName].Children = new List<int>();
                 if (edObject.StarType != null)
                 {
-                    parseStar(edObject, runningData, dataGridBodies);
+                    runningData = parseStar(edObject, runningData, dataGridBodies);
                 }
                 if (edObject.PlanetClass != null)
                 {
@@ -79,9 +79,39 @@ namespace Elite_Explorer_Dashboard_V2
                 }
             }
             updateBodyCountPlot(runningData, systemCountPlot);
+            updateStarCountPlot(runningData, starCountPlot);
             return runningData;
         }
-
+        public void updateStarCountPlot(runningDataObject runningData, FormsPlot starCountPlot)
+        {
+            int barCounter = 0;
+            double[] barValues = { };
+            double[] barPositions = { };
+            double highValue = 0;
+            List<ScottPlot.Plottable.Bar> bars = new();
+            foreach (var body in runningData.starCount)
+            {
+                if (body.Value > highValue)
+                {
+                    highValue = body.Value;
+                }
+                ScottPlot.Plottable.Bar bar = new ScottPlot.Plottable.Bar()
+                {
+                    Value = body.Value,
+                    Position = barCounter + 1,
+                    FillColor = ScottPlot.Palette.Category10.GetColor(barCounter),
+                    Label = body.Key,
+                    LineWidth = 1
+                };
+                bars.Add(bar);
+                barCounter += 1;
+            }
+            Debug.WriteLine(barValues);
+            starCountPlot.Plot.Clear();
+            starCountPlot.Plot.AddBarSeries(bars);
+            starCountPlot.Plot.SetAxisLimitsY(0, highValue + 5);
+            starCountPlot.Refresh();
+        }
         public void updateBodyCountPlot(runningDataObject runningData, FormsPlot systemCountPlot)
         {
             int barCounter = 0;
@@ -109,7 +139,7 @@ namespace Elite_Explorer_Dashboard_V2
             Debug.WriteLine(barValues);
             systemCountPlot.Plot.Clear();
             systemCountPlot.Plot.AddBarSeries(bars);
-            systemCountPlot.Plot.SetAxisLimitsY(0, highValue+2);
+            systemCountPlot.Plot.SetAxisLimitsY(0, highValue+5);
             systemCountPlot.Refresh();
         }
 
@@ -340,13 +370,21 @@ namespace Elite_Explorer_Dashboard_V2
             }
         }
 
-        public void parseStar(ScanObjectBodyDetailed bodyData, runningDataObject runningData, DataGridView dataGridBodies)
+        public runningDataObject parseStar(ScanObjectBodyDetailed bodyData, runningDataObject runningData, DataGridView dataGridBodies)
         {
             if(runningData != null) {
                 if (bodyData != null)
                 {
                     if (bodyData.BodyName != null)
                     {
+                        if (runningData.starCount.ContainsKey(bodyData.StarType) == false)
+                        {
+                            runningData.starCount.Add(bodyData.StarType, 1);
+                        }
+                        else
+                        {
+                            runningData.starCount[bodyData.StarType] += 1;
+                        }
                         int useTemp = Convert.ToInt32(bodyData.SurfaceTemperature);
                         double useRadius = bodyData.Radius / 1000000;
                         //Add identifier to bodies table
@@ -376,6 +414,7 @@ namespace Elite_Explorer_Dashboard_V2
                     }
                 }
             }
+            return runningData;
         }
     }
 

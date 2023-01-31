@@ -47,6 +47,8 @@ namespace Elite_Explorer_Dashboard_V2
 
         public Dictionary<string, string> bodyConversion = new Dictionary<string, string>();
         public Dictionary<string, int> bodyCount = new Dictionary<string, int>();
+        public Dictionary<string, int> starCount = new Dictionary<string, int>();
+
 
     }
 

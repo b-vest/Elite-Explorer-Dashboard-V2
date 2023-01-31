@@ -39,7 +39,6 @@ namespace Elite_Explorer_Dashboard_V2
         {
             if (Properties.Settings.Default.LogPath.Contains("\\") == false)
             {
-                //textBoxLogFilePath.Text = "C:\\Users\\" + Environment.UserName + "\\Saved Games\\Frontier Developments\\Elite Dangerous\\";
                 Properties.Settings.Default.LogPath = "C:\\Users\\" + Environment.UserName + "\\Saved Games\\Frontier Developments\\Elite Dangerous\\";
             }
             else
@@ -47,17 +46,23 @@ namespace Elite_Explorer_Dashboard_V2
             }
             //Load periodic table for name conversion
             runningData = bootstrapObject.buildConversionTables(runningData);
-
             timerCheckLog.Tag = runningData.CurrentLogFile;
             runningData.CurrentLogLineNumber = 0;
             textBoxScreenshotPath.Text = Properties.Settings.Default.ScreenshotDestinationPath;
+            systemCountPlot.Plot.XAxis.Label("Body Count This Session");
+            systemCountPlot.Plot.Style(grid: Color.White);
+            systemCountPlot.Plot.Style(dataBackground: Color.LightGray);
+
+            starCountPlot.Plot.XAxis.Label("Star Count This Session");
+            starCountPlot.Plot.Style(grid: Color.White);
+            starCountPlot.Plot.Style(dataBackground: Color.LightGray);
 
         }
 
         private void timerCheckLog_Tick(object sender, EventArgs e)
         {
             timerCheckLog.Enabled = false;
-            thisLogFile.read(runningData, dataGridHeader, dataGridViewBodies, labelBodiesFound, systemCountPlot);
+            thisLogFile.read(runningData, dataGridHeader, dataGridViewBodies, labelBodiesFound, systemCountPlot, starCountPlot);
             timerCheckLog.Enabled = true;
 
         }

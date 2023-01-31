@@ -80,6 +80,7 @@
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.timerCheckLog = new System.Windows.Forms.Timer(this.components);
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.starCountPlot = new ScottPlot.FormsPlot();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridHeader)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabDashboard.SuspendLayout();
@@ -236,6 +237,7 @@
             // tabDashboard
             // 
             this.tabDashboard.BackColor = System.Drawing.Color.Black;
+            this.tabDashboard.Controls.Add(this.starCountPlot);
             this.tabDashboard.Controls.Add(this.systemCountPlot);
             this.tabDashboard.Controls.Add(this.labelBodiesFound);
             this.tabDashboard.Controls.Add(this.label2);
@@ -565,6 +567,15 @@
             this.timerCheckLog.Interval = 1000;
             this.timerCheckLog.Tick += new System.EventHandler(this.timerCheckLog_Tick);
             // 
+            // starCountPlot
+            // 
+            this.starCountPlot.BackColor = System.Drawing.Color.DimGray;
+            this.starCountPlot.Location = new System.Drawing.Point(531, 120);
+            this.starCountPlot.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.starCountPlot.Name = "starCountPlot";
+            this.starCountPlot.Size = new System.Drawing.Size(440, 250);
+            this.starCountPlot.TabIndex = 11;
+            // 
             // EliteExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -632,5 +643,6 @@
         private DataGridViewTextBoxColumn MainNeighbor;
         private DataGridViewTextBoxColumn DParent;
         private ScottPlot.FormsPlot systemCountPlot;
+        private ScottPlot.FormsPlot starCountPlot;
     }
 }
