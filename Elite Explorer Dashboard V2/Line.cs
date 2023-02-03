@@ -11,7 +11,7 @@ namespace Elite_Explorer_Dashboard_V2
 {
     public class Line
     {
-        public void process(string line, runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridBodies, TextBox labelBodiesFound, FormsPlot systemCountPlot, FormsPlot starCountPlot)
+        public void process(string line, runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridBodies, TextBox labelBodiesFound, FormsPlot systemCountPlot, FormsPlot starCountPlot, FormsPlot materialsCollectedPlot)
         {
             if(line.Contains("ScanOrganic") == true)
             {
@@ -105,6 +105,9 @@ namespace Elite_Explorer_Dashboard_V2
                     break;
                 case "Location":
                     MinorFunctions.processLineLocation(edObject, mainform.runningData, mainform.dataGridHeader);
+                    break;
+                case "MaterialCollected":
+                    MinorFunctions.processLineMaterialCollected(line, mainform.runningData, materialsCollectedPlot);
                     break;
             }
         }

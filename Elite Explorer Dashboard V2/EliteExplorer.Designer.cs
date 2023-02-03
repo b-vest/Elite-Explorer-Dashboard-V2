@@ -49,6 +49,8 @@
             this.ColumnCruiseMode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabDashboard = new System.Windows.Forms.TabPage();
+            this.materialsCollectedPlot = new ScottPlot.FormsPlot();
+            this.starCountPlot = new ScottPlot.FormsPlot();
             this.systemCountPlot = new ScottPlot.FormsPlot();
             this.labelBodiesFound = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -58,6 +60,9 @@
             this.labelStaticScreenshotText = new System.Windows.Forms.Label();
             this.pictureBoxConverted = new System.Windows.Forms.PictureBox();
             this.dataGridViewBodies = new System.Windows.Forms.DataGridView();
+            this.tabSettings = new System.Windows.Forms.TabPage();
+            this.timerCheckLog = new System.Windows.Forms.Timer(this.components);
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.BodyName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Landable = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BpdyClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,10 +82,6 @@
             this.BID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MainNeighbor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DParent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabSettings = new System.Windows.Forms.TabPage();
-            this.timerCheckLog = new System.Windows.Forms.Timer(this.components);
-            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.starCountPlot = new ScottPlot.FormsPlot();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridHeader)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabDashboard.SuspendLayout();
@@ -237,6 +238,7 @@
             // tabDashboard
             // 
             this.tabDashboard.BackColor = System.Drawing.Color.Black;
+            this.tabDashboard.Controls.Add(this.materialsCollectedPlot);
             this.tabDashboard.Controls.Add(this.starCountPlot);
             this.tabDashboard.Controls.Add(this.systemCountPlot);
             this.tabDashboard.Controls.Add(this.labelBodiesFound);
@@ -254,6 +256,24 @@
             this.tabDashboard.Size = new System.Drawing.Size(2064, 1335);
             this.tabDashboard.TabIndex = 0;
             this.tabDashboard.Text = "Dashboard";
+            // 
+            // materialsCollectedPlot
+            // 
+            this.materialsCollectedPlot.BackColor = System.Drawing.Color.DimGray;
+            this.materialsCollectedPlot.Location = new System.Drawing.Point(906, 121);
+            this.materialsCollectedPlot.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.materialsCollectedPlot.Name = "materialsCollectedPlot";
+            this.materialsCollectedPlot.Size = new System.Drawing.Size(440, 250);
+            this.materialsCollectedPlot.TabIndex = 12;
+            // 
+            // starCountPlot
+            // 
+            this.starCountPlot.BackColor = System.Drawing.Color.DimGray;
+            this.starCountPlot.Location = new System.Drawing.Point(456, 121);
+            this.starCountPlot.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.starCountPlot.Name = "starCountPlot";
+            this.starCountPlot.Size = new System.Drawing.Size(440, 250);
+            this.starCountPlot.TabIndex = 11;
             // 
             // systemCountPlot
             // 
@@ -388,6 +408,21 @@
             this.dataGridViewBodies.TabIndex = 2;
             this.dataGridViewBodies.Sorted += new System.EventHandler(this.dataGridViewBodies_Sorted);
             // 
+            // tabSettings
+            // 
+            this.tabSettings.BackColor = System.Drawing.Color.Black;
+            this.tabSettings.Location = new System.Drawing.Point(4, 29);
+            this.tabSettings.Name = "tabSettings";
+            this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSettings.Size = new System.Drawing.Size(2064, 1335);
+            this.tabSettings.TabIndex = 2;
+            this.tabSettings.Text = "Settings";
+            // 
+            // timerCheckLog
+            // 
+            this.timerCheckLog.Interval = 1000;
+            this.timerCheckLog.Tick += new System.EventHandler(this.timerCheckLog_Tick);
+            // 
             // BodyName
             // 
             this.BodyName.Frozen = true;
@@ -434,7 +469,7 @@
             this.dataGridViewTextBoxColumn1.HeaderText = "TempK";
             this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.Width = 75;
+            this.dataGridViewTextBoxColumn1.Width = 80;
             // 
             // BodyRadius
             // 
@@ -552,30 +587,6 @@
             this.DParent.Name = "DParent";
             this.DParent.Width = 125;
             // 
-            // tabSettings
-            // 
-            this.tabSettings.BackColor = System.Drawing.Color.Black;
-            this.tabSettings.Location = new System.Drawing.Point(4, 29);
-            this.tabSettings.Name = "tabSettings";
-            this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSettings.Size = new System.Drawing.Size(2064, 1335);
-            this.tabSettings.TabIndex = 2;
-            this.tabSettings.Text = "Settings";
-            // 
-            // timerCheckLog
-            // 
-            this.timerCheckLog.Interval = 1000;
-            this.timerCheckLog.Tick += new System.EventHandler(this.timerCheckLog_Tick);
-            // 
-            // starCountPlot
-            // 
-            this.starCountPlot.BackColor = System.Drawing.Color.DimGray;
-            this.starCountPlot.Location = new System.Drawing.Point(531, 120);
-            this.starCountPlot.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.starCountPlot.Name = "starCountPlot";
-            this.starCountPlot.Size = new System.Drawing.Size(440, 250);
-            this.starCountPlot.TabIndex = 11;
-            // 
             // EliteExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -623,6 +634,9 @@
         private TextBox textBoxScreenshotPath;
         public TextBox labelBodiesFound;
         private BindingSource bindingSource1;
+        private ScottPlot.FormsPlot systemCountPlot;
+        private ScottPlot.FormsPlot starCountPlot;
+        private ScottPlot.FormsPlot materialsCollectedPlot;
         private DataGridViewTextBoxColumn BodyName;
         private DataGridViewTextBoxColumn Landable;
         private DataGridViewTextBoxColumn BpdyClass;
@@ -642,7 +656,5 @@
         private DataGridViewTextBoxColumn BID;
         private DataGridViewTextBoxColumn MainNeighbor;
         private DataGridViewTextBoxColumn DParent;
-        private ScottPlot.FormsPlot systemCountPlot;
-        private ScottPlot.FormsPlot starCountPlot;
     }
 }

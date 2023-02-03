@@ -54,7 +54,54 @@ namespace Elite_Explorer_Dashboard_V2
             }
 
         }
-        public void processLineFuelScoop(EDData eventData, runningDataObject runningData, DataGridView dataGridHeader)
+
+        public void processLineMaterialCollected(string line, runningDataObject runningData, FormsPlot materilsCollectedPlot)
+        {
+            Debug.WriteLine(line);
+            MaterialCollectedObject? materials = JsonSerializer.Deserialize<MaterialCollectedObject>(line);
+            string useMatName = materials.Name;
+
+            if (runningData.materialConversion.ContainsKey(useMatName))
+            {
+                useMatName = runningData.materialConversion[useMatName];
+            }
+            if (runningData.collectedMaterialsCount.ContainsKey(useMatName) == false)
+            {
+                runningData.collectedMaterialsCount.Add(useMatName, 1);
+            }
+            else
+            {
+                runningData.collectedMaterialsCount[useMatName] += 1;
+            }
+            int barCounter = 0;
+            double[] barValues = { };
+            double[] barPositions = { };
+            double highValue = 0;
+            List<ScottPlot.Plottable.Bar> bars = new();
+            foreach (var material in runningData.collectedMaterialsCount)
+            {
+                if (material.Value > highValue)
+                {
+                    highValue = material.Value;
+                }
+                ScottPlot.Plottable.Bar bar = new ScottPlot.Plottable.Bar()
+                {
+                    Value = material.Value,
+                    Position = barCounter + 1,
+                    FillColor = ScottPlot.Palette.Category10.GetColor(barCounter),
+                    Label = material.Key,
+                    LineWidth = 1
+                };
+                bars.Add(bar);
+                barCounter += 1;
+            }
+            Debug.WriteLine(barValues);
+            materilsCollectedPlot.Plot.Clear();
+            materilsCollectedPlot.Plot.AddBarSeries(bars);
+            materilsCollectedPlot.Plot.SetAxisLimitsY(0, highValue + 5);
+            materilsCollectedPlot.Refresh();
+        }
+    public void processLineFuelScoop(EDData eventData, runningDataObject runningData, DataGridView dataGridHeader)
         {
             runningData.TotalScooped += eventData.Scooped;
             dataGridHeader[4, 0].Value = String.Format("{0:0.00}", eventData.Scooped) + " (" + String.Format("{0:0.00}", runningData.TotalScooped) + ")";

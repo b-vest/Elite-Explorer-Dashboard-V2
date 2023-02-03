@@ -48,6 +48,12 @@ namespace Elite_Explorer_Dashboard_V2
             runningData.materialConversion.Add("technetium", "Tc");
             runningData.materialConversion.Add("sulphur", "S");
             runningData.materialConversion.Add("polonium", "Po");
+            runningData.materialConversion.Add("iron", "Fe");
+            runningData.materialConversion.Add("niobium", "Nb");
+            runningData.materialConversion.Add("tin", "Sn");
+            runningData.materialConversion.Add("ruthenium", "Ru");
+            runningData.materialConversion.Add("nickel", "Ni");
+            runningData.materialConversion.Add("manganese", "Mn");
 
 
             //Atmosphere
@@ -72,6 +78,8 @@ namespace Elite_Explorer_Dashboard_V2
             runningData.bodyConversion.Add("Gas giant with water based life", "GGWBL");
             runningData.bodyConversion.Add("Icy body", "IB");
             runningData.bodyConversion.Add("Gas giant with ammonia based life", "GGABL");
+            runningData.bodyConversion.Add("Metal rich body", "MRB");
+
 
 
 

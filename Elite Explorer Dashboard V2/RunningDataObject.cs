@@ -49,6 +49,9 @@ namespace Elite_Explorer_Dashboard_V2
         public Dictionary<string, int> bodyCount = new Dictionary<string, int>();
         public Dictionary<string, int> starCount = new Dictionary<string, int>();
 
+        public Dictionary<string, int> collectedMaterialsCount = new Dictionary<string, int>();
+
+
 
     }
 

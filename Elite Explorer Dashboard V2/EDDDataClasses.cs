@@ -129,6 +129,14 @@ namespace Elite_Explorer_Dashboard_V2
         public bool Taxi { get; set; }
 
     }
+    public class MaterialCollectedObject
+    {
+        public string? @event { get; set; }
+        public string? timestamp { get; set; }
+        public string? Category { get; set; }
+        public string? Name { get; set; }
+        public int? Count { get; set; }
+    }
     public class FSSDiscoveryScanObject
     {
         public string? @event { get; set; }

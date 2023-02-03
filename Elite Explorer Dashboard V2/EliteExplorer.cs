@@ -57,12 +57,17 @@ namespace Elite_Explorer_Dashboard_V2
             starCountPlot.Plot.Style(grid: Color.White);
             starCountPlot.Plot.Style(dataBackground: Color.LightGray);
 
+
+            materialsCollectedPlot.Plot.XAxis.Label("Materials Collected This Session");
+            materialsCollectedPlot.Plot.Style(grid: Color.White);
+            materialsCollectedPlot.Plot.Style(dataBackground: Color.LightGray);
+
         }
 
         private void timerCheckLog_Tick(object sender, EventArgs e)
         {
             timerCheckLog.Enabled = false;
-            thisLogFile.read(runningData, dataGridHeader, dataGridViewBodies, labelBodiesFound, systemCountPlot, starCountPlot);
+            thisLogFile.read(runningData, dataGridHeader, dataGridViewBodies, labelBodiesFound, systemCountPlot, starCountPlot, materialsCollectedPlot);
             timerCheckLog.Enabled = true;
 
         }

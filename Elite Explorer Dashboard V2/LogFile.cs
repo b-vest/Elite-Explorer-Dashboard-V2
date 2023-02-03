@@ -19,7 +19,7 @@ namespace Elite_Explorer_Dashboard_V2
             return thisLogFile;
         }
 
-        public void read(runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridBodies, TextBox labelBodiesFound, FormsPlot systemCountPlot, FormsPlot starCountPlot)
+        public void read(runningDataObject runningData, DataGridView dataGridHeader, DataGridView dataGridBodies, TextBox labelBodiesFound, FormsPlot systemCountPlot, FormsPlot starCountPlot, FormsPlot materialsCollectedPlot)
         {
             int thisLineCount = 0;
             runningData.CurrentLogFile = findLatest();
@@ -38,7 +38,7 @@ namespace Elite_Explorer_Dashboard_V2
                 {
                     DateTime currentDateTime = DateTime.Now;
                     Line thisLine = new Line();
-                    thisLine.process(line, runningData, dataGridHeader, dataGridBodies, labelBodiesFound, systemCountPlot, starCountPlot);
+                    thisLine.process(line, runningData, dataGridHeader, dataGridBodies, labelBodiesFound, systemCountPlot, starCountPlot, materialsCollectedPlot);
                 }
             }
             runningData.CurrentLogLineNumber = thisLineCount;
