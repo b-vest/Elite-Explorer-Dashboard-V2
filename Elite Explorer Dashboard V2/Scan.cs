@@ -1,5 +1,6 @@
 ﻿using HelixToolkit.Wpf;
 using ScottPlot;
+using ScottPlot.Palettes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -406,7 +407,18 @@ namespace Elite_Explorer_Dashboard_V2
                         "*",
                         "*",
                         bodyData.BodyID
-                       );
+                        );
+
+                        dataGridBodies[0, newBodyRow].Style.BackColor = Color.LightGoldenrodYellow;
+                        dataGridBodies[1, newBodyRow].Style.BackColor = Color.LightGoldenrodYellow;
+                        dataGridBodies[2, newBodyRow].Style.BackColor = Color.LightGoldenrodYellow;
+                        dataGridBodies[3, newBodyRow].Style.BackColor = Color.LightGoldenrodYellow;
+                        dataGridBodies[4, newBodyRow].Style.BackColor = Color.LightGoldenrodYellow;
+                        dataGridBodies[5, newBodyRow].Style.BackColor = Color.LightGoldenrodYellow;
+                        dataGridBodies[6, newBodyRow].Style.BackColor = Color.LightGoldenrodYellow;
+                        dataGridBodies[7, newBodyRow].Style.BackColor = Color.LightGoldenrodYellow;
+                        dataGridBodies[8, newBodyRow].Style.BackColor = Color.LightGoldenrodYellow;
+
 
                         runningData.usedBodies.Add(bodyData.BodyName, newBodyRow);
                         runningData.bodyDictionary[bodyData.BodyName].GridRow = newBodyRow;

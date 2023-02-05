@@ -132,7 +132,8 @@
             this.dataGridHeader.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridHeader.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             this.dataGridHeader.GridColor = System.Drawing.SystemColors.ActiveBorder;
-            this.dataGridHeader.Location = new System.Drawing.Point(6, 0);
+            this.dataGridHeader.Location = new System.Drawing.Point(8, 0);
+            this.dataGridHeader.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridHeader.Name = "dataGridHeader";
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.Color.Black;
@@ -147,7 +148,7 @@
             this.dataGridHeader.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.Black;
             this.dataGridHeader.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.dataGridHeader.RowTemplate.Height = 29;
-            this.dataGridHeader.Size = new System.Drawing.Size(2054, 114);
+            this.dataGridHeader.Size = new System.Drawing.Size(2568, 142);
             this.dataGridHeader.TabIndex = 0;
             // 
             // ColumnEvent
@@ -189,7 +190,7 @@
             this.ColumnFuelScooped.MinimumWidth = 6;
             this.ColumnFuelScooped.Name = "ColumnFuelScooped";
             this.ColumnFuelScooped.ReadOnly = true;
-            this.ColumnFuelScooped.Width = 126;
+            this.ColumnFuelScooped.Width = 164;
             // 
             // ColumnCurrentSystem
             // 
@@ -229,10 +230,11 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.tabControl1.Controls.Add(this.tabDashboard);
             this.tabControl1.Controls.Add(this.tabSettings);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Location = new System.Drawing.Point(15, 15);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(2072, 1368);
+            this.tabControl1.Size = new System.Drawing.Size(2590, 1710);
             this.tabControl1.TabIndex = 1;
             // 
             // tabDashboard
@@ -250,38 +252,39 @@
             this.tabDashboard.Controls.Add(this.pictureBoxConverted);
             this.tabDashboard.Controls.Add(this.dataGridViewBodies);
             this.tabDashboard.Controls.Add(this.dataGridHeader);
-            this.tabDashboard.Location = new System.Drawing.Point(4, 29);
+            this.tabDashboard.Location = new System.Drawing.Point(4, 34);
+            this.tabDashboard.Margin = new System.Windows.Forms.Padding(4);
             this.tabDashboard.Name = "tabDashboard";
-            this.tabDashboard.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDashboard.Size = new System.Drawing.Size(2064, 1335);
+            this.tabDashboard.Padding = new System.Windows.Forms.Padding(4);
+            this.tabDashboard.Size = new System.Drawing.Size(2582, 1672);
             this.tabDashboard.TabIndex = 0;
             this.tabDashboard.Text = "Dashboard";
             // 
             // materialsCollectedPlot
             // 
             this.materialsCollectedPlot.BackColor = System.Drawing.Color.DimGray;
-            this.materialsCollectedPlot.Location = new System.Drawing.Point(906, 121);
-            this.materialsCollectedPlot.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.materialsCollectedPlot.Location = new System.Drawing.Point(1132, 151);
+            this.materialsCollectedPlot.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.materialsCollectedPlot.Name = "materialsCollectedPlot";
-            this.materialsCollectedPlot.Size = new System.Drawing.Size(440, 250);
+            this.materialsCollectedPlot.Size = new System.Drawing.Size(550, 312);
             this.materialsCollectedPlot.TabIndex = 12;
             // 
             // starCountPlot
             // 
             this.starCountPlot.BackColor = System.Drawing.Color.DimGray;
-            this.starCountPlot.Location = new System.Drawing.Point(456, 121);
-            this.starCountPlot.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.starCountPlot.Location = new System.Drawing.Point(570, 151);
+            this.starCountPlot.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.starCountPlot.Name = "starCountPlot";
-            this.starCountPlot.Size = new System.Drawing.Size(440, 250);
+            this.starCountPlot.Size = new System.Drawing.Size(550, 312);
             this.starCountPlot.TabIndex = 11;
             // 
             // systemCountPlot
             // 
             this.systemCountPlot.BackColor = System.Drawing.Color.DimGray;
-            this.systemCountPlot.Location = new System.Drawing.Point(6, 120);
-            this.systemCountPlot.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.systemCountPlot.Location = new System.Drawing.Point(8, 150);
+            this.systemCountPlot.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.systemCountPlot.Name = "systemCountPlot";
-            this.systemCountPlot.Size = new System.Drawing.Size(440, 250);
+            this.systemCountPlot.Size = new System.Drawing.Size(550, 312);
             this.systemCountPlot.TabIndex = 10;
             this.systemCountPlot.Load += new System.EventHandler(this.formsPlot1_Load);
             // 
@@ -291,9 +294,10 @@
             this.labelBodiesFound.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.labelBodiesFound.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelBodiesFound.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.labelBodiesFound.Location = new System.Drawing.Point(6, 409);
+            this.labelBodiesFound.Location = new System.Drawing.Point(8, 511);
+            this.labelBodiesFound.Margin = new System.Windows.Forms.Padding(4);
             this.labelBodiesFound.Name = "labelBodiesFound";
-            this.labelBodiesFound.Size = new System.Drawing.Size(1002, 27);
+            this.labelBodiesFound.Size = new System.Drawing.Size(1252, 32);
             this.labelBodiesFound.TabIndex = 9;
             this.labelBodiesFound.Text = "Waiting for FSS All Bodies Found";
             this.labelBodiesFound.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
@@ -301,35 +305,39 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(1477, 396);
+            this.label2.Location = new System.Drawing.Point(1846, 495);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(113, 20);
+            this.label2.Size = new System.Drawing.Size(138, 25);
             this.label2.TabIndex = 8;
             this.label2.Text = "Screenshot Path";
             this.label2.Click += new System.EventHandler(this.label2_Click_2);
             // 
             // textBoxScreenshotPath
             // 
-            this.textBoxScreenshotPath.Location = new System.Drawing.Point(1623, 389);
+            this.textBoxScreenshotPath.Location = new System.Drawing.Point(2029, 486);
+            this.textBoxScreenshotPath.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxScreenshotPath.Name = "textBoxScreenshotPath";
-            this.textBoxScreenshotPath.Size = new System.Drawing.Size(426, 27);
+            this.textBoxScreenshotPath.Size = new System.Drawing.Size(532, 31);
             this.textBoxScreenshotPath.TabIndex = 7;
             // 
             // labelScreenshotSystem
             // 
             this.labelScreenshotSystem.AutoSize = true;
-            this.labelScreenshotSystem.Location = new System.Drawing.Point(1426, 206);
+            this.labelScreenshotSystem.Location = new System.Drawing.Point(1782, 258);
+            this.labelScreenshotSystem.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelScreenshotSystem.Name = "labelScreenshotSystem";
-            this.labelScreenshotSystem.Size = new System.Drawing.Size(56, 20);
+            this.labelScreenshotSystem.Size = new System.Drawing.Size(69, 25);
             this.labelScreenshotSystem.TabIndex = 6;
             this.labelScreenshotSystem.Text = "System";
             // 
             // labelScreenshotTimestamp
             // 
             this.labelScreenshotTimestamp.AutoSize = true;
-            this.labelScreenshotTimestamp.Location = new System.Drawing.Point(1426, 246);
+            this.labelScreenshotTimestamp.Location = new System.Drawing.Point(1782, 308);
+            this.labelScreenshotTimestamp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelScreenshotTimestamp.Name = "labelScreenshotTimestamp";
-            this.labelScreenshotTimestamp.Size = new System.Drawing.Size(83, 20);
+            this.labelScreenshotTimestamp.Size = new System.Drawing.Size(100, 25);
             this.labelScreenshotTimestamp.TabIndex = 5;
             this.labelScreenshotTimestamp.Text = "Timestamp";
             this.labelScreenshotTimestamp.Click += new System.EventHandler(this.label2_Click_1);
@@ -337,9 +345,10 @@
             // labelStaticScreenshotText
             // 
             this.labelStaticScreenshotText.AutoSize = true;
-            this.labelStaticScreenshotText.Location = new System.Drawing.Point(1426, 156);
+            this.labelStaticScreenshotText.Location = new System.Drawing.Point(1782, 195);
+            this.labelStaticScreenshotText.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelStaticScreenshotText.Name = "labelStaticScreenshotText";
-            this.labelStaticScreenshotText.Size = new System.Drawing.Size(124, 20);
+            this.labelStaticScreenshotText.Size = new System.Drawing.Size(150, 25);
             this.labelStaticScreenshotText.TabIndex = 4;
             this.labelStaticScreenshotText.Text = "Latest Screenshot";
             this.labelStaticScreenshotText.Click += new System.EventHandler(this.label2_Click);
@@ -347,9 +356,10 @@
             // pictureBoxConverted
             // 
             this.pictureBoxConverted.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBoxConverted.Location = new System.Drawing.Point(1623, 120);
+            this.pictureBoxConverted.Location = new System.Drawing.Point(2029, 150);
+            this.pictureBoxConverted.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBoxConverted.Name = "pictureBoxConverted";
-            this.pictureBoxConverted.Size = new System.Drawing.Size(426, 240);
+            this.pictureBoxConverted.Size = new System.Drawing.Size(532, 299);
             this.pictureBoxConverted.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxConverted.TabIndex = 3;
             this.pictureBoxConverted.TabStop = false;
@@ -396,7 +406,8 @@
             dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewBodies.DefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridViewBodies.GridColor = System.Drawing.Color.Black;
-            this.dataGridViewBodies.Location = new System.Drawing.Point(0, 442);
+            this.dataGridViewBodies.Location = new System.Drawing.Point(0, 552);
+            this.dataGridViewBodies.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridViewBodies.Name = "dataGridViewBodies";
             this.dataGridViewBodies.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dataGridViewBodies.RowHeadersVisible = false;
@@ -404,17 +415,18 @@
             dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewBodies.RowsDefaultCellStyle = dataGridViewCellStyle8;
             this.dataGridViewBodies.RowTemplate.Height = 29;
-            this.dataGridViewBodies.Size = new System.Drawing.Size(2055, 887);
+            this.dataGridViewBodies.Size = new System.Drawing.Size(2569, 1109);
             this.dataGridViewBodies.TabIndex = 2;
             this.dataGridViewBodies.Sorted += new System.EventHandler(this.dataGridViewBodies_Sorted);
             // 
             // tabSettings
             // 
             this.tabSettings.BackColor = System.Drawing.Color.Black;
-            this.tabSettings.Location = new System.Drawing.Point(4, 29);
+            this.tabSettings.Location = new System.Drawing.Point(4, 34);
+            this.tabSettings.Margin = new System.Windows.Forms.Padding(4);
             this.tabSettings.Name = "tabSettings";
-            this.tabSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSettings.Size = new System.Drawing.Size(2064, 1335);
+            this.tabSettings.Padding = new System.Windows.Forms.Padding(4);
+            this.tabSettings.Size = new System.Drawing.Size(2582, 1672);
             this.tabSettings.TabIndex = 2;
             this.tabSettings.Text = "Settings";
             // 
@@ -429,7 +441,7 @@
             this.BodyName.HeaderText = "Body Name";
             this.BodyName.MinimumWidth = 200;
             this.BodyName.Name = "BodyName";
-            this.BodyName.Width = 240;
+            this.BodyName.Width = 280;
             // 
             // Landable
             // 
@@ -437,7 +449,6 @@
             this.Landable.HeaderText = "Land?";
             this.Landable.MinimumWidth = 6;
             this.Landable.Name = "Landable";
-            this.Landable.Width = 80;
             // 
             // BpdyClass
             // 
@@ -461,7 +472,7 @@
             this.Gravity.HeaderText = "Gravity";
             this.Gravity.MinimumWidth = 6;
             this.Gravity.Name = "Gravity";
-            this.Gravity.Width = 80;
+            this.Gravity.Width = 90;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -469,7 +480,7 @@
             this.dataGridViewTextBoxColumn1.HeaderText = "TempK";
             this.dataGridViewTextBoxColumn1.MinimumWidth = 6;
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.Width = 80;
+            this.dataGridViewTextBoxColumn1.Width = 85;
             // 
             // BodyRadius
             // 
@@ -514,7 +525,7 @@
             this.FSC.HeaderText = "FSC";
             this.FSC.MinimumWidth = 6;
             this.FSC.Name = "FSC";
-            this.FSC.Width = 45;
+            this.FSC.Width = 65;
             // 
             // DSC
             // 
@@ -523,7 +534,7 @@
             this.DSC.HeaderText = "DS";
             this.DSC.MinimumWidth = 6;
             this.DSC.Name = "DSC";
-            this.DSC.Width = 40;
+            this.DSC.Width = 60;
             // 
             // LND
             // 
@@ -532,7 +543,7 @@
             this.LND.HeaderText = "LN";
             this.LND.MinimumWidth = 6;
             this.LND.Name = "LND";
-            this.LND.Width = 40;
+            this.LND.Width = 60;
             // 
             // SRV
             // 
@@ -541,7 +552,7 @@
             this.SRV.HeaderText = "SR";
             this.SRV.MinimumWidth = 6;
             this.SRV.Name = "SRV";
-            this.SRV.Width = 40;
+            this.SRV.Width = 60;
             // 
             // FF
             // 
@@ -550,7 +561,7 @@
             this.FF.HeaderText = "FF";
             this.FF.MinimumWidth = 6;
             this.FF.Name = "FF";
-            this.FF.Width = 40;
+            this.FF.Width = 60;
             // 
             // LO
             // 
@@ -559,7 +570,7 @@
             this.LO.HeaderText = "LO";
             this.LO.MinimumWidth = 6;
             this.LO.Name = "LO";
-            this.LO.Width = 40;
+            this.LO.Width = 60;
             // 
             // BID
             // 
@@ -568,34 +579,32 @@
             this.BID.HeaderText = "BID";
             this.BID.MinimumWidth = 6;
             this.BID.Name = "BID";
-            this.BID.Width = 45;
+            this.BID.Width = 60;
             // 
             // MainNeighbor
             // 
-            this.MainNeighbor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.MainNeighbor.Frozen = true;
+            this.MainNeighbor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.MainNeighbor.HeaderText = "Closest Neighbor";
             this.MainNeighbor.MinimumWidth = 6;
             this.MainNeighbor.Name = "MainNeighbor";
-            this.MainNeighbor.Width = 250;
             // 
             // DParent
             // 
-            this.DParent.Frozen = true;
+            this.DParent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.DParent.HeaderText = "DParent";
             this.DParent.MinimumWidth = 6;
             this.DParent.Name = "DParent";
-            this.DParent.Width = 125;
             // 
             // EliteExplorer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Desktop;
-            this.ClientSize = new System.Drawing.Size(2096, 1389);
+            this.ClientSize = new System.Drawing.Size(2620, 1736);
             this.Controls.Add(this.tabControl1);
             this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "EliteExplorer";
             this.Text = "Elite Explorer Dashboard V2";
             this.Load += new System.EventHandler(this.EliteExplorer_Load_1);

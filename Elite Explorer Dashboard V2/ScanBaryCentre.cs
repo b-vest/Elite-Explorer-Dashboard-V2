@@ -72,6 +72,7 @@ namespace Elite_Explorer_Dashboard_V2
                 bodyData.BodyID,
                 ""
                 );
+ 
                 runningData.bodyDictionary[generatedBodyName].GridRow = newBaryRow;
 
             }
